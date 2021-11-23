@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1058312483716",
+    "project_id": "vihaan-electrix",
+    "storage_bucket": "vihaan-electrix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058312483716:android:c8224ef2eaced4431a23d1",
+        "android_client_info": {
+          "package_name": "com.vihaanelectrix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1058312483716-ad255i0oq0ssrsq78edr6v9k7jag881e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vihaanelectrix",
+            "certificate_hash": "298203839d9cc7454518c1c9f392b1cff24eda54"
+          }
+        },
+        {
+          "client_id": "1058312483716-ikahamejpiip13slr4dglvv17vqeasf4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYxRgIspAEbVRmUoSmsppiKWC7ZMXK1Rs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1058312483716-ikahamejpiip13slr4dglvv17vqeasf4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
