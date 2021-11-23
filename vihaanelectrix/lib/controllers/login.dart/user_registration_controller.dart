@@ -11,11 +11,6 @@ class UserRegistrationController extends ControllerMVC {
   TextEditingController emailTf = TextEditingController();
   TextEditingController numberTf = TextEditingController();
   TextEditingController altnumberTf = TextEditingController();
-  TextEditingController peradTf = TextEditingController();
-  TextEditingController tempadTf = TextEditingController();
-  TextEditingController experienceTf = TextEditingController();
-  TextEditingController businessNameTf = TextEditingController();
-  ScrollController scrollController = ScrollController();
   int currentStep = 0;
   String? name;
   String? email;
