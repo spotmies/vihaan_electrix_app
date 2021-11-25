@@ -2,27 +2,38 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class API {
   static var uid = FirebaseAuth.instance.currentUser!.uid; //user id
-  static var host = 'spotmiesserver.herokuapp.com'; //server path
-  static var createOrder = '/api/order/Create-Ord/'; //post with user id
-  static var getOrders = '/api/order/user/'; //get with user id
-  static var particularOrder = '/api/order/orders/'; //get with order id
-  static var userRegister = '/api/user/newUser'; //post
-  static var userDetails = '/api/user/users/'; //get with user id
-  static var editOrder = '/api/order/orders/'; //put with order id
-  static var deleteOrder = '/api/order/orders/'; //delete with order id
-  static var confirmOrder = '/api/order/orders/'; //put with order id
-  static var partnerDetails =
-      '/api/partner/partners/'; //get with partner id(pid)
-  static var complaintOnPartner = '/api/partner/complaint'; //post
-  static var report = '/api/partner/report'; //put
-  static var editPersonalInfo = '/api/user/users/'; //put
-  static var reponse = '/api/response/user/';
-  static var onlyResponses = "/api/response/responses/";
-  static var localHost = '192.168.29.106:4000';
-  static var places = '/api/geocode/all';
-  static var userChatsList = '/api/chat/user/';
-  static var createNewChat = '/api/chat/createNewChatRoom';
-  static var confirmDeclineOrder = '/api/order/stateChange';
-  static var revealProfile = "/api/order/revealProfile";
-  static var specificChat = "/api/chat/chats/";
+  static var host = 'vihaanserver.herokuapp.com/api'; //server path
+
+  /* -------------------------------- USERS ------------------------------- */
+
+  static var newUser = "/user/new-user"; //new user
+  static var userDetails = "/user/users/"; //user details
+  static var loginUser = "/user/users/"; //login user
+  static var updateUser = "/user/users/"; //update user
+  static var allUsers = "/user/all-users"; //all users
+
+  /* -------------------------------- PRODUCTS -------------------------------- */
+
+  static var newProduct = "/product/new-product"; //new product
+  static var productDetails = "/product/products/"; //product details
+  static var allProducts = "/product/all-products"; //all products
+  static var updateProduct = "/product/products/"; //update product
+  static var deleteProduct = "/product/products/"; //delete product
+  static var allProductsByCategory = "/product/category-id/"; //product by category
+  static var allProductsModelId = "/product/model-id/"; //product by model
+
+  /* ------------------------------- TEST RIDES ------------------------------- */
+
+  static var newTestRide = "/test-ride/new-test-ride-request"; //new test ride
+  static var testRideDetails = "/test-ride/test-rides/"; //test ride details
+  static var updateTestRide = "/test-ride/test-rides/"; //update test ride
+  static var deleteTestRide = "/test-ride/test-rides/"; //delete test ride
+  static var allTestRides = "/test-ride/all-test-rides"; //all test rides
+
+  /* -------------------------------- SETTINGS -------------------------------- */
+  static var newSettings = "/settings/new-settings"; //new settings
+  static var settingsById = "/settings/settings/"; //settings by id
+  static var settingsByDocId = "/settings/doc-id/"; //settings by doc id
+  static var allSettings = "/settings/all-settings"; //all settings
+
 }
