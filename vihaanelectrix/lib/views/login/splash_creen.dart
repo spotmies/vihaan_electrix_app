@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:vihaanelectrix/controllers/login.dart/splash_controller.dart';
 import 'package:vihaanelectrix/views/login/login_screen.dart';
 import 'package:vihaanelectrix/views/login/onboarding_screen.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -13,7 +16,9 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends StateMVC<SplashScreen> {
+  SplashController splashCont = SplashController();
+
   checkUser() async {
     if (FirebaseAuth.instance.currentUser != null) {
       bool resp =
@@ -41,6 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // print("18 ${FirebaseAuth.instance.currentUser}");
       checkUser();
     });
+    splashCont.getSettings();
   }
 
   @override
@@ -50,6 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
         kToolbarHeight;
     final _width = MediaQuery.of(context).size.width;
     return Scaffold(
+        key: splashCont.scaffoldkey,
         backgroundColor: Colors.white,
         body: Center(
           child: Column(
