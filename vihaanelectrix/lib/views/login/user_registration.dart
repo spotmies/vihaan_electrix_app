@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
+import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 
 class UserRegistration extends StatefulWidget {
   const UserRegistration({Key? key}) : super(key: key);
@@ -19,8 +20,23 @@ class _UserRegistrationState extends State<UserRegistration> {
     return Scaffold(
       body: Column(
         children: [
-          profilePic(context, userRegistrationController),
           userRegistration(context, userRegistrationController),
+          Container(
+            margin: EdgeInsets.all(10),
+            width: double.infinity,
+            child: ElevatedButtonWidget(
+              onClick: () {
+                userRegistrationController.createUser(context);
+              },
+              height: height(context) * 0.057,
+              minWidth: width(context) * 0.8,
+              buttonName: 'Next',
+              bgColor: Colors.indigo[900],
+              textSize: width(context) * 0.05,
+              borderRadius: 10.0,
+              textColor: Colors.white,
+            ),
+          )
         ],
       ),
     );
@@ -35,6 +51,74 @@ Widget userRegistration(BuildContext context,
         height: height(context) * 0.75,
         child: ListView(
           children: [
+            SizedBox(
+              height: height(context) * 0.375,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        height: height(context) * 0.15,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30)),
+                        ),
+                        child: CircleAvatar(
+                          child: Center(
+                            child: userRegistrationController.profilepic == null
+                                ? Icon(
+                                    Icons.person,
+                                    color: Colors.blueGrey,
+                                    size: width(context) * 0.15,
+                                  )
+                                : Container(
+                                    height: height(context) * 0.27,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: CircleAvatar(
+                                      backgroundImage: FileImage(
+                                          userRegistrationController
+                                              .profilepic!),
+                                      radius: 100,
+                                    ),
+                                  ),
+                          ),
+                          radius: 30,
+                          backgroundColor: Colors.grey[100],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 40,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30)),
+                        // border: Border.all()
+                      ),
+                      child: TextButton(
+                          onPressed: () async {
+                            await userRegistrationController.profilePic();
+                            userRegistrationController.refresh();
+
+                            log(userRegistrationController.profilepic
+                                .toString());
+                          },
+                          // icon: Icon(Icons.select_all),
+                          child: Text(
+                            'Choose Image',
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          )),
+                    ),
+                  ]),
+            ),
             Container(
               height: height(context) * 0.1,
               width: width(context) * 1,
@@ -78,76 +162,11 @@ Widget userRegistration(BuildContext context,
   );
 }
 
-Widget profilePic(BuildContext context,
-    UserRegistrationController userRegistrationController) {
-  return Column(
-    children: [
-      SizedBox(
-        height: height(context) * 0.375,
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-         
-          Center(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              height: height(context) * 0.15,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30)),
-              ),
-              child: CircleAvatar(
-                child: Center(
-                  child: userRegistrationController.profilepic == null
-                      ? Icon(
-                          Icons.person,
-                          color: Colors.blueGrey,
-                          size: width(context) * 0.15,
-                        )
-                      : Container(
-                          height: height(context) * 0.27,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child:
-                              CircleAvatar(
-                            backgroundImage: FileImage(
-                                userRegistrationController.profilepic!),
-                            radius: 100,
-                          ),
-                        ),
-                ),
-                radius: 30,
-                backgroundColor: Colors.grey[100],
-              ),
-            ),
-          ),
-          Container(
-            height: 40,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)),
-              // border: Border.all()
-            ),
-            child: TextButton(
-                onPressed: () async {
-                  await userRegistrationController.profilePic();
-                  userRegistrationController.refresh();
-
-                  log(userRegistrationController.profilepic.toString());
-                },
-                // icon: Icon(Icons.select_all),
-                child: Text(
-                  'Choose Image',
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
-                )),
-          ),
-        ]),
-      )
-    ],
-  );
-}
+// Widget profilePic(BuildContext context,
+//     UserRegistrationController userRegistrationController) {
+//   return Column(
+//     children: [
+      
+//     ],
+//   );
+// }
