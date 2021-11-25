@@ -38,7 +38,10 @@ class API {
   /* -------------------------------- SETTINGS -------------------------------- */
   static var newSettings = "$path1/settings/new-settings"; //new settings
   static var settingsById = "$path1/settings/settings/"; //settings by id
-  static var settingsByDocId = "$path1/settings/doc-id/"; //settings by doc id
+  static var appSettings =
+      "$path1/settings/doc-id/appsettings"; //settings by doc id app settings
+  static var settingsByDocId =
+      "$path1/settings/doc-id/"; //settings by doc id
   static var allSettings = "$path1/settings/all-settings"; //all settings
 
 }

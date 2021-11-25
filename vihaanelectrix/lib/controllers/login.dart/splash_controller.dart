@@ -6,30 +6,30 @@ import 'package:flutter/widgets.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:vihaanelectrix/repo/api_calling.dart';
 import 'package:vihaanelectrix/repo/api_urls.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vihaanelectrix/utilities/shared_preference.dart';
 
 class SplashController extends ControllerMVC {
   var scaffoldkey = GlobalKey<ScaffoldState>();
-  dynamic settings;
+  dynamic appConstants;
  
  
 
   getSettings() async {
-    dynamic response = await Server().getMethod(API.allSettings);
-    if (response.statusCode == 200) {
-      settings = jsonDecode(response.body);
-      log(settings.toString());
-      // localStore(settings);
-      return settings;
+
+    if(await getAppConstants() != "null"){
+      log("constants already in sf");
+      return;
     }
-    return null;
+    dynamic response = await Server().getMethod(API.appSettings);
+    if (response.statusCode == 200) {
+      appConstants = jsonDecode(response?.body);
+      log(appConstants.toString());
+      setAppConstants(appConstants);
+
+    }
+    else {log("something went wrong");}
+
   }
 }
 
-localStore(settings) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  prefs.setString('settings', jsonEncode(settings)).catchError((e) {
-    log(e.toString());
-  });
-}
