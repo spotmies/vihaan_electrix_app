@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:vihaanelectrix/providers/time_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:vihaanelectrix/views/login/splash_creen.dart';
+import 'package:vihaanelectrix/views/login/user_registration.dart';
 
 // Future<void> backGroundHandler(RemoteMessage message) async {
 //   displayAwesomeNotificationBackground(message);
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashScreen(),
+      home: const UserRegistration(),
     );
   }
 }

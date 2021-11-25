@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
-import 'package:vihaanelectrix/views/login/onboarding_screen.dart';
+import 'package:vihaanelectrix/views/login/user_registration.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 
 class OTPScreen extends StatefulWidget {
@@ -68,7 +68,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => OnBoardingScreen()),
+                              builder: (context) => UserRegistration()),
                           (route) => false);
                     }
                   });
@@ -94,7 +94,7 @@ class _OTPScreenState extends State<OTPScreen> {
             if (value.user != null) {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => OnBoardingScreen()),
+                  MaterialPageRoute(builder: (context) => UserRegistration()),
                   (route) => false);
             }
           });
