@@ -3,6 +3,7 @@ import 'package:flutter/painting.dart';
 // ignore: implementation_imports
 import 'package:simple_animations/simple_animations.dart';
 import 'package:vihaanelectrix/models/login/on_board.dart';
+import 'package:vihaanelectrix/utilities/shared_preference.dart';
 import 'package:vihaanelectrix/views/login/login_screen.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,6 +21,29 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int page = 0;
   final _controller = PageController();
   var showAnimatedContainer = false;
+
+  /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
+  dynamic constants;
+  bool showUi = false;
+
+  getText(String objId) {
+    if (constants == null) return "loading..";
+    int index = constants?.indexWhere(
+        (element) => element['objId'].toString() == objId.toString());
+    if (index == -1) return "null";
+    return constants[index]['label'];
+  }
+
+  constantsFunc() async {
+    dynamic allConstants = await getAppConstants();
+    setState(() {
+      showUi = true;
+    });
+    constants = allConstants['onBoard'];
+  }
+
+  /* -------------------------- END OF THE CONSTANTS -------------------------- */
+  
   @override
   Widget build(BuildContext context) {
     // UserViewModel userViewModel = context.watch<UserViewModel>();

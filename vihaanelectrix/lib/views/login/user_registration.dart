@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
+import 'package:vihaanelectrix/utilities/shared_preference.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 
@@ -15,6 +16,34 @@ class UserRegistration extends StatefulWidget {
 class _UserRegistrationState extends State<UserRegistration> {
   UserRegistrationController userRegistrationController =
       UserRegistrationController();
+
+
+  /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
+  dynamic constants;
+  bool showUi = false;
+
+  getText(String objId) {
+    // log(constants.toString());
+    if (constants == null) return "loading..";
+    int index = constants?.indexWhere(
+        (element) => element['objId'].toString() == objId.toString());
+    // log(index.toString());
+    if (index == -1) return "null";
+    return constants[index]['label'];
+  }
+
+  constantsFunc() async {
+    dynamic allConstants = await getAppConstants();
+    setState(() {
+      showUi = true;
+    });
+    constants = allConstants['signup'];
+  }
+
+  /* -------------------------- END OF THE CONSTANTS -------------------------- */
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

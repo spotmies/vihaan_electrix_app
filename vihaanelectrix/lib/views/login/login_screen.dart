@@ -21,8 +21,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController controller = TextEditingController();
   var formkey = GlobalKey<FormState>();
+  
+  /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
   dynamic constants;
   bool showUi = false;
+
   getText(String objId) {
     log(constants.toString());
     if (constants == null) return "loading..";
@@ -33,21 +36,19 @@ class _LoginScreenState extends State<LoginScreen> {
     return constants[index]['label'];
   }
 
-  sekhar() async {
+  constantsFunc() async {
     dynamic allConstants = await getAppConstants();
     setState(() {
       showUi = true;
     });
-    log(allConstants['login'].toString());
     constants = allConstants['login'];
-    getText("login_heading");
-    getText("login_heading_new");
   }
+
+  /* -------------------------- END OF THE CONSTANTS -------------------------- */
 
   @override
   initState() {
-    // TODO: implement initState
-    sekhar();
+    constantsFunc();
     super.initState();
   }
 

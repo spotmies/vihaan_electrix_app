@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
+import 'package:vihaanelectrix/utilities/shared_preference.dart';
 import 'package:vihaanelectrix/views/login/user_registration.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 
@@ -25,6 +26,33 @@ class _OTPScreenState extends State<OTPScreen> {
       color: const Color.fromRGBO(126, 203, 224, 1),
     ),
   );
+
+
+  /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
+  dynamic constants;
+  bool showUi = false;
+
+  getText(String objId) {
+    // log(constants.toString());
+    if (constants == null) return "loading..";
+    int index = constants?.indexWhere(
+        (element) => element['objId'].toString() == objId.toString());
+    // log(index.toString());
+    if (index == -1) return "null";
+    return constants[index]['label'];
+  }
+
+  constantsFunc() async {
+    dynamic allConstants = await getAppConstants();
+    setState(() {
+      showUi = true;
+    });
+    constants = allConstants['otp'];
+  }
+
+  /* -------------------------- END OF THE CONSTANTS -------------------------- */
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
