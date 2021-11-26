@@ -27,31 +27,29 @@ class _OTPScreenState extends State<OTPScreen> {
     ),
   );
 
-
   /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
-  dynamic constants;
-  bool showUi = false;
+  // dynamic constants;
+  // bool showUi = false;
 
-  getText(String objId) {
-    // log(constants.toString());
-    if (constants == null) return "loading..";
-    int index = constants?.indexWhere(
-        (element) => element['objId'].toString() == objId.toString());
-    // log(index.toString());
-    if (index == -1) return "null";
-    return constants[index]['label'];
-  }
+  // getText(String objId) {
+  //   // log(constants.toString());
+  //   if (constants == null) return "loading..";
+  //   int index = constants?.indexWhere(
+  //       (element) => element['objId'].toString() == objId.toString());
+  //   // log(index.toString());
+  //   if (index == -1) return "null";
+  //   return constants[index]['label'];
+  // }
 
-  constantsFunc() async {
-    dynamic allConstants = await getAppConstants();
-    setState(() {
-      showUi = true;
-    });
-    constants = allConstants['otp'];
-  }
+  // constantsFunc() async {
+  //   dynamic allConstants = await getAppConstants();
+  //   setState(() {
+  //     showUi = true;
+  //   });
+  //   constants = allConstants['otp'];
+  // }
 
   /* -------------------------- END OF THE CONSTANTS -------------------------- */
-
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +88,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       .signInWithCredential(PhoneAuthProvider.credential(
                           verificationId: _verificationCode!, smsCode: pin))
                       .then((value) async {
+                    log(value.toString());
                     if (value.user != null) {
                       snackbar(context, 'Login succussfully');
                       log('Login succussfully');
@@ -119,6 +118,7 @@ class _OTPScreenState extends State<OTPScreen> {
           await FirebaseAuth.instance
               .signInWithCredential(credential)
               .then((value) async {
+            log(value.toString());
             if (value.user != null) {
               Navigator.pushAndRemoveUntil(
                   context,

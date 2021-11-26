@@ -21,10 +21,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController controller = TextEditingController();
   var formkey = GlobalKey<FormState>();
-  
+
   /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
   dynamic constants;
-  bool showUi = false;
+  bool showUi = true;
 
   getText(String objId) {
     log(constants.toString());
@@ -46,11 +46,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   /* -------------------------- END OF THE CONSTANTS -------------------------- */
 
-  @override
-  initState() {
-    constantsFunc();
-    super.initState();
-  }
+  // @override
+  // initState() {
+  //  // constantsFunc();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
