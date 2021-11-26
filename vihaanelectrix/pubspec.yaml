@@ -61,6 +61,7 @@ dev_dependencies:
   percent_indicator: ^3.4.0
   image_picker: ^0.8.4+4
   firebase_storage: ^10.1.0
+  shared_preferences: ^2.0.9
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
