@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:vihaanelectrix/providers/time_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:vihaanelectrix/views/login/splash_creen.dart';
-import 'package:vihaanelectrix/views/login/user_registration.dart';
+import 'package:vihaanelectrix/providers/user_details_provider.dart';
+import 'package:vihaanelectrix/views/home/navbar.dart';
 
 // Future<void> backGroundHandler(RemoteMessage message) async {
 //   displayAwesomeNotificationBackground(message);
@@ -21,6 +21,8 @@ void main() async {
       .then((_) {
     runApp(MultiProvider(providers: [
       ChangeNotifierProvider<TimeProvider>(create: (context) => TimeProvider()),
+      ChangeNotifierProvider<UserDetailsProvider>(
+          create: (context) => UserDetailsProvider()),
     ], child: MyApp()));
   });
 }
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashScreen(),
+      home: const NavigationBar(),
     );
   }
 }

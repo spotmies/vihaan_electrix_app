@@ -43,7 +43,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   /* -------------------------- END OF THE CONSTANTS -------------------------- */
-  
+
   @override
   Widget build(BuildContext context) {
     // UserViewModel userViewModel = context.watch<UserViewModel>();
@@ -111,8 +111,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              OnBoardingScreen()));
+                                          builder: (context) => LoginScreen()));
                                 });
                               }
                             });
