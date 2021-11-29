@@ -21,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController controller = TextEditingController();
   var formkey = GlobalKey<FormState>();
-  
+
   /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
   dynamic constants;
   bool showUi = false;

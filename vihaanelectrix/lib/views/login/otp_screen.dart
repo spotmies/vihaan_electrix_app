@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
+import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
+import 'package:vihaanelectrix/views/login/splash_creen.dart';
 import 'package:vihaanelectrix/views/login/user_registration.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 
@@ -15,7 +17,9 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  UserRegistrationController controller = UserRegistrationController();
+
+  // final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   String? _verificationCode;
   final TextEditingController _pinPutController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
@@ -26,7 +30,6 @@ class _OTPScreenState extends State<OTPScreen> {
       color: const Color.fromRGBO(126, 203, 224, 1),
     ),
   );
-
 
   /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
   dynamic constants;
@@ -48,17 +51,17 @@ class _OTPScreenState extends State<OTPScreen> {
       showUi = true;
     });
     constants = allConstants['otp'];
+    log(constants.toString());
   }
 
   /* -------------------------- END OF THE CONSTANTS -------------------------- */
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldkey,
+      key: controller.scaffoldkey,
       appBar: AppBar(
-        title: Text('OTP Verification'),
+        title: Text(getText("app_bar_title")),
       ),
       body: Column(
         children: [
@@ -66,7 +69,7 @@ class _OTPScreenState extends State<OTPScreen> {
             margin: EdgeInsets.only(top: 40),
             child: Center(
               child: Text(
-                'Verify +1-${widget.phone}',
+                'Verify +91-${widget.phone}',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
               ),
             ),
@@ -90,14 +93,10 @@ class _OTPScreenState extends State<OTPScreen> {
                       .signInWithCredential(PhoneAuthProvider.credential(
                           verificationId: _verificationCode!, smsCode: pin))
                       .then((value) async {
+                    log(value.toString());
                     if (value.user != null) {
-                      snackbar(context, 'Login succussfully');
-                      log('Login succussfully');
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserRegistration()),
-                          (route) => false);
+                      controller.checkUser(context,
+                          uId: value.user?.uid.toString(), phone: widget.phone);
                     }
                   });
                 } catch (e) {
@@ -119,10 +118,12 @@ class _OTPScreenState extends State<OTPScreen> {
           await FirebaseAuth.instance
               .signInWithCredential(credential)
               .then((value) async {
+            log(value.toString());
             if (value.user != null) {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => UserRegistration()),
+                  MaterialPageRoute(
+                      builder: (context) => UserRegistration(widget.phone)),
                   (route) => false);
             }
           });
@@ -149,6 +150,7 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   void initState() {
     super.initState();
+    constantsFunc();
     _verifyPhone();
   }
 }
