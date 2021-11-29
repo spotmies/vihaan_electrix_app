@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     margin: EdgeInsets.only(top: 60),
                     child: Center(
                       child: Text(
-                        getText("login_heading"),
+                        getText("number_heading"),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 28),
                       ),
@@ -203,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     height: height(context) * 0.057,
                     minWidth: width(context) * 0.8,
-                    buttonName: 'Next',
+                    buttonName: getText("button_label"),
                     bgColor: Colors.indigo[900],
                     textSize: width(context) * 0.05,
                     borderRadius: 10.0,
