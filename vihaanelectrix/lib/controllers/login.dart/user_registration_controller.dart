@@ -21,6 +21,7 @@ class UserRegistrationController extends ControllerMVC {
   String? location;
   String? address;
   UserRegistrationController? userRegistrationModel;
+  Position? position;
 
   // UserRegistrationController() {
   //   userRegistrationModel = UserRegistrationModel() as UserRegistrationController?;
@@ -100,7 +101,7 @@ class UserRegistrationController extends ControllerMVC {
 
   createUser(BuildContext context) async {
     await uploadimage();
-    Position position = await getGeoLocationPosition();
+    
     dynamic deviceToken = await FirebaseMessaging.instance.getToken();
     var body = {
       "name": name.toString(),
@@ -108,8 +109,8 @@ class UserRegistrationController extends ControllerMVC {
       "mobile": '8330933883'.toString(),
       "pic": imageLink.toString(),
       "deviceToken": deviceToken.toString(),
-      "coordinates.0": position.latitude.toString(),
-      "coordinates.1": position.longitude.toString(),
+      "coordinates.0": position!.latitude.toString(),
+      "coordinates.1": position!.longitude.toString(),
     };
     log(body.toString());
     var resp = await Server().postMethod(API.newUser, body).catchError((e) {
