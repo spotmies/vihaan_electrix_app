@@ -62,7 +62,8 @@ dev_dependencies:
   image_picker: ^0.8.4+4
   firebase_storage: ^10.1.0
   shared_preferences: ^2.0.9
-
+  geolocator: ^7.7.1
+  custom_navigation_bar: ^0.8.2
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

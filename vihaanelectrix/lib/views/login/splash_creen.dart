@@ -4,10 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vihaanelectrix/controllers/login.dart/splash_controller.dart';
+import 'package:vihaanelectrix/repo/api_methods.dart';
+import 'package:vihaanelectrix/repo/api_urls.dart';
+import 'package:vihaanelectrix/views/home/navbar.dart';
 import 'package:vihaanelectrix/views/login/login_screen.dart';
 import 'package:vihaanelectrix/views/login/onboarding_screen.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -26,15 +30,19 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
       if (resp != false) {
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (_) => OnBoardingScreen()),
+            MaterialPageRoute(builder: (_) => NavigationBar()),
             (route) => false);
       } else {
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => OnBoardingScreen()),
+            (route) => false);
       }
     } else {
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => OnBoardingScreen()),
+          (route) => false);
     }
   }
 
@@ -100,17 +108,17 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
 }
 
 checkUserRegistered(uid) async {
-  // dynamic deviceToken = await FirebaseMessaging.instance.getToken();
-  // var obj = {
-  //   "lastLogin": DateTime.now().millisecondsSinceEpoch.toString(),
-  //   "userDeviceToken": deviceToken?.toString() ?? "",
-  // };
-  // log(obj.toString());
-  // var response = await Server().editMethod(API.userDetails + uid, obj);
-  // // print("36 $response");
-  // if (response.statusCode == 200 || response.statusCode == 204) {
-  // return true;
-  // } else {
+  dynamic deviceToken = await FirebaseMessaging.instance.getToken();
+  var obj = {
+    "lastLogin": DateTime.now().millisecondsSinceEpoch.toString(),
+    "userDeviceToken": deviceToken?.toString() ?? "",
+  };
+  log(obj.toString());
+  var response = await Server().editMethod(API.updateUser + uid, obj);
+  // print("36 $response");
+  if (response.statusCode == 200 || response.statusCode == 204) {
+  return true;
+  } else {
   return false;
-  // }
+  }
 }

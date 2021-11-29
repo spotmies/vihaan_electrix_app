@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
+import 'package:vihaanelectrix/views/home/navbar.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 
@@ -16,7 +17,6 @@ class UserRegistration extends StatefulWidget {
 class _UserRegistrationState extends State<UserRegistration> {
   UserRegistrationController userRegistrationController =
       UserRegistrationController();
-
 
   /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
   dynamic constants;
@@ -42,8 +42,6 @@ class _UserRegistrationState extends State<UserRegistration> {
 
   /* -------------------------- END OF THE CONSTANTS -------------------------- */
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +54,9 @@ class _UserRegistrationState extends State<UserRegistration> {
             child: ElevatedButtonWidget(
               onClick: () {
                 userRegistrationController.createUser(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return NavigationBar();
+                }));
               },
               height: height(context) * 0.057,
               minWidth: width(context) * 0.8,

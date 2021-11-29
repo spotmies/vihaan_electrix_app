@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:vihaanelectrix/repo/api_calling.dart';
+import 'package:vihaanelectrix/repo/api_methods.dart';
 import 'package:vihaanelectrix/repo/api_urls.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
 
