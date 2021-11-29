@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
@@ -59,6 +61,11 @@ class _NavigationBarState extends State<NavigationBar> {
 
     if (user != null) {
       profileProvider!.setUser(user);
+      log(user.toString());
+      if (user['appConfig'] == "true") {
+        log("fetching new constatns from DB");
+        constantsAPI();
+      }
     }
   }
 

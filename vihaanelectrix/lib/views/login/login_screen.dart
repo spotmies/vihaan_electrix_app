@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
   dynamic constants;
-  bool showUi = true;
+  bool showUi = false;
 
   getText(String objId) {
     log(constants.toString());
@@ -46,11 +46,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   /* -------------------------- END OF THE CONSTANTS -------------------------- */
 
-  // @override
-  // initState() {
-  //  // constantsFunc();
-  //   super.initState();
-  // }
+  @override
+  initState() {
+    constantsFunc();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -17,9 +17,8 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-    UserRegistrationController controller =
-      UserRegistrationController();
-      
+  UserRegistrationController controller = UserRegistrationController();
+
   // final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   String? _verificationCode;
   final TextEditingController _pinPutController = TextEditingController();
@@ -33,35 +32,36 @@ class _OTPScreenState extends State<OTPScreen> {
   );
 
   /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
-  // dynamic constants;
-  // bool showUi = false;
+  dynamic constants;
+  bool showUi = false;
 
-  // getText(String objId) {
-  //   // log(constants.toString());
-  //   if (constants == null) return "loading..";
-  //   int index = constants?.indexWhere(
-  //       (element) => element['objId'].toString() == objId.toString());
-  //   // log(index.toString());
-  //   if (index == -1) return "null";
-  //   return constants[index]['label'];
-  // }
+  getText(String objId) {
+    // log(constants.toString());
+    if (constants == null) return "loading..";
+    int index = constants?.indexWhere(
+        (element) => element['objId'].toString() == objId.toString());
+    // log(index.toString());
+    if (index == -1) return "null";
+    return constants[index]['label'];
+  }
 
-  // constantsFunc() async {
-  //   dynamic allConstants = await getAppConstants();
-  //   setState(() {
-  //     showUi = true;
-  //   });
-  //   constants = allConstants['otp'];
-  // }
+  constantsFunc() async {
+    dynamic allConstants = await getAppConstants();
+    setState(() {
+      showUi = true;
+    });
+    constants = allConstants['otp'];
+    log(constants.toString());
+  }
 
   /* -------------------------- END OF THE CONSTANTS -------------------------- */
 
   @override
-  Widget build(BuildContext context) {  
+  Widget build(BuildContext context) {
     return Scaffold(
       key: controller.scaffoldkey,
       appBar: AppBar(
-        title: Text('OTP Verification'),
+        title: Text(getText("app_bar_title")),
       ),
       body: Column(
         children: [
@@ -95,9 +95,8 @@ class _OTPScreenState extends State<OTPScreen> {
                       .then((value) async {
                     log(value.toString());
                     if (value.user != null) {
-                    
-                     controller.checkUser(context,uId: value.user?.uid.toString(),phone: widget.phone);
-
+                      controller.checkUser(context,
+                          uId: value.user?.uid.toString(), phone: widget.phone);
                     }
                   });
                 } catch (e) {
@@ -123,7 +122,8 @@ class _OTPScreenState extends State<OTPScreen> {
             if (value.user != null) {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => UserRegistration(widget.phone)),
+                  MaterialPageRoute(
+                      builder: (context) => UserRegistration(widget.phone)),
                   (route) => false);
             }
           });
@@ -150,6 +150,7 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   void initState() {
     super.initState();
+    constantsFunc();
     _verifyPhone();
   }
 }
