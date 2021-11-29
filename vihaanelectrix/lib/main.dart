@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/views/home/navbar.dart';
+import 'package:vihaanelectrix/views/login/splash_creen.dart';
 
 // Future<void> backGroundHandler(RemoteMessage message) async {
 //   displayAwesomeNotificationBackground(message);
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const NavigationBar(),
+      home: const SplashScreen(),
     );
   }
 }
