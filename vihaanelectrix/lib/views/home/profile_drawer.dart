@@ -7,6 +7,7 @@ import 'package:vihaanelectrix/repo/api_calls.dart';
 import 'package:vihaanelectrix/views/home/user_profile.dart';
 import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
+import 'package:vihaanelectrix/widgets/image_wid.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 
 class NavigationDrawerWidget extends StatefulWidget {
@@ -118,9 +119,10 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
           padding: padding.add(EdgeInsets.symmetric(vertical: 40)),
           child: Row(
             children: [
-              CircleAvatar(
-                  radius: width(context) * 0.06,
-                  backgroundImage: NetworkImage(urlImage)),
+              ImageWid(profile: urlImage, name: name),
+              // CircleAvatar(
+              //     radius: width(context) * 0.06,
+              //     backgroundImage: NetworkImage(urlImage)),
               SizedBox(width: width(context) * 0.08),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
