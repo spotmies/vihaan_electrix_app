@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
+import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
+import 'package:vihaanelectrix/views/login/splash_creen.dart';
 import 'package:vihaanelectrix/views/login/user_registration.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 
@@ -15,7 +17,10 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+    UserRegistrationController controller =
+      UserRegistrationController();
+      
+  // final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   String? _verificationCode;
   final TextEditingController _pinPutController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
@@ -52,9 +57,9 @@ class _OTPScreenState extends State<OTPScreen> {
   /* -------------------------- END OF THE CONSTANTS -------------------------- */
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  
     return Scaffold(
-      key: _scaffoldkey,
+      key: controller.scaffoldkey,
       appBar: AppBar(
         title: Text('OTP Verification'),
       ),
@@ -64,7 +69,7 @@ class _OTPScreenState extends State<OTPScreen> {
             margin: EdgeInsets.only(top: 40),
             child: Center(
               child: Text(
-                'Verify +1-${widget.phone}',
+                'Verify +91-${widget.phone}',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
               ),
             ),
@@ -90,13 +95,9 @@ class _OTPScreenState extends State<OTPScreen> {
                       .then((value) async {
                     log(value.toString());
                     if (value.user != null) {
-                      snackbar(context, 'Login succussfully');
-                      log('Login succussfully');
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserRegistration()),
-                          (route) => false);
+                    
+                     controller.checkUser(context,uId: value.user?.uid.toString(),phone: widget.phone);
+
                     }
                   });
                 } catch (e) {
@@ -122,7 +123,7 @@ class _OTPScreenState extends State<OTPScreen> {
             if (value.user != null) {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => UserRegistration()),
+                  MaterialPageRoute(builder: (context) => UserRegistration(widget.phone)),
                   (route) => false);
             }
           });

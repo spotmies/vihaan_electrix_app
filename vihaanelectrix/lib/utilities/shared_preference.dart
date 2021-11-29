@@ -57,7 +57,7 @@ setDataToSF({required String id, required dynamic value}) async {
 getDataFromSF(String id) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   //Return String
-  if (!prefs.containsKey(id)) return "null";
+  if (!prefs.containsKey(id)) return null;
   String stringValue = prefs.getString(id).toString();
   dynamic returnedValue = jsonDecode(stringValue);
   return returnedValue;

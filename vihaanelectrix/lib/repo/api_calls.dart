@@ -8,8 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vihaanelectrix/views/login/login_screen.dart';
 
 
-getUserDetailsFromDB(uuId) async {
-  dynamic response = await Server().getMethod(API.userDetails + uuId);
+getUserDetailsFromDB() async {
+  String uId = FirebaseAuth.instance.currentUser!.uid;
+  dynamic response = await Server().getMethod(API.userDetails + uId);
   if (response.statusCode == 200) {
     dynamic user = jsonDecode(response.body);
     return user;

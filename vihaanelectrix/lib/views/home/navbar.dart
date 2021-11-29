@@ -54,8 +54,8 @@ class _NavigationBarState extends State<NavigationBar> {
     if (user != null) profileProvider!.setUser(user);
   }
 
-  hitAPIS(uuId) async {
-    dynamic user = await getUserDetailsFromDB(uuId);
+  hitAPIS() async {
+    dynamic user = await getUserDetailsFromDB();
 
     if (user != null) {
       profileProvider!.setUser(user);
@@ -64,8 +64,8 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   void initState() {
-    hitAPIS(API.uid);
     recieveData();
+    hitAPIS();
 
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
 

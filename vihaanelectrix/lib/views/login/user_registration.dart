@@ -8,7 +8,8 @@ import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 
 class UserRegistration extends StatefulWidget {
-  const UserRegistration({Key? key}) : super(key: key);
+    final String phone;
+  const UserRegistration(this.phone,{Key? key}) : super(key: key);
 
   @override
   _UserRegistrationState createState() => _UserRegistrationState();
@@ -41,6 +42,13 @@ class _UserRegistrationState extends State<UserRegistration> {
   }
 
   /* -------------------------- END OF THE CONSTANTS -------------------------- */
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    userRegistrationController.phone = widget.phone;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
