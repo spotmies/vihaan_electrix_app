@@ -52,8 +52,11 @@ class _UserRegistrationState extends State<UserRegistration> {
             margin: EdgeInsets.all(10),
             width: double.infinity,
             child: ElevatedButtonWidget(
-              onClick: () {
-                userRegistrationController.createUser(context);
+              onClick: () async {
+                userRegistrationController.position =
+                    await userRegistrationController.getGeoLocationPosition();
+                userRegistrationController.refresh();
+                await userRegistrationController.createUser(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return NavigationBar();
                 }));
