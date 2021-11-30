@@ -15,7 +15,7 @@ import 'package:vihaanelectrix/views/login/user_registration.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
-// import 'package:geocoding/geocoding.dart';
+import 'package:geocoding/geocoding.dart';
 
 class UserRegistrationController extends ControllerMVC {
   TextEditingController nameTf = TextEditingController();
@@ -95,15 +95,15 @@ class UserRegistrationController extends ControllerMVC {
         desiredAccuracy: LocationAccuracy.high);
   }
 
-  // Future<void> getAddressFromLatLong(Position position) async {
-  //   List<Placemark> placemarks =
-  //       await placemarkFromCoordinates(position.latitude, position.longitude);
-  //   log(placemarks.toString());
-  //   Placemark place = placemarks[0];
-  //   address =
-  //       '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
-  //   setState(() {});
-  // }
+  Future<void> getAddressFromLatLong(Position position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    log(placemarks.toString());
+    Placemark place = placemarks[0];
+    address =
+        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    setState(() {});
+  }
 
   createUser(
     BuildContext context,

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/repo/api_calls.dart';
-import 'package:vihaanelectrix/repo/api_urls.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
 import 'package:vihaanelectrix/views/venroute/venroute.dart';
 import 'package:vihaanelectrix/views/venergy/venergy.dart';

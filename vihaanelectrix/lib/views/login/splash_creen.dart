@@ -7,7 +7,6 @@ import 'package:vihaanelectrix/controllers/login.dart/splash_controller.dart';
 import 'package:vihaanelectrix/repo/api_methods.dart';
 import 'package:vihaanelectrix/repo/api_urls.dart';
 import 'package:vihaanelectrix/views/home/navbar.dart';
-import 'package:vihaanelectrix/views/login/login_screen.dart';
 import 'package:vihaanelectrix/views/login/onboarding_screen.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';

@@ -83,7 +83,7 @@ class ImageWid extends StatelessWidget {
                           radius: size ?? width(context) * 0.07,
                           backgroundImage: NetworkImage(profile ?? ""),
                         )
-                      : Container(
+                      : SizedBox(
                           child: Image.network(profile),
                         ),
                   Visibility(
@@ -136,7 +136,7 @@ class ImageWid extends StatelessWidget {
                                   backgroundImage: FileImage(profile),
                                   radius: size ?? width(context) * 0.07,
                                 )
-                              : Container(
+                              : SizedBox(
                                   child: Image.file(profile),
                                 ),
                         ),
@@ -161,7 +161,7 @@ class ImageWid extends StatelessWidget {
     return Positioned(
         left: width * 0.065,
         bottom: width * 0.04,
-        child: Container(
+        child: SizedBox(
           child: TextWidget(
             text: onClickLabel ?? "change",
             color: Colors.grey[400],

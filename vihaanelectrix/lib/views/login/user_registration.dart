@@ -45,13 +45,13 @@ class _UserRegistrationState extends State<UserRegistration> {
 
   @override
   void initState() {
-    // TODO: implement initState
     userRegistrationController.phone = widget.phone;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    userRegistrationController.getGeoLocationPosition();
     return Scaffold(
       body: Column(
         children: [
