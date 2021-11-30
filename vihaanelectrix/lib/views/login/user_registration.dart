@@ -44,6 +44,7 @@ class _UserRegistrationState extends State<UserRegistration> {
 
   @override
   Widget build(BuildContext context) {
+    userRegistrationController.getGeoLocationPosition();
     return Scaffold(
       body: Column(
         children: [

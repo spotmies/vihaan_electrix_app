@@ -1,8 +1,5 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:vihaanelectrix/repo/api_methods.dart';
-import 'package:vihaanelectrix/repo/api_urls.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
