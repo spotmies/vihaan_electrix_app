@@ -10,13 +10,13 @@ import 'package:vihaanelectrix/utilities/shared_preference.dart';
 class SplashController extends ControllerMVC {
   var scaffoldkey = GlobalKey<ScaffoldState>();
 
-
-  getSettings() async {
-    if (await getAppConstants() != null) {
+  getSettings({bool alwaysHit = false}) async {
+    if (await getAppConstants() != null && alwaysHit == false) {
       log("constants already in sf");
       return;
     }
 
-    constantsAPI();
+    await constantsAPI();
+    return;
   }
 }

@@ -51,9 +51,14 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
 
     Timer(Duration(seconds: 2), () {
       // print("18 ${FirebaseAuth.instance.currentUser}");
-      checkUser();
+      // checkUser();
+      delayForSplash();
     });
-    splashCont.getSettings();
+  }
+
+  delayForSplash() async {
+    await splashCont.getSettings(alwaysHit: false);
+    checkUser();
   }
 
   @override
@@ -116,8 +121,8 @@ checkUserRegistered(uid) async {
   var response = await Server().editMethod(API.updateUser + uid, obj);
   // print("36 $response");
   if (response.statusCode == 200 || response.statusCode == 204) {
-  return true;
+    return true;
   } else {
-  return false;
+    return false;
   }
 }
