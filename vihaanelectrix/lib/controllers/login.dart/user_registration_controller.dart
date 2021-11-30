@@ -2,12 +2,16 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:vihaanelectrix/repo/api_methods.dart';
 import 'package:vihaanelectrix/repo/api_urls.dart';
+import 'package:vihaanelectrix/utilities/shared_preference.dart';
+import 'package:vihaanelectrix/views/home/navbar.dart';
+import 'package:vihaanelectrix/views/login/user_registration.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,6 +26,8 @@ class UserRegistrationController extends ControllerMVC {
   String? address;
   UserRegistrationController? userRegistrationModel;
   Position? position;
+  String? phone;
+  final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
 
   // UserRegistrationController() {
   //   userRegistrationModel = UserRegistrationModel() as UserRegistrationController?;
@@ -99,14 +105,16 @@ class UserRegistrationController extends ControllerMVC {
     setState(() {});
   }
 
-  createUser(BuildContext context) async {
+  createUser(
+    BuildContext context,
+  ) async {
     await uploadimage();
-    
+
     dynamic deviceToken = await FirebaseMessaging.instance.getToken();
     var body = {
       "name": name.toString(),
-      "uId": API.uid.toString(),
-      "mobile": '8330933883'.toString(),
+      "uId": FirebaseAuth.instance.currentUser!.uid.toString(),
+      "mobile": phone.toString(),
       "pic": imageLink.toString(),
       "deviceToken": deviceToken.toString(),
       "coordinates.0": position!.latitude.toString(),
@@ -126,5 +134,35 @@ class UserRegistrationController extends ControllerMVC {
       snackbar(context, "something went wrong");
     }
     return resp;
+  }
+
+  checkUser(context, {String? uId, String? phone}) async {
+    snackbar(context, 'Login succussfully');
+    log('Login succussfully');
+    setDataToSF(id: "loginNumber", value: phone);
+      dynamic deviceToken = await FirebaseMessaging.instance.getToken();
+    Map<String, String> body = {
+      "lastLogin": DateTime.now().millisecondsSinceEpoch.toString(),
+      "deviceToken": deviceToken.toString()
+    };
+    dynamic resp =
+        await Server().editMethod(API.userDetails + uId.toString(), body);
+    if (resp.statusCode == 200) {
+            Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => NavigationBar()),
+          (route) => false);
+    } else if (resp.statusCode == 404) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => UserRegistration(phone!)),
+          (route) => false);
+    } else {
+      snackbar(context, "Something went wrong status code ${resp.statusCode}");
+    }
+
+    /* ------------------------ RETURN 200 IF USER EXIXST ----------------------- */
+    /* --------------------- RETURN 404 FOR USER NOT EXISTS --------------------- */
+    /* ------------------------- ALL OTHERS SERVER ERROR ------------------------ */
   }
 }

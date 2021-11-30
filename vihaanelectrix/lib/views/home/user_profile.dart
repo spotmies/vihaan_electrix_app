@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
+import 'package:vihaanelectrix/widgets/image_wid.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 
 class UserPage extends StatelessWidget {
@@ -26,11 +27,27 @@ class UserPage extends StatelessWidget {
           ),
           // centerTitle: true,
         ),
-        body: Image.network(
-          urlImage,
-          width: double.infinity,
-          height: double.infinity,
-          fit: BoxFit.cover,
+        // body: Image.network(
+        //   urlImage,
+        //   width: double.infinity,
+        //   height: double.infinity,
+        //   fit: BoxFit.cover,
+        // ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Center(
+                child: Container(
+                  padding: EdgeInsets.only(top: 10),
+                  child: ImageWid(
+                    profile: urlImage,
+                    name: name,
+                    size: width(context) * 0.18,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       );
 }
