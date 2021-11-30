@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 // ignore: implementation_imports
@@ -8,6 +10,8 @@ import 'package:vihaanelectrix/views/login/login_screen.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
+import 'package:vihaanelectrix/widgets/progress.dart';
+
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -20,11 +24,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final List<OnboardingModel> _list = OnboardingModel.list;
   int page = 0;
   final _controller = PageController();
-  var showAnimatedContainer = false;
+  bool showAnimatedContainer = false;
 
   /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
   dynamic constants;
   bool showUi = false;
+  List<String> titles = [];
+  List<String> content = [];
+  List<String> images = [];
 
   getText(String objId) {
     if (constants == null) return "loading..";
@@ -40,9 +47,56 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       showUi = true;
     });
     constants = allConstants['onBoard'];
+    getAllconstants();
+  }
+
+  getAllconstants() {
+    List<String> titleName = [
+      "screen1_title",
+      "screen2_title",
+      "screen3_title",
+      "screen4_title",
+      "screen5_title",
+      "screen6_title",
+      "screen7_title"
+    ];
+    List<String> contentName = [
+      "screen1_content",
+      "screen2_content",
+      "screen3_content",
+      "screen4_content",
+      "screen5_content",
+      "screen6_content",
+      "screen7_content"
+    ];
+    List<String> imageNames = [
+      "screen1_image",
+      "screen2_image",
+      "screen3_image",
+      "screen4_image",
+      "screen5_image",
+      "screen6_image",
+      "screen7_image"
+    ];
+    log(constants.toString());
+    for (String item in titleName) {
+      titles.add(getText(item));
+    }
+    for (String item in contentName) {
+      content.add(getText(item));
+    }
+    for (String item in imageNames) {
+      images.add(getText(item));
+    }
   }
 
   /* -------------------------- END OF THE CONSTANTS -------------------------- */
+  @override
+  void initState() {
+    constantsFunc();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,74 +111,62 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     });
     return Scaffold(
         backgroundColor: Colors.white,
-        // body: ListView.separated(
-        //   itemBuilder: (context, index) {
-        //     UserModel userModel = userViewModel.users[index] as UserModel;
-        //     return Column(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       crossAxisAlignment: CrossAxisAlignment.center,
-        //       children: [
-        //         // ignore: avoid_unnecessary_containers
-        //         Container(
-        //           child: Text(
-        //             userModel.toString(),
-        //             style: TextStyle(fontSize: 100, color: Colors.black),
-        //           ),
-        //         ),
-        //       ],
-        //     );
-        //   },
-        //   separatorBuilder: (context, index) => Divider(),
-        //   itemCount: userViewModel.users.length,
-        // ),
-        body: Stack(
-          children: [
-            showAnimatedContainer
-                ? Center(
-                    child: MyAnimatedContainer(),
-                  )
-                : SafeArea(
-                    child: Column(
-                      children: [
-                        // SkipButton(),
-                        Expanded(
-                          child: PageView.builder(
-                              controller: _controller,
-                              itemCount: _list.length,
-                              itemBuilder: (context, index) => MainContent(
-                                    list: _list,
-                                    index: index,
-                                  )),
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical! * 15,
-                        ),
-                        StepsContainer(
-                          page: page,
-                          list: _list,
-                          controller: _controller,
-                          showAnimatedContainerCallBack: (value) {
-                            setState(() {
-                              showAnimatedContainer = value;
-                              if (value) {
-                                Future.delayed(Duration(seconds: 1), () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LoginScreen()));
-                                });
-                              }
-                            });
-                          },
-                        ),
-                        SizedBox(
-                          height: SizeConfig.defaultSize! * 4,
+        body: showUi
+            ? Stack(
+                children: [
+                  showAnimatedContainer
+                      ? Center(
+                          child: MyAnimatedContainer(),
                         )
-                      ],
-                    ),
-                  ),
-          ],
-        ));
+                      : SafeArea(
+                          child: Column(
+                            children: [
+                              // ThisButton(),
+                              Expanded(
+                                child: PageView.builder(
+                                    controller: _controller,
+                                    itemCount: _list.length,
+                                    itemBuilder: (context, index) =>
+                                        MainContent(
+                                          contents: content,
+                                          titles: titles,
+                                          images: images,
+                                          index: index,
+                                        )),
+                              ),
+                              SizedBox(
+                                height: SizeConfig.blockSizeVertical! * 15,
+                              ),
+                              StepsContainer(
+                                nextLabel: getText("next_button"),
+                                skipLabel: getText("skip_button"),
+                                page: page,
+                                list: _list,
+                                controller: _controller,
+                                showAnimatedContainerCallBack: (value) {
+                                  setState(() {
+                                    showAnimatedContainer = value;
+                                    if (value) {
+                                      Future.delayed(Duration(seconds: 1), () {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LoginScreen()));
+                                      });
+                                    }
+                                  });
+                                },
+                              ),
+                              SizedBox(
+                                height: SizeConfig.defaultSize! * 4,
+                              )
+                            ],
+                          ),
+                        ),
+                ],
+              )
+            : circleProgress());
   }
 }
 
@@ -157,10 +199,11 @@ class MyAnimatedContainer extends StatelessWidget {
 }
 
 //skip button
-class SkipButton extends StatelessWidget {
-  const SkipButton({
-    Key? key,
-  }) : super(key: key);
+class ThisButton extends StatelessWidget {
+  final double? size;
+  final String? label;
+  const ThisButton({Key? key, required this.label, required this.size})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -171,12 +214,12 @@ class SkipButton extends StatelessWidget {
         children: [
           ElevatedButtonWidget(
             height: SizeConfig.defaultSize! * 3.5,
-            minWidth: width(context) * 0.25,
+            minWidth: width(context) * size,
             bgColor: Colors.white,
             textColor: Colors.grey[900],
             textSize: width(context) * 0.05,
             textStyle: FontWeight.w600,
-            buttonName: "Skip",
+            buttonName: label,
             elevation: 7.0,
             borderRadius: 15.0,
             onClick: () {
@@ -197,6 +240,8 @@ class StepsContainer extends StatelessWidget {
       {Key? key,
       required this.page,
       required List<OnboardingModel> list,
+      required this.skipLabel,
+      required this.nextLabel,
       required PageController controller,
       required this.showAnimatedContainerCallBack})
       : _list = list,
@@ -207,6 +252,8 @@ class StepsContainer extends StatelessWidget {
   final List<OnboardingModel> _list;
   final PageController _controller;
   final Function showAnimatedContainerCallBack;
+  final String skipLabel;
+  final String nextLabel;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -215,34 +262,20 @@ class StepsContainer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SkipButton(),
-          ElevatedButtonWidget(
-            height: SizeConfig.defaultSize! * 3.5,
-            minWidth: width(context) * 0.6,
-            bgColor: Colors.white,
-            textColor: Colors.grey[900],
-            elevation: 7.0,
-            textSize: width(context) * 0.05,
-            textStyle: FontWeight.w600,
-            buttonName: "Next",
-            borderRadius: 15.0,
-            onClick: () {
-              if (page < _list.length && page != _list.length - 1) {
-                _controller.animateToPage(page + 1,
-                    duration: Duration(microseconds: 500),
-                    curve: Curves.easeInCirc);
-                showAnimatedContainerCallBack(false);
-              } else {
-                showAnimatedContainerCallBack(true);
-              }
-            },
+          ThisButton(
+            size: 0.26,
+            label: skipLabel,
           ),
+          ThisButton(
+            size: 0.6,
+            label: nextLabel,
+          )
         ],
       ),
     );
   }
 }
-
+//
 //common widget button
 
 class CommonButtonWidget extends StatelessWidget {
@@ -322,12 +355,17 @@ class CommonText extends StatelessWidget {
 
 class MainContent extends StatelessWidget {
   const MainContent(
-      {Key? key, required List<OnboardingModel> list, required this.index})
-      : _list = list,
-        super(key: key);
+      {Key? key,
+      required this.images,
+      required this.index,
+      required this.titles,
+      required this.contents})
+      : super(key: key);
 
-  final List<OnboardingModel> _list;
+  final List<String> images;
   final int index;
+  final List<String> contents;
+  final List<String> titles;
 
   @override
   Widget build(BuildContext context) {
@@ -340,7 +378,7 @@ class MainContent extends StatelessWidget {
             child: FadeAnimation(
               0.5,
               SvgPicture.asset(
-                _list[index].image!,
+                images[index],
                 height: SizeConfig.defaultSize! * 20,
                 width: SizeConfig.defaultSize! * 20,
               ),
@@ -349,7 +387,9 @@ class MainContent extends StatelessWidget {
           FadeAnimation(
             0.9,
             Text(
-              _list[index].title!,
+              // _list[index].title!,
+              titles[index],
+
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
@@ -362,7 +402,7 @@ class MainContent extends StatelessWidget {
           FadeAnimation(
             1.1,
             Text(
-              _list[index].text!,
+              contents[index],
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.black,
