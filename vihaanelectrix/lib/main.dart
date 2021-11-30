@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/views/login/splash_creen.dart';
-import 'package:vihaanelectrix/views/maps/maps.dart';
 
 // Future<void> backGroundHandler(RemoteMessage message) async {
 //   displayAwesomeNotificationBackground(message);

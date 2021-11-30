@@ -24,6 +24,11 @@ class _TestRideBookingState extends State<TestRideBooking> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // TextWidget(
+                //   // text: pickDate(context),
+                //   size: 20,
+                //   weight: FontWeight.bold,
+                // ),
                 SizedBox(
                   width: width(context) * 0.92,
                   child: TextFieldWidget(

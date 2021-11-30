@@ -45,7 +45,6 @@ class _UserRegistrationState extends State<UserRegistration> {
 
   @override
   void initState() {
-    // TODO: implement initState
     userRegistrationController.phone = widget.phone;
     super.initState();
   }
