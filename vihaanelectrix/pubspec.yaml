@@ -50,7 +50,7 @@ dev_dependencies:
   google_fonts: ^2.1.0
   http: ^0.13.4
   country_code_picker: ^2.0.2
-  mvc_pattern: ^8.1.1
+  mvc_pattern: ^8.2.0
   flutter_svg: ^0.23.0+1
   provider: ^6.0.1
   awesome_notifications: ^0.6.17

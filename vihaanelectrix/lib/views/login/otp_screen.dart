@@ -4,7 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
-import 'package:vihaanelectrix/utilities/shared_preference.dart';
+import 'package:vihaanelectrix/providers/common_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/views/login/user_registration.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 
@@ -17,6 +18,7 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   UserRegistrationController controller = UserRegistrationController();
+  CommonProvider? co;
 
   // final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   String? _verificationCode;
@@ -30,37 +32,12 @@ class _OTPScreenState extends State<OTPScreen> {
     ),
   );
 
-  /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
-  dynamic constants;
-  bool showUi = false;
-
-  getText(String objId) {
-    // log(constants.toString());
-    if (constants == null) return "loading..";
-    int index = constants?.indexWhere(
-        (element) => element['objId'].toString() == objId.toString());
-    // log(index.toString());
-    if (index == -1) return "null";
-    return constants[index]['label'];
-  }
-
-  constantsFunc() async {
-    dynamic allConstants = await getAppConstants();
-    setState(() {
-      showUi = true;
-    });
-    constants = allConstants['otp'];
-    log(constants.toString());
-  }
-
-  /* -------------------------- END OF THE CONSTANTS -------------------------- */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: controller.scaffoldkey,
       appBar: AppBar(
-        title: Text(getText("app_bar_title")),
+        title: Text(co?.getText("app_bar_title")),
       ),
       body: Column(
         children: [
@@ -149,7 +126,8 @@ class _OTPScreenState extends State<OTPScreen> {
   @override
   void initState() {
     super.initState();
-    constantsFunc();
+    co = Provider.of<CommonProvider>(context, listen: false);
+    co?.setCurrentConstants("otp");
     _verifyPhone();
   }
 }

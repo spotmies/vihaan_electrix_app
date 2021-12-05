@@ -31,15 +31,17 @@ constantsAPI() async {
       Map<String, String> body = {"appConfig": "false"};
       Server().editMethod(API.userDetails + currentUser.uid.toString(), body);
     }
+    return appConstants;
   } else {
     log("something went wrong");
+    return null;
   }
 }
 
 signout(BuildContext context) async {
   await FirebaseAuth.instance.signOut().then((action) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
   }).catchError((e) {
     log(e);
   });

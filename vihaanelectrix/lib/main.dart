@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/providers/time_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,6 +22,8 @@ void main() async {
       .then((_) {
     runApp(MultiProvider(providers: [
       ChangeNotifierProvider<TimeProvider>(create: (context) => TimeProvider()),
+      ChangeNotifierProvider<CommonProvider>(
+          create: (context) => CommonProvider()),
       ChangeNotifierProvider<UserDetailsProvider>(
           create: (context) => UserDetailsProvider()),
     ], child: MyApp()));

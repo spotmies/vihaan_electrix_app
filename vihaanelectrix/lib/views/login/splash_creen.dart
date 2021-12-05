@@ -1,16 +1,15 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vihaanelectrix/controllers/login.dart/splash_controller.dart';
-import 'package:vihaanelectrix/repo/api_methods.dart';
-import 'package:vihaanelectrix/repo/api_urls.dart';
-import 'package:vihaanelectrix/views/home/navbar.dart';
-import 'package:vihaanelectrix/views/login/onboarding_screen.dart';
+import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
+import 'package:vihaanelectrix/providers/common_provider.dart';
+
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
+ import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -20,35 +19,16 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends StateMVC<SplashScreen> {
-  SplashController splashCont = SplashController();
+   SplashController splashCont = SplashController();
+   UserRegistrationController userRegCont = UserRegistrationController();
 
-  checkUser() async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      bool resp =
-          await checkUserRegistered(FirebaseAuth.instance.currentUser!.uid);
-      if (resp != false) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (_) => NavigationBar()),
-            (route) => false);
-      } else {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (_) => OnBoardingScreen()),
-            (route) => false);
-      }
-    } else {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => OnBoardingScreen()),
-          (route) => false);
-    }
-  }
+
+
 
   @override
   void initState() {
     super.initState();
-
+    splashCont.co = Provider.of<CommonProvider>(context, listen: false);
     Timer(Duration(seconds: 2), () {
       // print("18 ${FirebaseAuth.instance.currentUser}");
       // checkUser();
@@ -57,8 +37,8 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
   }
 
   delayForSplash() async {
-    await splashCont.getSettings(alwaysHit: false);
-    checkUser();
+    await splashCont.getSettings(context,alwaysHit: true);
+    splashCont.checkUser(context);
   }
 
   @override
@@ -67,6 +47,8 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
     final _width = MediaQuery.of(context).size.width;
+
+    log(userRegCont.dummy);
     return Scaffold(
         key: splashCont.scaffoldkey,
         backgroundColor: Colors.white,
@@ -111,18 +93,4 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
   }
 }
 
-checkUserRegistered(uid) async {
-  dynamic deviceToken = await FirebaseMessaging.instance.getToken();
-  var obj = {
-    "lastLogin": DateTime.now().millisecondsSinceEpoch.toString(),
-    "userDeviceToken": deviceToken?.toString() ?? "",
-  };
-  log(obj.toString());
-  var response = await Server().editMethod(API.updateUser + uid, obj);
-  // print("36 $response");
-  if (response.statusCode == 200 || response.statusCode == 204) {
-    return true;
-  } else {
-    return false;
-  }
-}
+
