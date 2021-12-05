@@ -2,16 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-// ignore: implementation_imports
 import 'package:simple_animations/simple_animations.dart';
 import 'package:vihaanelectrix/models/login/on_board.dart';
-import 'package:vihaanelectrix/utilities/shared_preference.dart';
+import 'package:vihaanelectrix/providers/common_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/views/login/login_screen.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
-import 'package:vihaanelectrix/widgets/progress.dart';
-
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -22,33 +20,16 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final List<OnboardingModel> _list = OnboardingModel.list;
+  CommonProvider? co;
   int page = 0;
   final _controller = PageController();
   bool showAnimatedContainer = false;
 
-  /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
-  dynamic constants;
-  bool showUi = false;
+
   List<String> titles = [];
   List<String> content = [];
   List<String> images = [];
 
-  getText(String objId) {
-    if (constants == null) return "loading..";
-    int index = constants?.indexWhere(
-        (element) => element['objId'].toString() == objId.toString());
-    if (index == -1) return "null";
-    return constants[index]['label'];
-  }
-
-  constantsFunc() async {
-    dynamic allConstants = await getAppConstants();
-    setState(() {
-      showUi = true;
-    });
-    constants = allConstants['onBoard'];
-    getAllconstants();
-  }
 
   getAllconstants() {
     List<String> titleName = [
@@ -78,31 +59,29 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       "screen6_image",
       "screen7_image"
     ];
-    log(constants.toString());
+   
     for (String item in titleName) {
-      titles.add(getText(item));
+      titles.add(co?.getText(item));
     }
     for (String item in contentName) {
-      content.add(getText(item));
+      content.add(co?.getText(item));
     }
     for (String item in imageNames) {
-      images.add(getText(item));
+      images.add(co?.getText(item));
     }
   }
 
-  /* -------------------------- END OF THE CONSTANTS -------------------------- */
   @override
   void initState() {
-    constantsFunc();
-
+    // constantsFunc();
+    co = Provider.of<CommonProvider>(context, listen: false);
+    co?.setCurrentConstants("onBoard");
+    getAllconstants();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // UserViewModel userViewModel = context.watch<UserViewModel>();
-    // UserModel users = userViewModel.user[0];
-
     SizeConfig().init(context);
     _controller.addListener(() {
       setState(() {
@@ -111,8 +90,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     });
     return Scaffold(
         backgroundColor: Colors.white,
-        body: showUi
-            ? Stack(
+        body: Stack(
                 children: [
                   showAnimatedContainer
                       ? Center(
@@ -138,8 +116,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 height: SizeConfig.blockSizeVertical! * 15,
                               ),
                               StepsContainer(
-                                nextLabel: getText("next_button"),
-                                skipLabel: getText("skip_button"),
+                                nextLabel: co?.getText("next_button"),
+                                skipLabel: co?.getText("skip_button"),
                                 page: page,
                                 list: _list,
                                 controller: _controller,
@@ -166,7 +144,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ),
                 ],
               )
-            : circleProgress());
+            );
   }
 }
 

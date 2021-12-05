@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/repo/api_calls.dart';
 import 'package:vihaanelectrix/views/home/user_profile.dart';
@@ -20,10 +21,13 @@ class NavigationDrawerWidget extends StatefulWidget {
 class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   final padding = EdgeInsets.symmetric(horizontal: 20);
   UserDetailsProvider? profileProvider;
+  CommonProvider? co;
 
   @override
   void initState() {
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
+    co = Provider.of<CommonProvider>(context, listen: false);
+    co?.setCurrentConstants("profile");
     super.initState();
   }
 
@@ -55,31 +59,31 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                 child: Column(
                   children: [
                     buildMenuItem(
-                      text: 'My Orders',
+                      text: co?.getText("my_order"),
                       icon: Icons.shopping_basket,
                       onClicked: () => selectedItem(context, 0),
                     ),
                     SizedBox(height: height(context) * 0.02),
                     buildMenuItem(
-                      text: 'Favourites',
+                      text: co?.getText("favorites"),
                       icon: Icons.favorite,
                       onClicked: () => selectedItem(context, 1),
                     ),
                     SizedBox(height: height(context) * 0.02),
                     buildMenuItem(
-                      text: 'Cart',
+                      text: co?.getText("cart"),
                       icon: Icons.shopping_cart,
                       onClicked: () => selectedItem(context, 2),
                     ),
                     SizedBox(height: height(context) * 0.02),
                     buildMenuItem(
-                      text: 'Privacy Policies',
+                      text: co?.getText("privacy_policies"),
                       icon: Icons.security,
                       onClicked: () => selectedItem(context, 3),
                     ),
                     SizedBox(height: height(context) * 0.02),
                     buildMenuItem(
-                      text: 'Help',
+                      text: co?.getText("help"),
                       icon: Icons.help,
                       onClicked: () => selectedItem(context, 4),
                     ),
@@ -87,13 +91,13 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     Divider(color: Colors.white70),
                     SizedBox(height: height(context) * 0.035),
                     buildMenuItem(
-                      text: 'Edit Profile',
+                      text: co?.getText("edit_profile"),
                       icon: Icons.edit,
                       onClicked: () => selectedItem(context, 5),
                     ),
                     SizedBox(height: height(context) * 0.02),
                     buildMenuItem(
-                      text: 'Sign out',
+                      text: co?.getText("sign_out"),
                       icon: Icons.logout,
                       onClicked: () => selectedItem(context, 6),
                     ),

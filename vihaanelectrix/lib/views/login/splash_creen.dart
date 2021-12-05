@@ -1,15 +1,11 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vihaanelectrix/controllers/login.dart/splash_controller.dart';
 import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
-import 'package:vihaanelectrix/repo/api_methods.dart';
-import 'package:vihaanelectrix/repo/api_urls.dart';
-import 'package:vihaanelectrix/views/home/navbar.dart';
-import 'package:vihaanelectrix/views/login/onboarding_screen.dart';
+
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
@@ -41,7 +37,7 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
   }
 
   delayForSplash() async {
-    await splashCont.getSettings(context,alwaysHit: false);
+    await splashCont.getSettings(context,alwaysHit: true);
     splashCont.checkUser(context);
   }
 

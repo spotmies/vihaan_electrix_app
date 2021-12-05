@@ -2,14 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
-import 'package:vihaanelectrix/utilities/shared_preference.dart';
+import 'package:vihaanelectrix/providers/common_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/views/home/navbar.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 
 class UserRegistration extends StatefulWidget {
-    final String phone;
-  const UserRegistration(this.phone,{Key? key}) : super(key: key);
+  final String phone;
+  const UserRegistration(this.phone, {Key? key}) : super(key: key);
 
   @override
   _UserRegistrationState createState() => _UserRegistrationState();
@@ -18,34 +19,13 @@ class UserRegistration extends StatefulWidget {
 class _UserRegistrationState extends State<UserRegistration> {
   UserRegistrationController userRegistrationController =
       UserRegistrationController();
-
-  /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
-  dynamic constants;
-  bool showUi = false;
-
-  getText(String objId) {
-    // log(constants.toString());
-    if (constants == null) return "loading..";
-    int index = constants?.indexWhere(
-        (element) => element['objId'].toString() == objId.toString());
-    // log(index.toString());
-    if (index == -1) return "null";
-    return constants[index]['label'];
-  }
-
-  constantsFunc() async {
-    dynamic allConstants = await getAppConstants();
-    setState(() {
-      showUi = true;
-    });
-    constants = allConstants['signup'];
-  }
-
-  /* -------------------------- END OF THE CONSTANTS -------------------------- */
+  CommonProvider? co;
 
   @override
   void initState() {
     userRegistrationController.phone = widget.phone;
+    co = Provider.of<CommonProvider>(context, listen: false);
+    co?.setCurrentConstants("signup");
     super.initState();
   }
 
@@ -55,7 +35,7 @@ class _UserRegistrationState extends State<UserRegistration> {
     return Scaffold(
       body: Column(
         children: [
-          userRegistration(context, userRegistrationController),
+          userRegistration(context, userRegistrationController,co!),
           Container(
             margin: EdgeInsets.all(10),
             width: double.infinity,
@@ -71,7 +51,7 @@ class _UserRegistrationState extends State<UserRegistration> {
               },
               height: height(context) * 0.057,
               minWidth: width(context) * 0.8,
-              buttonName: 'Next',
+              buttonName: co?.getText("button_label"),
               bgColor: Colors.indigo[900],
               textSize: width(context) * 0.05,
               borderRadius: 10.0,
@@ -85,7 +65,7 @@ class _UserRegistrationState extends State<UserRegistration> {
 }
 
 Widget userRegistration(BuildContext context,
-    UserRegistrationController userRegistrationController) {
+    UserRegistrationController userRegistrationController,CommonProvider? co) {
   return Column(
     children: [
       SizedBox(
@@ -154,7 +134,7 @@ Widget userRegistration(BuildContext context,
                           },
                           // icon: Icon(Icons.select_all),
                           child: Text(
-                            'Choose Image',
+                            co?.getText("choose_image"),
                             style: TextStyle(fontSize: 18, color: Colors.grey),
                           )),
                     ),
@@ -177,17 +157,17 @@ Widget userRegistration(BuildContext context,
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       borderSide: BorderSide(width: 1, color: Colors.white)),
                   hintStyle: TextStyle(fontSize: 17, color: Colors.grey),
-                  hintText: 'Name',
+                  hintText: co?.getText("name_hint"),
                   suffixIcon: Icon(Icons.person),
                   //border: InputBorder.none,
                   contentPadding: EdgeInsets.all(20),
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Please Enter Your Name';
+                    return co?.getText("empty_name_error");
                   }
                   if (value.length < 5) {
-                    return 'name should be greater than 4 letters';
+                    return co?.getText("name_length_error");
                   }
                   return null;
                 },
@@ -202,12 +182,3 @@ Widget userRegistration(BuildContext context,
     ],
   );
 }
-
-// Widget profilePic(BuildContext context,
-//     UserRegistrationController userRegistrationController) {
-//   return Column(
-//     children: [
-      
-//     ],
-//   );
-// }

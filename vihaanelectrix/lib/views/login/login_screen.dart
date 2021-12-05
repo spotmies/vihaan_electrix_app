@@ -3,12 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
-import 'package:vihaanelectrix/utilities/shared_preference.dart';
 import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/views/login/otp_screen.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
-import 'package:vihaanelectrix/widgets/progress.dart';
+
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 
@@ -21,32 +20,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController controller = TextEditingController();
-  var formkey = GlobalKey<FormState>();
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
   CommonProvider? co;
 
-  /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
-  // dynamic constants;
-  // bool showUi = false;
 
-  // getText(String objId) {
-  //   log(constants.toString());
-  //   if (constants == null) return "loading..";
-  //   int index = constants?.indexWhere(
-  //       (element) => element['objId'].toString() == objId.toString());
-  //   log(index.toString());
-  //   if (index == -1) return "null";
-  //   return constants[index]['label'];
-  // }
-
-  // constantsFunc() async {
-  //   dynamic allConstants = await getAppConstants();
-  //   setState(() {
-  //     showUi = true;
-  //   });
-  //   constants = allConstants['login'];
-  // }
-
-  /* -------------------------- END OF THE CONSTANTS -------------------------- */
 
   @override
   initState() {
