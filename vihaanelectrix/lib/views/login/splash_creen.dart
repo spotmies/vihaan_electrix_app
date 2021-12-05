@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:vihaanelectrix/controllers/login.dart/splash_controller.dart';
+import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/repo/api_methods.dart';
 import 'package:vihaanelectrix/repo/api_urls.dart';
@@ -23,12 +24,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends StateMVC<SplashScreen> {
    SplashController splashCont = SplashController();
-  // _SplashScreenState():super(SplashController()){
-//     splashCont = SplashController.con;
-//   }
-//  late SplashController splashCont;
+   UserRegistrationController userRegCont = UserRegistrationController();
 
-  // CommonProvider? co;
 
   checkUser() async {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -75,6 +72,8 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
         MediaQuery.of(context).padding.top -
         kToolbarHeight;
     final _width = MediaQuery.of(context).size.width;
+
+    log(userRegCont.dummy);
     return Scaffold(
         key: splashCont.scaffoldkey,
         backgroundColor: Colors.white,

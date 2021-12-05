@@ -5,12 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/repo/api_calls.dart';
-import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 
 class SplashController extends ControllerMVC {
-  // BuildContext? context;
   CommonProvider? co;
   GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
 
