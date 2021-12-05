@@ -126,7 +126,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: width(context) * 0.45,
+                    width: width(context) * 0.3,
                     child: TextWidget(
                         text: name.toUpperCase(),
                         size: width(context) * 0.05,
