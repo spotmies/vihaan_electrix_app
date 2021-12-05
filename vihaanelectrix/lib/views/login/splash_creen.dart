@@ -22,13 +22,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends StateMVC<SplashScreen> {
-   //SplashController splashCont = SplashController();
-  _SplashScreenState():super(SplashController()){
-    splashCont = SplashController.con;
-  }
- late SplashController splashCont;
+   SplashController splashCont = SplashController();
+  // _SplashScreenState():super(SplashController()){
+//     splashCont = SplashController.con;
+//   }
+//  late SplashController splashCont;
 
-  CommonProvider? co;
+  // CommonProvider? co;
 
   checkUser() async {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -56,7 +56,7 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    co = Provider.of<CommonProvider>(context, listen: false);
+    splashCont.co = Provider.of<CommonProvider>(context, listen: false);
     Timer(Duration(seconds: 2), () {
       // print("18 ${FirebaseAuth.instance.currentUser}");
       // checkUser();
@@ -65,7 +65,7 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
   }
 
   delayForSplash() async {
-    await splashCont.getSettings(context,alwaysHit: false,co: co);
+    await splashCont.getSettings(context,alwaysHit: false,co: splashCont.co);
     checkUser();
   }
 

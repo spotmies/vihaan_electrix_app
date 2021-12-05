@@ -10,17 +10,17 @@ import 'package:vihaanelectrix/utilities/shared_preference.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 
 class SplashController extends ControllerMVC {
-  BuildContext context;
+  // BuildContext? context;
   CommonProvider? co;
   GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
 
-  @override
-  void initState() {
-    log("======== splash controller init ==========");
-    co = Provider.of<CommonProvider>(context, listen: false);
+  // @override
+  // void initState() {
+  //   log("======== splash controller init ==========");
+  //   co = Provider.of<CommonProvider>(context!, listen: false);
 
-    super.initState();
-  }
+  //   super.initState();
+  // }
 
   @override
   void didChangeDependencies() {}
