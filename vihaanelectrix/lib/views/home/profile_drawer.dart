@@ -120,18 +120,19 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
           child: Row(
             children: [
               ImageWid(profile: urlImage, name: name),
-              // CircleAvatar(
-              //     radius: width(context) * 0.06,
-              //     backgroundImage: NetworkImage(urlImage)),
+
               SizedBox(width: width(context) * 0.08),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextWidget(
-                      text: name.toUpperCase(),
-                      size: width(context) * 0.05,
-                      weight: FontWeight.w600,
-                      color: Colors.white),
+                  SizedBox(
+                    width: width(context) * 0.45,
+                    child: TextWidget(
+                        text: name.toUpperCase(),
+                        size: width(context) * 0.05,
+                        weight: FontWeight.w600,
+                        color: Colors.white),
+                  ),
                   SizedBox(height: height(context) * 0.01),
                   TextWidget(
                       text: mobile,
