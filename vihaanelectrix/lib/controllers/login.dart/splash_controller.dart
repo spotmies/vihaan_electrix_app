@@ -3,20 +3,45 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/repo/api_calls.dart';
-
+import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
+import 'package:vihaanelectrix/widgets/snackbar.dart';
 
 class SplashController extends ControllerMVC {
-  var scaffoldkey = GlobalKey<ScaffoldState>();
+  BuildContext context;
+  CommonProvider? co;
+  GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
 
-  getSettings({bool alwaysHit = false}) async {
-    if (await getAppConstants() != null && alwaysHit == false) {
-      log("constants already in sf");
-      return;
+  @override
+  void initState() {
+    log("======== splash controller init ==========");
+    co = Provider.of<CommonProvider>(context, listen: false);
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {}
+  static SplashController get con => SplashController();
+
+  getSettings(context, {bool alwaysHit = false, dynamic co}) async {
+    if (alwaysHit == false) {
+      dynamic constantsFromSf = await getAppConstants();
+      if (constantsFromSf != null) {
+        co?.setAllConstants(constantsFromSf);
+
+        log("constants already in sf 27 ");
+        return;
+      }
     }
 
-    await constantsAPI();
+    dynamic appConstants = await constantsAPI();
+    if (appConstants != null) {
+      co?.setAllConstants(appConstants);
+      snackbar(context, "New setting imported");
+    }
     return;
   }
 }

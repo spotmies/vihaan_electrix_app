@@ -31,8 +31,10 @@ constantsAPI() async {
       Map<String, String> body = {"appConfig": "false"};
       Server().editMethod(API.userDetails + currentUser.uid.toString(), body);
     }
+    return appConstants;
   } else {
     log("something went wrong");
+    return null;
   }
 }
 

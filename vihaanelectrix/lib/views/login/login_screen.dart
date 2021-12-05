@@ -2,8 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
-
+import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/views/login/otp_screen.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
@@ -21,34 +22,37 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController controller = TextEditingController();
   var formkey = GlobalKey<FormState>();
+  CommonProvider? co;
 
   /* -------------------------- THIS IS FOR CONSTATNS ------------------------- */
-  dynamic constants;
-  bool showUi = false;
+  // dynamic constants;
+  // bool showUi = false;
 
-  getText(String objId) {
-    log(constants.toString());
-    if (constants == null) return "loading..";
-    int index = constants?.indexWhere(
-        (element) => element['objId'].toString() == objId.toString());
-    log(index.toString());
-    if (index == -1) return "null";
-    return constants[index]['label'];
-  }
+  // getText(String objId) {
+  //   log(constants.toString());
+  //   if (constants == null) return "loading..";
+  //   int index = constants?.indexWhere(
+  //       (element) => element['objId'].toString() == objId.toString());
+  //   log(index.toString());
+  //   if (index == -1) return "null";
+  //   return constants[index]['label'];
+  // }
 
-  constantsFunc() async {
-    dynamic allConstants = await getAppConstants();
-    setState(() {
-      showUi = true;
-    });
-    constants = allConstants['login'];
-  }
+  // constantsFunc() async {
+  //   dynamic allConstants = await getAppConstants();
+  //   setState(() {
+  //     showUi = true;
+  //   });
+  //   constants = allConstants['login'];
+  // }
 
   /* -------------------------- END OF THE CONSTANTS -------------------------- */
 
   @override
   initState() {
-    constantsFunc();
+    co = Provider.of<CommonProvider>(context, listen: false);
+    co?.setCurrentConstants("login");
+    // constantsFunc();
     super.initState();
   }
 
@@ -56,8 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: showUi
-          ? Column(
+      body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(children: [
@@ -74,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     margin: EdgeInsets.only(top: 60),
                     child: Center(
                       child: Text(
-                        getText("number_heading"),
+                        co?.getText("number_heading"),
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 28),
                       ),
@@ -203,7 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     height: height(context) * 0.057,
                     minWidth: width(context) * 0.8,
-                    buttonName: getText("button_label"),
+                    buttonName: co?.getText("button_label"),
                     bgColor: Colors.indigo[900],
                     textSize: width(context) * 0.05,
                     borderRadius: 10.0,
@@ -212,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 )
               ],
             )
-          : circleProgress(),
+         
     );
   }
 }
