@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/time_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,6 +24,8 @@ void main() async {
       ChangeNotifierProvider<TimeProvider>(create: (context) => TimeProvider()),
       ChangeNotifierProvider<UserDetailsProvider>(
           create: (context) => UserDetailsProvider()),
+      ChangeNotifierProvider<ProductDetailsProvider>(
+          create: (context) => ProductDetailsProvider()),
     ], child: MyApp()));
   });
 }

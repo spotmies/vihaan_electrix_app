@@ -18,6 +18,15 @@ getUserDetailsFromDB() async {
   return null;
 }
 
+getProductDetailsFromDB() async {
+  dynamic response = await Server().getMethod(API.allProducts);
+  if (response.statusCode == 200) {
+    dynamic product = jsonDecode(response.body);
+    return product;
+  }
+  return null;
+}
+
 constantsAPI() async {
   dynamic response = await Server().getMethod(API.appSettings);
   if (response.statusCode == 200) {

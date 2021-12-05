@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
 
-class UserDetailsProvider extends ChangeNotifier {
-  dynamic user;
+class ProductDetailsProvider extends ChangeNotifier {
+  dynamic product;
   bool loader = true;
   bool uploadLocader = true;
 
@@ -13,13 +12,12 @@ class UserDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setUser(uDetails) {
-    user = uDetails;
+  void setProduct(products) {
+    product = products;
     loader = false;
     notifyListeners();
-    saveUserDetails(uDetails);
+    saveProducts(products);
   }
 
-  dynamic get getUser => user;
-
+  dynamic get getProduct => product;
 }

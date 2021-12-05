@@ -244,13 +244,13 @@ class StepsContainer extends StatelessWidget {
       required this.nextLabel,
       required PageController controller,
       required this.showAnimatedContainerCallBack})
-      : _list = list,
-        _controller = controller,
+      : lists = list,
+        controllers = controller,
         super(key: key);
 
   final int page;
-  final List<OnboardingModel> _list;
-  final PageController _controller;
+  final List<OnboardingModel> lists;
+  final PageController controllers;
   final Function showAnimatedContainerCallBack;
   final String skipLabel;
   final String nextLabel;

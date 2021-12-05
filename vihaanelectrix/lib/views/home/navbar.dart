@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
+import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/repo/api_calls.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
@@ -48,6 +49,7 @@ class _NavigationBarState extends State<NavigationBar> {
   ];
 
   UserDetailsProvider? profileProvider;
+  ProductDetailsProvider? productDetailsProvider;
 
   recieveData() async {
     dynamic user = await getMyuserDetails();
@@ -57,14 +59,19 @@ class _NavigationBarState extends State<NavigationBar> {
 
   hitAPIS() async {
     dynamic user = await getUserDetailsFromDB();
+    dynamic products = await getProductDetailsFromDB();
 
-    if (user != null) {
+    if (user != null && products != null) {
       profileProvider!.setUser(user);
+      productDetailsProvider!.setProduct(products);
       log(user.toString());
+      log(products.toString());
       if (user['appConfig'] == "true") {
         log("fetching new constatns from DB");
         constantsAPI();
       }
+    } else {
+      log("failed to fetch data from DB");
     }
   }
 
@@ -74,6 +81,8 @@ class _NavigationBarState extends State<NavigationBar> {
     hitAPIS();
 
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
+    productDetailsProvider =
+        Provider.of<ProductDetailsProvider>(context, listen: false);
 
     super.initState();
   }

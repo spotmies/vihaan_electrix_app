@@ -1,11 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/controllers/venroute/testride.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
+import 'package:vihaanelectrix/widgets/date_time_picker.dart';
+import 'package:vihaanelectrix/widgets/elevated_widget.dart';
+import 'package:vihaanelectrix/widgets/geo_position.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:vihaanelectrix/widgets/textfield_widget.dart';
 
 class TestRideBooking extends StatefulWidget {
-  const TestRideBooking({Key? key}) : super(key: key);
+  final String? productId;
+  final String? userDetails;
+  const TestRideBooking({Key? key, this.productId, this.userDetails})
+      : super(key: key);
 
   @override
   _TestRideBookingState createState() => _TestRideBookingState();
@@ -16,6 +24,10 @@ TestRideController testRideControl = TestRideController();
 class _TestRideBookingState extends State<TestRideBooking> {
   @override
   Widget build(BuildContext context) {
+    log(widget.userDetails.toString());
+    log(widget.productId.toString());
+
+    // testRideControl.postion = getGeoLocationPosition();
     return Scaffold(
         body: SizedBox(
             height: height(context),
@@ -24,11 +36,35 @@ class _TestRideBookingState extends State<TestRideBooking> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // TextWidget(
-                //   // text: pickDate(context),
-                //   size: 20,
-                //   weight: FontWeight.bold,
-                // ),
+                InkWell(
+                  onTap: () async {
+                    testRideControl.pickedDate = await pickDate(context);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: height(context) * 0.1,
+                    width: width(context) * 0.92,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Text(
+                      testRideControl.pickedDate == null
+                          ? 'Select Date'
+                          : testRideControl.pickedDate!.day.toString() +
+                              '/' +
+                              testRideControl.pickedDate!.month.toString() +
+                              '/' +
+                              testRideControl.pickedDate!.day.toString(),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: height(context) * 0.02,
+                ),
                 SizedBox(
                   width: width(context) * 0.92,
                   child: TextFieldWidget(
@@ -48,6 +84,29 @@ class _TestRideBookingState extends State<TestRideBooking> {
                     focusErrorRadius: 15.0,
                     controller: testRideControl.aadharController,
                   ),
+                ),
+                SizedBox(
+                  height: height(context) * 0.02,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    timeSlotChips(context, '9:00 AM-12:00 PM', testRideControl,
+                        onTap: () {
+                      testRideControl.selectedTime = 1;
+                      log(testRideControl.selectedTime.toString());
+                    }),
+                    timeSlotChips(context, '12:00 PM-3:00 PM', testRideControl,
+                        onTap: () {
+                      testRideControl.selectedTime = 2;
+                      log(testRideControl.selectedTime.toString());
+                    }),
+                    timeSlotChips(context, '3:00 PM-6:00 PM', testRideControl,
+                        onTap: () {
+                      testRideControl.selectedTime = 3;
+                      log(testRideControl.selectedTime.toString());
+                    })
+                  ],
                 ),
                 SizedBox(
                   height: height(context) * 0.02,
@@ -97,7 +156,41 @@ class _TestRideBookingState extends State<TestRideBooking> {
                                   fit: BoxFit.cover)),
                         ),
                       ),
+                Text(''),
+                ElevatedButtonWidget(
+                  buttonName: 'Book Ride',
+                  height: height(context) * 0.06,
+                  minWidth: width(context) * 0.92,
+                  onClick: () {
+                    log(widget.userDetails.toString() +
+                        widget.productId.toString());
+                    testRideControl.submit(
+                        widget.userDetails, widget.productId, context);
+                  },
+                )
               ],
             )));
   }
+}
+
+timeSlotChips(
+    BuildContext context, String timeSlot, TestRideController testRideControl,
+    {Function? onTap}) {
+  return InkWell(
+    onTap: () {
+      onTap!();
+    },
+    child: Container(
+      height: height(context) * 0.05,
+      width: width(context) * 0.3,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.0), color: Colors.indigo[900]),
+      child: TextWidget(
+        text: timeSlot,
+        color: Colors.white,
+        size: width(context) * 0.03,
+      ),
+    ),
+  );
 }
