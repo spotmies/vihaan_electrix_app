@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vihaanelectrix/providers/location_provider.dart';
 import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/time_provider.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,8 @@ void main() async {
           create: (context) => UserDetailsProvider()),
       ChangeNotifierProvider<ProductDetailsProvider>(
           create: (context) => ProductDetailsProvider()),
+      ChangeNotifierProvider<LocationProvider>(
+          create: (context) => LocationProvider()),
     ], child: MyApp()));
   });
 }

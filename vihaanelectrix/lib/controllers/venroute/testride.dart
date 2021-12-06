@@ -9,9 +9,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:vihaanelectrix/repo/api_methods.dart';
 import 'package:vihaanelectrix/repo/api_urls.dart';
+import 'package:vihaanelectrix/widgets/geo_position.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 import 'package:geolocator/geolocator.dart';
-
+import 'package:geocoding/geocoding.dart';
 
 class TestRideController extends ControllerMVC {
   TextEditingController aadharController = TextEditingController();
@@ -19,8 +20,18 @@ class TestRideController extends ControllerMVC {
   File? idProofFile;
   DateTime? pickedDate;
   int? selectedTime;
-  Position? postion;
-  // String? vehicleDetails;
+  Position? position;
+  String? address;
+
+  Future getAddressFromLatLong(geoLoc) async {
+    position = await geoLoc != null ? geoLoc : getGeoLocationPosition();
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position!.latitude, position!.longitude);
+    // log(placemarks.toString());
+    Placemark place = placemarks[0];
+    address =
+        '${place.street},  ${place.subLocality}, ${place.locality},${place.administrativeArea}, ${place.postalCode}, ${place.country}';
+  }
 
   Future<void> aadharFile() async {
     try {
@@ -60,6 +71,8 @@ class TestRideController extends ControllerMVC {
       "vehicleDetails": vehicleDetails.toString(),
       "schedule": pickedDate!.millisecondsSinceEpoch.toString(),
       "timeSolt": selectedTime.toString(),
+      "bookingLocation.0": position!.latitude.toString(),
+      "bookingLocation.1": position!.longitude.toString(),
     };
 
     log(body.toString());

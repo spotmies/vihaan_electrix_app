@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'dart:developer';
+
 addressExtractor(address) {
   Map<String, String> val = {
     "subLocality": "${address.subLocality}",
@@ -14,5 +16,6 @@ addressExtractor(address) {
     "featureName": "${address.featureName}",
     "thoroughfare": "${address.thoroughfare}",
   };
+  log(val.toString());
   return val;
 }

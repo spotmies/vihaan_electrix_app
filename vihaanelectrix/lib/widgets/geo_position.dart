@@ -37,10 +37,12 @@ Future<Position> getGeoLocationPosition() async {
       desiredAccuracy: LocationAccuracy.high);
 }
 
-Future getAddressFromLatLong(Position position) async {
+Future getAddressFromLatLong(Position? position) async {
   List<Placemark> placemarks =
-      await placemarkFromCoordinates(position.latitude, position.longitude);
+      await placemarkFromCoordinates(position!.latitude, position.longitude);
   log(placemarks.toString());
   Placemark place = placemarks[0];
-  return place;
+  var address =
+      '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+  return address;
 }
