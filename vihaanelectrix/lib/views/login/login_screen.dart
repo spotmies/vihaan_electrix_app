@@ -1,9 +1,12 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vihaanelectrix/controllers/login.dart/login_control.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:vihaanelectrix/views/login/login_utils.dart';
 import 'package:vihaanelectrix/views/login/otp_screen.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
@@ -19,180 +22,180 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController controller = TextEditingController();
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  LoginPageController loginPageController = LoginPageController();
   CommonProvider? co;
-
-
 
   @override
   initState() {
     co = Provider.of<CommonProvider>(context, listen: false);
-    co?.setCurrentConstants("login");
-    // constantsFunc();
+    co!.setCurrentConstants("login");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        key: loginPageController.scaffoldkey,
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
+        body: Column(
+          children: [
+            loginHeader(context),
+            Stack(
               children: [
-                Column(children: [
-                  // SizedBox(
-                  //   height: height(context) * 0.3,
-                  //   width: width(context) * 0.7,
-                  //   child: Image.asset(
-                  //     'assets/login_top.png',
-                  //     height: MediaQuery.of(context).size.height * 0.35,
-                  //     width: MediaQuery.of(context).size.width * 0.8,
-                  //   ),
-                  // ),
-                  Container(
-                    margin: EdgeInsets.only(top: 60),
-                    child: Center(
-                      child: Text(
-                        co?.getText("number_heading"),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 28),
+                loginBackgroundTemp(context),
+                Positioned(
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/pngs/login_image.png',
+                        height: height(context) * 0.35,
+                        width: width(context),
                       ),
-                    ),
-                  ),
-                  // Container(
-                  //   margin: EdgeInsets.only(top: 40, right: 10, left: 10),
-                  //   child: TextField(
-                  //     decoration: InputDecoration(
-                  //       hintText: 'Phone Number',
-                  //       prefix: Padding(
-                  //         padding: EdgeInsets.all(4),
-                  //         child: Text('+1'),
-                  //       ),
-                  //     ),
-                  //     maxLength: 10,
-                  //     keyboardType: TextInputType.number,
-                  //     controller: controller,
-                  //   ),
-                  // ),
-                  Form(
-                    key: formkey,
-                    child: Container(
-                      padding: EdgeInsets.all(4),
-                      constraints: BoxConstraints(
-                          minHeight: height(context) * 0.08,
-                          maxHeight: height(context) * 0.10),
-                      margin: EdgeInsets.only(top: 0, right: 5, left: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[50],
-                        borderRadius: BorderRadius.circular(15),
+                      SizedBox(
+                        height: height(context) * 0.06,
                       ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: width(context) * 0.2,
-                            child: CountryCodePicker(
-                              // flagWidth: width(context) * 0.04,
-                              dialogSize: Size.fromWidth(width(context) * 0.8),
-                              showFlagDialog: true,
-                              showFlag: false,
-                              initialSelection: "IN",
-                              favorite: const ["IN"],
-                              onChanged: (item) {
-                                log(item.name.toString());
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 0, right: 0, left: 0),
-                            width: width(context) * 0.75,
-                            decoration: BoxDecoration(
+                      Form(
+                        key: loginPageController.formkey,
+                        child: Container(
+                          // padding: EdgeInsets.all(4),
+                          constraints: BoxConstraints(
+                              minHeight: height(context) * 0.08,
+                              maxHeight: height(context) * 0.10,
+                              maxWidth: width(context) * 0.9,
+                              minWidth: width(context) * 0.8),
+                          // margin: EdgeInsets.only(top: 0, right: 5, left: 5),
+                          decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: TextFormField(
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'[0-9]')),
-                              ],
-                              // onSaved: (item) => _loginPageController.loginModel.loginnum,
-                              style: fonts(width(context) * 0.045,
-                                  FontWeight.w600, Colors.grey[900]),
-
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
-                                    borderRadius: BorderRadius.circular(15)),
-                                // contentPadding: EdgeInsets.all(width(context) * 0.05),
-                                contentPadding: EdgeInsets.only(
-                                    left: width(context) * 0.05,
-                                    right: width(context) * 0.05,
-                                    top: width(context) * 0.01,
-                                    bottom: width(context) * 0.01),
-                                suffixIcon: Icon(
-                                  Icons.phone_android,
-                                  color: Colors.indigo[900],
+                              borderRadius: BorderRadius.circular(30),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey[200]!,
+                                    blurRadius: 5.0,
+                                    spreadRadius: 2.0)
+                              ]),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: width(context) * 0.17,
+                                child: CountryCodePicker(
+                                  dialogSize:
+                                      Size.fromWidth(width(context) * 0.8),
+                                  showFlagDialog: true,
+                                  showFlag: false,
+                                  initialSelection: "IN",
+                                  favorite: const ["IN"],
+                                  onChanged: (item) {
+                                    log(item.name.toString());
+                                  },
                                 ),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                    borderSide: BorderSide(
-                                        width: 1, color: Colors.white)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                    borderSide: BorderSide(
-                                        width: 1, color: Colors.white)),
-                                hintStyle: fonts(width(context) * 0.045,
-                                    FontWeight.w600, Colors.grey[400]),
-                                hintText: 'Phone number',
                               ),
-                              validator: (value) {
-                                if (value!.length != 10) {
-                                  return 'Please Enter Valid Mobile Number';
-                                }
-                                return null;
-                              },
-                              maxLength: 10,
-                              keyboardAppearance: Brightness.dark,
-                              // buildCounter: (BuildContext context,
-                              //         {int currentLength,
-                              //         int maxLength,
-                              //         bool isFocused}) =>
-                              //     null,
-                              keyboardType: TextInputType.number,
-                              controller: controller,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ]),
-                Container(
-                  margin: EdgeInsets.all(10),
-                  width: double.infinity,
-                  child: ElevatedButtonWidget(
-                    onClick: () {
-                      if (formkey.currentState!.validate()) {
-                        formkey.currentState!.save();
+                              Container(
+                                width: width(context) * 0.7,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: TextFormField(
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]')),
+                                  ],
+                                  // onSaved: (item) => _loginPageController.loginModel.loginnum,
+                                  style: fonts(width(context) * 0.045,
+                                      FontWeight.w600, Colors.grey[900]),
+                                  textAlign: TextAlign.justify,
+                                  decoration: InputDecoration(
+                                    // contentPadding: EdgeInsets.only(top: 30.0),
 
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => OTPScreen(controller.text)));
-                      }
-                    },
-                    height: height(context) * 0.057,
-                    minWidth: width(context) * 0.8,
-                    buttonName: co?.getText("button_label"),
-                    bgColor: Colors.indigo[900],
-                    textSize: width(context) * 0.05,
-                    borderRadius: 10.0,
-                    textColor: Colors.white,
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    suffixIcon: Icon(
+                                      Icons.phone_android,
+                                      color: Colors.indigo[900],
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15)),
+                                        borderSide: BorderSide(
+                                            width: 1, color: Colors.white)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15)),
+                                        borderSide: BorderSide(
+                                            width: 1, color: Colors.white)),
+                                    hintStyle: fonts(width(context) * 0.045,
+                                        FontWeight.w600, Colors.grey[400]),
+                                    hintText: 'Phone number',
+                                  ),
+                                  validator: (value) {
+                                    if (value!.length != 10) {
+                                      return 'Please Enter Valid Mobile Number';
+                                    }
+                                    return null;
+                                  },
+                                  maxLength: 10,
+                                  keyboardAppearance: Brightness.dark,
+                                  buildCounter: (BuildContext context,
+                                          {int? currentLength,
+                                          int? maxLength,
+                                          bool? isFocused}) =>
+                                      null,
+                                  keyboardType: TextInputType.number,
+                                  controller: loginPageController.controller,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: height(context) * 0.06,
+                      ),
+                      TextWidget(
+                          text: 'VE CARE FOR EV',
+                          size: width(context) * 0.07,
+                          color: Colors.grey[900],
+                          weight: FontWeight.bold),
+                      SizedBox(
+                        height: height(context) * 0.09,
+                      ),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: width(context) * 0.05),
+                        child: ElevatedButtonWidget(
+                          onClick: () {
+                            if (loginPageController.formkey.currentState!
+                                .validate()) {
+                              loginPageController.formkey.currentState!.save();
+                              log(loginPageController.controller.text);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => OTPScreen(
+                                      loginPageController.controller.text)));
+                            }
+                          },
+                          height: height(context) * 0.057,
+                          minWidth: width(context) * 0.3,
+                          buttonName: co?.getText("button_label"),
+                          trailingIcon: Icon(
+                            Icons.arrow_forward,
+                            size: width(context) * 0.05,
+                          ),
+                          bgColor: Colors.indigo[900],
+                          textSize: width(context) * 0.05,
+                          borderRadius: 20.0,
+                          textColor: Colors.white,
+                        ),
+                      )
+                    ],
                   ),
-                )
+                ),
               ],
             )
-         
-    );
+          ],
+        ));
   }
 }

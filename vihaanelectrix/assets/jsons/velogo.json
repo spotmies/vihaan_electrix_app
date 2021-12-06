@@ -1,0 +1,142 @@
+[{
+  "version": "1.0",
+  "image": {
+    "name": "/home/videosdownloader/public_html/image/public/uploadt/velogo.png",
+    "baseName": "velogo.png",
+    "format": "PNG",
+    "formatDescription": "PNG",
+    "mimeType": "image/png",
+    "class": "DirectClass",
+    "geometry": {
+      "width": 2104,
+      "height": 2122,
+      "x": 0,
+      "y": 0
+    },
+    "units": "Undefined",
+    "type": "TrueColorAlpha",
+    "baseType": "Undefined",
+    "endianness": "Undefined",
+    "colorspace": "sRGB",
+    "depth": 8,
+    "baseDepth": 8,
+    "channelDepth": {
+      "alpha": 8,
+      "red": 8,
+      "green": 8,
+      "blue": 8
+    },
+    "pixels": 17858752,
+    "imageStatistics": {
+      "Overall": {
+        "min": 0,
+        "max": 255,
+        "mean": 164.705,
+        "median": 0,
+        "standardDeviation": 26355.9,
+        "kurtosis": -1.57676,
+        "skewness": -0.582091,
+        "entropy": 0.309802
+      }
+    },
+    "channelStatistics": {
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "mean": 78.7152,
+        "median": 0,
+        "standardDeviation": 30201.4,
+        "kurtosis": -1.31025,
+        "skewness": 0.827774,
+        "entropy": 0.131536
+      },
+      "red": {
+        "min": 0,
+        "max": 255,
+        "mean": 185.777,
+        "median": 0,
+        "standardDeviation": 27405.5,
+        "kurtosis": -1.02794,
+        "skewness": -0.963806,
+        "entropy": 0.340788
+      },
+      "green": {
+        "min": 0,
+        "max": 255,
+        "mean": 191.968,
+        "median": 0,
+        "standardDeviation": 25094.2,
+        "kurtosis": -0.745137,
+        "skewness": -1.04683,
+        "entropy": 0.381931
+      },
+      "blue": {
+        "min": 0,
+        "max": 255,
+        "mean": 202.36,
+        "median": 0,
+        "standardDeviation": 22722.4,
+        "kurtosis": 0.326783,
+        "skewness": -1.40452,
+        "entropy": 0.384955
+      }
+    },
+    "alpha": "#00000000",
+    "renderingIntent": "Perceptual",
+    "gamma": 0.454545,
+    "chromaticity": {
+      "redPrimary": {
+        "x": 0.64,
+        "y": 0.33
+      },
+      "greenPrimary": {
+        "x": 0.3,
+        "y": 0.6
+      },
+      "bluePrimary": {
+        "x": 0.15,
+        "y": 0.06
+      },
+      "whitePrimary": {
+        "x": 0.3127,
+        "y": 0.329
+      }
+    },
+    "matteColor": "#BDBDBD",
+    "backgroundColor": "#FFFFFF",
+    "borderColor": "#DFDFDF",
+    "transparentColor": "#00000000",
+    "interlace": "None",
+    "intensity": "Undefined",
+    "compose": "Over",
+    "pageGeometry": {
+      "width": 2104,
+      "height": 2122,
+      "x": 0,
+      "y": 0
+    },
+    "dispose": "Undefined",
+    "iterations": 0,
+    "compression": "Zip",
+    "orientation": "Undefined",
+    "properties": {
+      "date:create": "2021-12-06T09:11:02+00:00",
+      "date:modify": "2021-12-06T09:11:02+00:00",
+      "png:IHDR.bit-depth-orig": "8",
+      "png:IHDR.bit_depth": "8",
+      "png:IHDR.color-type-orig": "6",
+      "png:IHDR.color_type": "6 (RGBA)",
+      "png:IHDR.interlace_method": "0 (Not interlaced)",
+      "png:IHDR.width,height": "2104, 2122",
+      "png:sRGB": "intent=0 (Perceptual Intent)",
+      "signature": "2478cd26c3862cb4565ca508136f270fcd9c14f0be72596aa38055deb8b81b16"
+    },
+    "tainted": false,
+    "filesize": "762634B",
+    "numberPixels": "4.46469M",
+    "pixelsPerSecond": "14219800B",
+    "userTime": "0.390u",
+    "elapsedTime": "0:01.313",
+    "version": "ImageMagick 7.0.10-58 Q16 x86_64 2021-01-14 https://imagemagick.org"
+  }
+}]
