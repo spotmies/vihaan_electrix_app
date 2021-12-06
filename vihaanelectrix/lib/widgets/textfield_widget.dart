@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 
-class TextFieldWidget extends StatelessWidget{
+class TextFieldWidget extends StatelessWidget {
   final String? text;
   final String? hint;
   final String? validateMsg;
@@ -29,11 +29,12 @@ class TextFieldWidget extends StatelessWidget{
   final int? maxLength;
   final int? maxLines;
   final String? label;
+  final bool? focus;
   final List<TextInputFormatter>? formatter;
 
   const TextFieldWidget(
       {Key? key,
-        this.text,
+      this.text,
       this.validateMsg,
       this.hint,
       this.keyBoardType,
@@ -41,6 +42,7 @@ class TextFieldWidget extends StatelessWidget{
       this.bordercolor,
       this.postIcon,
       this.postIconColor,
+      this.focus,
       this.focusBorderColor,
       this.focusBorderRadius,
       this.enableBorderColor,
@@ -59,7 +61,8 @@ class TextFieldWidget extends StatelessWidget{
       this.prefixColor,
       this.prefix,
       this.label,
-      this.formatter}):super(key: key);
+      this.formatter})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +71,8 @@ class TextFieldWidget extends StatelessWidget{
       controller: controller,
       decoration: InputDecoration(
         counterText: '',
-        border:  OutlineInputBorder(
-            borderSide:
-                 BorderSide(color: bordercolor ?? Colors.white),
+        border: OutlineInputBorder(
+            borderSide: BorderSide(color: bordercolor ?? Colors.white),
             borderRadius: BorderRadius.circular(borderRadius ?? 0)),
         suffixIcon: IconButton(
           onPressed: () {
@@ -80,35 +82,31 @@ class TextFieldWidget extends StatelessWidget{
           color: postIconColor ?? Colors.white,
         ),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-                Radius.circular(focusBorderRadius ?? 0)),
-            borderSide: BorderSide(
-                width: 1, color: focusBorderColor ?? Colors.white)),
+            borderRadius:
+                BorderRadius.all(Radius.circular(focusBorderRadius ?? 0)),
+            borderSide:
+                BorderSide(width: 1, color: focusBorderColor ?? Colors.white)),
         enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-                Radius.circular(enableBorderRadius ?? 0)),
-            borderSide: BorderSide(
-                width: 1, color: enableBorderColor ?? Colors.white)),
+            borderRadius:
+                BorderRadius.all(Radius.circular(enableBorderRadius ?? 0)),
+            borderSide:
+                BorderSide(width: 1, color: enableBorderColor ?? Colors.white)),
         errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-                Radius.circular(errorBorderRadius ?? 0)),
+            borderRadius:
+                BorderRadius.all(Radius.circular(errorBorderRadius ?? 0)),
             borderSide: BorderSide(width: 1, color: Colors.red)),
         focusedErrorBorder: OutlineInputBorder(
             borderRadius:
                 BorderRadius.all(Radius.circular(focusErrorRadius ?? 0)),
             borderSide: BorderSide(width: 1, color: Colors.red)),
-        hintStyle: fonts(
-            hintSize ?? 15.0,
-            hintWeight ?? FontWeight.w500,
+        hintStyle: fonts(hintSize ?? 15.0, hintWeight ?? FontWeight.w500,
             hintColor ?? Colors.grey),
         hintText: hint ?? '',
         labelText: label,
-        labelStyle: fonts(
-            hintSize ?? 15.0,
-            hintWeight ?? FontWeight.w500,
+        labelStyle: fonts(hintSize ?? 15.0, hintWeight ?? FontWeight.w500,
             hintColor ?? Colors.grey),
       ),
-      autofocus: true,
+      autofocus: focus ?? false,
       maxLines: maxLines,
       maxLength: maxLength,
       validator: (value) {

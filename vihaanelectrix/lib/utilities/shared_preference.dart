@@ -26,6 +26,10 @@ getServiceStation() async {
   dynamic serviceStation = await getDataFromSF("serviceStation");
   return serviceStation;
 }
+getLocation() async {
+  dynamic serviceStation = await getDataFromSF("geoLocation");
+  return serviceStation;
+}
 
 /* ---------------------------- SET APP CONSTANTS --------------------------- */
 setAppConstants(dynamic data) {
@@ -46,6 +50,9 @@ saveChargingStation(dynamic data) {
 
 saveServiceStation(dynamic data) {
   setDataToSF(id: "serviceStation", value: data);
+}
+saveLocation(dynamic data) {
+  setDataToSF(id: "geoLocation", value: data);
 }
 
 /* --------------------------------- GET DATA FROM SF --------------------------------- */

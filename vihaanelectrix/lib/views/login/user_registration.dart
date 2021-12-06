@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/views/home/navbar.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
+import 'package:vihaanelectrix/widgets/geo_position.dart';
 
 class UserRegistration extends StatefulWidget {
   final String phone;
@@ -31,7 +32,7 @@ class _UserRegistrationState extends State<UserRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    userRegistrationController.getGeoLocationPosition();
+    getGeoLocationPosition();
     return Scaffold(
       body: Column(
         children: [
@@ -42,7 +43,7 @@ class _UserRegistrationState extends State<UserRegistration> {
             child: ElevatedButtonWidget(
               onClick: () async {
                 userRegistrationController.position =
-                    await userRegistrationController.getGeoLocationPosition();
+                    await getGeoLocationPosition();
                 userRegistrationController.refresh();
                 await userRegistrationController.createUser(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) {

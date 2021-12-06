@@ -1,11 +1,12 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
+import 'package:geolocator/geolocator.dart';
 
-class UserDetailsProvider extends ChangeNotifier {
-  dynamic user;
+class LocationProvider extends ChangeNotifier {
+  Position? position;
   bool loader = true;
-  bool uploadLocader = true;
 
   bool get getLoader => loader;
   void setLoader(state) {
@@ -13,13 +14,14 @@ class UserDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setUser(uDetails) {
-    user = uDetails;
+  void setLocation(geoLoc) {
+    position = geoLoc;
+    
     loader = false;
     notifyListeners();
-    saveUserDetails(uDetails);
+    saveLocation(geoLoc);
   }
 
-  dynamic get getUser => user;
-
+  dynamic get getLocation => position;
+  
 }

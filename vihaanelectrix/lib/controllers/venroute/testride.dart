@@ -7,11 +7,31 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:vihaanelectrix/repo/api_methods.dart';
+import 'package:vihaanelectrix/repo/api_urls.dart';
+import 'package:vihaanelectrix/widgets/geo_position.dart';
+import 'package:vihaanelectrix/widgets/snackbar.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class TestRideController extends ControllerMVC {
   TextEditingController aadharController = TextEditingController();
   String? idProof;
   File? idProofFile;
+  DateTime? pickedDate;
+  int? selectedTime;
+  Position? position;
+  String? address;
+
+  Future getAddressFromLatLong(geoLoc) async {
+    position = await geoLoc != null ? geoLoc : getGeoLocationPosition();
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position!.latitude, position!.longitude);
+    // log(placemarks.toString());
+    Placemark place = placemarks[0];
+    address =
+        '${place.street},  ${place.subLocality}, ${place.locality},${place.administrativeArea}, ${place.postalCode}, ${place.country}';
+  }
 
   Future<void> aadharFile() async {
     try {
@@ -38,5 +58,37 @@ class TestRideController extends ControllerMVC {
     var imageUrl = await (await uploadTask).ref.getDownloadURL();
     idProof = imageUrl.toString();
     log(idProof.toString());
+  }
+
+  Future<void> submit(
+      String? userDetils, String? vehicleDetails, BuildContext context) async {
+    await uploadimage();
+    log(idProof.toString());
+    var body = {
+      "adharNumber": aadharController.text.toString(),
+      "identityProof.0": idProof!.toString(),
+      "userDetails": userDetils.toString(),
+      "vehicleDetails": vehicleDetails.toString(),
+      "schedule": pickedDate!.millisecondsSinceEpoch.toString(),
+      "timeSolt": selectedTime.toString(),
+      "bookingLocation.0": position!.latitude.toString(),
+      "bookingLocation.1": position!.longitude.toString(),
+    };
+
+    log(body.toString());
+
+    var resp = await Server().postMethod(API.newTestRide, body).catchError((e) {
+      log(e.toString());
+    });
+    log("respss ${resp.statusCode}");
+    log("response ${resp.body}");
+    if (resp.statusCode == 200) {
+      snackbar(context, "test ride booking successfull");
+      // await Navigator.pushAndRemoveUntil(context,
+      //     MaterialPageRoute(builder: (_) => GoogleNavBar()), (route) => false);
+    } else {
+      snackbar(context, "something went wrong");
+    }
+    return resp;
   }
 }

@@ -25,14 +25,8 @@ class UserPage extends StatelessWidget {
             size: width(context) * 0.07,
             weight: FontWeight.w600,
           ),
-          // centerTitle: true,
         ),
-        // body: Image.network(
-        //   urlImage,
-        //   width: double.infinity,
-        //   height: double.infinity,
-        //   fit: BoxFit.cover,
-        // ),
+       
         body: SingleChildScrollView(
           child: Column(
             children: [

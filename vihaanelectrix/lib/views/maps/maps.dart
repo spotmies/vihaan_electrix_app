@@ -6,12 +6,14 @@ import 'package:flutter/rendering.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vihaanelectrix/providers/location_provider.dart';
 import 'package:vihaanelectrix/utilities/addressExtractor.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:provider/provider.dart';
 
 class Maps extends StatefulWidget {
   final Map? coordinates;
@@ -100,10 +102,13 @@ class _MapsState extends State<Maps> {
     });
   }
 
+  LocationProvider? locationProvider;
+
   @override
   void initState() {
     super.initState();
     getCurrentLocation();
+    locationProvider = Provider.of<LocationProvider>(context, listen: false);
   }
 
   @override
@@ -320,23 +325,31 @@ class _MapsState extends State<Maps> {
                             height: hight * 0.05,
                             bgColor: Colors.indigo[900],
                             onClick: () async {
-                              log(lat.toString() + '\n' + long.toString());
+                              final coordinates = {
+                                'latitide': lat,
+                                'longitude': long
+                              };
+                              // Position? position = coordinates;
+                              log(coordinates.toString());
 
-                              final coordinates = LatLng(lat, long);
-                              var addresses = await placemarkFromCoordinates(
-                                  coordinates.latitude, coordinates.longitude);
-                              // log(addresses.toString());
-                              Map<String, String> generatedAddress =
-                                  addressExtractor(addresses.first);
-                              log(generatedAddress.toString());
-                              if (widget.onSave == null) {
-                                return snackbar(
-                                    context, "something went wrong");
-                              }
-                              widget.onSave!(
-                                  generatedCoordinates, generatedAddress);
-                              Navigator.pop(context);
-                              if (widget.popBackTwice!) Navigator.pop(context);
+                              // locationProvider!.setLocation(position);
+                              // log(locationProvider!.getLocation.toString());
+
+                              // final coordinates = LatLng(lat, long);
+                              // var addresses = await placemarkFromCoordinates(
+                              //     coordinates.latitude, coordinates.longitude);
+                              // // log(addresses.toString());
+                              // Map<String, String> generatedAddress =
+                              //     addressExtractor(addresses.first);
+                              // log(generatedAddress.toString());
+                              // if (widget.onSave == null) {
+                              //   return snackbar(
+                              //       context, "something went wrong");
+                              // }
+                              // widget.onSave!(
+                              //     generatedCoordinates, generatedAddress);
+                              // Navigator.pop(context);
+                              // if (widget.popBackTwice!) Navigator.pop(context);
                               // setState(() {
                               //   addresscontroller.fullAddress = val;
                               // });
