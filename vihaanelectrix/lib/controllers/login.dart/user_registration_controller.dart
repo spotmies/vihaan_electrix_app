@@ -29,6 +29,8 @@ class UserRegistrationController extends ControllerMVC {
   String? phone;
   final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
 
+  String dummy = "Testing double controller";
+
   // UserRegistrationController() {
   //   userRegistrationModel = UserRegistrationModel() as UserRegistrationController?;
   // }
