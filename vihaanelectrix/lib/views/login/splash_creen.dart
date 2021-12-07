@@ -9,7 +9,7 @@ import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
- import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -19,11 +19,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends StateMVC<SplashScreen> {
-   SplashController splashCont = SplashController();
-   UserRegistrationController userRegCont = UserRegistrationController();
-
-
-
+  SplashController splashCont = SplashController();
+  UserRegistrationController userRegCont = UserRegistrationController();
 
   @override
   void initState() {
@@ -37,7 +34,7 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
   }
 
   delayForSplash() async {
-    await splashCont.getSettings(context,alwaysHit: true);
+    await splashCont.getSettings(context, alwaysHit: true);
     splashCont.checkUser(context);
   }
 
@@ -58,7 +55,7 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
             children: [
               SizedBox(
                   height: _hight * 0.43,
-                  child: Lottie.asset('assets/splash_animation.json')),
+                  child: Lottie.asset('assets/jsons/splash_animation.json')),
               SizedBox(
                 height: _hight * 0.1,
               ),
@@ -92,5 +89,3 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
         ));
   }
 }
-
-

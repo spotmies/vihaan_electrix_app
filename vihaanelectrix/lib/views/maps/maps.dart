@@ -7,7 +7,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vihaanelectrix/providers/location_provider.dart';
-import 'package:vihaanelectrix/utilities/addressExtractor.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
