@@ -12,7 +12,6 @@ import 'package:vihaanelectrix/views/login/login_utils.dart';
 import 'package:vihaanelectrix/views/login/user_registration.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
-import 'package:vihaanelectrix/widgets/image_wid.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 
