@@ -2,11 +2,16 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:vihaanelectrix/controllers/login.dart/drawer_control.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/repo/api_calls.dart';
 import 'package:vihaanelectrix/views/home/user_profile.dart';
 import 'package:provider/provider.dart';
+import 'package:vihaanelectrix/views/venroute/product_overview.dart';
+import 'package:vihaanelectrix/views/vequipment/cart.dart';
+import 'package:vihaanelectrix/views/vequipment/wishlist.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/image_wid.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
@@ -21,6 +26,7 @@ class NavigationDrawerWidget extends StatefulWidget {
 class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   final padding = EdgeInsets.symmetric(horizontal: 20);
   UserDetailsProvider? profileProvider;
+  // DrawerControl? drawerControl;
   CommonProvider? co;
 
   @override
@@ -33,10 +39,12 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // log(drawerControl?.dummy.toString());
     return Drawer(
-      child: Material(
-        color: Colors.indigo[900],
-        child: Consumer<UserDetailsProvider>(builder: (context, data, child) {
+      child: Scaffold(
+        // key: drawerControl?.scaffoldkey,
+        backgroundColor: Colors.white,
+        body: Consumer<UserDetailsProvider>(builder: (context, data, child) {
           var u = data.getUser;
           log(u.toString());
           return ListView(
@@ -68,12 +76,14 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                       text: co?.getText("favorites"),
                       icon: Icons.favorite,
                       onClicked: () => selectedItem(context, 1),
+                      items: u['wishList'].length,
                     ),
                     SizedBox(height: height(context) * 0.02),
                     buildMenuItem(
                       text: co?.getText("cart"),
-                      icon: Icons.shopping_cart,
+                      icon: Icons.shopping_bag,
                       onClicked: () => selectedItem(context, 2),
+                      items: u['cart'].length,
                     ),
                     SizedBox(height: height(context) * 0.02),
                     buildMenuItem(
@@ -88,7 +98,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                       onClicked: () => selectedItem(context, 4),
                     ),
                     SizedBox(height: height(context) * 0.035),
-                    Divider(color: Colors.white70),
+                    Divider(color: Colors.grey[400]),
                     SizedBox(height: height(context) * 0.035),
                     buildMenuItem(
                       text: co?.getText("edit_profile"),
@@ -135,13 +145,13 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                         text: name.toUpperCase(),
                         size: width(context) * 0.05,
                         weight: FontWeight.w600,
-                        color: Colors.white),
+                        color: Colors.grey[900]),
                   ),
                   SizedBox(height: height(context) * 0.01),
                   TextWidget(
                       text: mobile,
                       size: width(context) * 0.035,
-                      color: Colors.white),
+                      color: Colors.grey[900]),
                 ],
               ),
               // Spacer(),
@@ -159,14 +169,26 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     required String text,
     required IconData icon,
     VoidCallback? onClicked,
+    int? items,
   }) {
-    const color = Colors.white;
+    var color = Colors.grey[900]!;
     const hoverColor = Colors.white70;
 
     return ListTile(
       leading: Icon(icon, color: color),
       title: Text(text, style: TextStyle(color: color)),
       hoverColor: hoverColor,
+      trailing: items == null
+          ? null
+          : CircleAvatar(
+              radius: width(context) * 0.03,
+              backgroundColor: Colors.grey[200],
+              child: TextWidget(
+                text: '$items',
+                weight: FontWeight.w600,
+                size: width(context) * 0.04,
+              ),
+            ),
       onTap: onClicked,
     );
   }
@@ -180,9 +202,13 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
         break;
       case 1:
         log('Favourites');
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => WishList()));
         break;
       case 2:
         log('Cart');
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => CartList()));
         break;
       case 3:
         log('Privacy Policies');

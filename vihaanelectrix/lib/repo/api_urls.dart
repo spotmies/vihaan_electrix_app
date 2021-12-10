@@ -25,6 +25,12 @@ class API {
       "$path1/product/category-id/"; //product by category
   static var allProductsModelId = "$path1/product/model-id/"; //product by model
 
+  static var wishListAdd = '/api/user/wishList/'; //add to wishlist
+  static var wishListRemove = '/api/user/wishList/'; //remove from wishlist
+  static var cart = '/api/user/cart/'; //add to cart
+  static var cartRemove = '/api/user/cart/'; //remove from cart
+  static var removeCartorWishlist = '?remove=true'; //remove from cart
+
   /* ------------------------------- TEST RIDES ------------------------------- */
 
   static var newTestRide =
@@ -40,8 +46,7 @@ class API {
   static var settingsById = "$path1/settings/settings/"; //settings by id
   static var appSettings =
       "$path1/settings/doc-id/appsettings"; //settings by doc id app settings
-  static var settingsByDocId =
-      "$path1/settings/doc-id/"; //settings by doc id
+  static var settingsByDocId = "$path1/settings/doc-id/"; //settings by doc id
   static var allSettings = "$path1/settings/all-settings"; //all settings
 
 }

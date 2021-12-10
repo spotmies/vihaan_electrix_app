@@ -170,6 +170,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         ),
                         bgColor: Colors.indigo[900],
                         textSize: width(context) * 0.05,
+                        allRadius: true,
                         borderRadius: 20.0,
                         textColor: Colors.white,
                       ),

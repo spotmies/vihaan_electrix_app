@@ -16,6 +16,9 @@ class ElevatedButtonWidget extends StatelessWidget {
   final VoidCallback? onClick;
   final FontWeight? textStyle;
   final double? elevation;
+  final bool? allRadius;
+  final double? leftRadius;
+  final double? rightRadius;
 
   const ElevatedButtonWidget({
     Key? key,
@@ -23,8 +26,11 @@ class ElevatedButtonWidget extends StatelessWidget {
     this.textColor,
     this.buttonName,
     this.borderRadius,
+    this.leftRadius,
+    this.rightRadius,
     this.minWidth,
     this.height,
+    this.allRadius,
     this.borderSideColor,
     this.style,
     this.leadingIcon,
@@ -53,7 +59,11 @@ class ElevatedButtonWidget extends StatelessWidget {
               ),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(borderRadius ?? 0),
+                      borderRadius: allRadius == true
+                          ? BorderRadius.circular(borderRadius ?? 0)
+                          : BorderRadius.only(
+                              topLeft: Radius.circular(leftRadius ?? 0),
+                              topRight: Radius.circular(rightRadius ?? 0)),
                       side:
                           BorderSide(color: borderSideColor ?? Colors.white)))),
           child: Row(
