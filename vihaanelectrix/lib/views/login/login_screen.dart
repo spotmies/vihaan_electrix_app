@@ -184,6 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Icons.arrow_forward,
                             size: width(context) * 0.05,
                           ),
+                          allRadius: true,
                           bgColor: Colors.indigo[900],
                           textSize: width(context) * 0.05,
                           borderRadius: 20.0,

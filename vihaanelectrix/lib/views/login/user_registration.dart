@@ -177,11 +177,8 @@ class _UserRegistrationState extends State<UserRegistration> {
                     buttonName: 'Finish',
                     bgColor: Colors.indigo[900],
                     textSize: width(context) * 0.05,
-                    borderRadius: 30.0,
-                    // trailingIcon: Icon(
-                    //   Icons.arrow_forward,
-                    //   size: width(context) * 0.05,
-                    // ),
+                    borderRadius: 20.0,
+                    allRadius: true,
                     textColor: Colors.white,
                   ),
                 )

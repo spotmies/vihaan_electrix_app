@@ -6,6 +6,7 @@ import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/providers/time_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:vihaanelectrix/providers/universal_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/views/login/splash_creen.dart';
 
@@ -30,6 +31,8 @@ void main() async {
           create: (context) => UserDetailsProvider()),
       ChangeNotifierProvider<ProductDetailsProvider>(
           create: (context) => ProductDetailsProvider()),
+      ChangeNotifierProvider<UniversalProvider>(
+          create: (context) => UniversalProvider()),
       ChangeNotifierProvider<LocationProvider>(
           create: (context) => LocationProvider()),
     ], child: MyApp()));

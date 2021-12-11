@@ -1,13 +1,17 @@
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:vihaanelectrix/controllers/venroute/testride.dart';
 import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
-import 'package:vihaanelectrix/views/venroute/test_ride.dart';
+import 'package:vihaanelectrix/views/venroute/product_overview.dart';
 import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
-import 'package:vihaanelectrix/widgets/elevated_widget.dart';
+import 'package:vihaanelectrix/widgets/product_card.dart';
+import 'package:vihaanelectrix/widgets/text_wid.dart';
 
 class VEnroute extends StatefulWidget {
   const VEnroute({Key? key}) : super(key: key);
@@ -16,7 +20,7 @@ class VEnroute extends StatefulWidget {
   _VEnrouteState createState() => _VEnrouteState();
 }
 
-TestRideController testRideController = TestRideController();
+// TestRideController testRideController = TestRideController();
 ProductDetailsProvider? productDetailsProvider;
 UserDetailsProvider? profileProvider;
 
@@ -32,9 +36,10 @@ class _VEnrouteState extends State<VEnroute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Enroute'),
-        ),
+        // appBar: AppBar(
+        //   title: Text('Enroute'),
+        // ),
+        backgroundColor: Colors.blue[50],
         body: Consumer<UserDetailsProvider>(builder: (context, data, child) {
           var uD = data.getUser;
           log(uD.toString());
@@ -48,37 +53,11 @@ class _VEnrouteState extends State<VEnroute> {
                 itemCount: p.length,
                 itemBuilder: (context, index) {
                   // log(u[index]['productId'].toString());
-                  return Card(
-                      child: Column(
-                    children: [
-                      Text(p[index]['basicDetails']['modelName'].toString()),
-                      Row(
-                        children: [
-                          ElevatedButtonWidget(
-                            height: height(context) * 0.05,
-                            minWidth: width(context) * 0.3,
-                            elevation: 5,
-                            buttonName: 'Test Ride',
-                            onClick: () {
-                              // log(u[index]['productId']);
-                              // log(
-                              //   uD['_id'],
-                              // );
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => TestRideBooking(
-                                            productId: p[0]['_id'],
-                                            userDetails: uD['_id'],
-                                          )));
-                            },
-                          )
-                        ],
-                      )
-                    ],
-                  ));
+                  return productListCard(context, p[index]);
+                 
                 });
           });
         }));
   }
 }
+

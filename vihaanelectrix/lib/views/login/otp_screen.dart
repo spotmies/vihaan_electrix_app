@@ -12,7 +12,6 @@ import 'package:vihaanelectrix/views/login/login_utils.dart';
 import 'package:vihaanelectrix/views/login/user_registration.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
-import 'package:vihaanelectrix/widgets/image_wid.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 
@@ -171,6 +170,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         ),
                         bgColor: Colors.indigo[900],
                         textSize: width(context) * 0.05,
+                        allRadius: true,
                         borderRadius: 20.0,
                         textColor: Colors.white,
                       ),
