@@ -22,7 +22,7 @@ productListCard(BuildContext context, product) {
             color: Colors.blue[50],
             alignment: Alignment.center,
             child: Container(
-                height: height(context) * 0.25,
+                height: height(context) * 0.26,
                 width: width(context) * 0.85,
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -35,10 +35,10 @@ productListCard(BuildContext context, product) {
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: width(context) * 0.25,
-                      // color: Colors.pink[50],
-                    ),
+                    // SizedBox(
+                    //   width: width(context) * 0.25,
+                    //   // color: Colors.pink[50],
+                    // ),
                     SizedBox(
                         width: width(context) * 0.60,
                         height: height(context) * 0.35,
@@ -47,10 +47,63 @@ productListCard(BuildContext context, product) {
                         child: Column(
                           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
+                            Container(
                               // color: Colors.red,
                               width: width(context) * 0.60,
-                              height: height(context) * 0.15,
+                              height: height(context) * 0.16,
+                              child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: height(context) * 0.05,
+                                    width: width(context) * 0.3,
+                                    padding: EdgeInsets.only(
+                                        left: width(context) * 0.04),
+                                    child: Image.asset(
+                                      'assets/pngs/corbett_icon.png',
+                                      height: height(context) * 0.05,
+                                      width: width(context) * 0.3,
+                                    ),
+                                    // child:Image.network(widget.product['basicDetails']
+                                    //                     ['logo']
+                                    //                 .toString()),
+                                    //           ),
+                                  ),
+                                  Container(
+                                    // color: Colors.red,
+                                    width: width(context) * 0.35,
+                                    height: height(context) * 0.11,
+                                    child: Wrap(
+                                      alignment: WrapAlignment.spaceEvenly,
+                                      // crossAxisAlignment:
+                                      //     WrapCrossAlignment.end,
+                                      children: [
+                                        Image.asset(
+                                          'assets/pngs/bike.png',
+                                          height: height(context) * 0.04,
+                                          width: width(context) * 0.15,
+                                        ),
+                                        Image.asset(
+                                          'assets/pngs/bike.png',
+                                          height: height(context) * 0.04,
+                                          width: width(context) * 0.1,
+                                        ),
+                                        Image.asset(
+                                          'assets/pngs/bike.png',
+                                          height: height(context) * 0.04,
+                                          width: width(context) * 0.1,
+                                        ),
+                                        Image.asset(
+                                          'assets/pngs/bike.png',
+                                          height: height(context) * 0.04,
+                                          width: width(context) * 0.1,
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                             Container(
                               // color: Colors.pink,
@@ -63,7 +116,7 @@ productListCard(BuildContext context, product) {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const[
+                                children: const [
                                   TextWidget(
                                     text: 'Top Speed - 120km/h',
                                     weight: FontWeight.w600,
