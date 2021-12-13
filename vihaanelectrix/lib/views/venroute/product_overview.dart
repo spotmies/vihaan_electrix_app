@@ -1,12 +1,14 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:vihaanelectrix/controllers/login.dart/drawer_control.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/repo/api_methods.dart';
 import 'package:vihaanelectrix/repo/api_urls.dart';
 import 'package:vihaanelectrix/views/home/profile_drawer.dart';
+import 'package:vihaanelectrix/widgets/app_bar.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
+// import 'package:vihaanelectrix/widgets/vibration.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 import 'package:vihaanelectrix/widgets/pdf_viewer.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
@@ -14,6 +16,7 @@ import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 import 'package:like_button/like_button.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class ProductOverview extends StatefulWidget {
   final dynamic product;
@@ -35,11 +38,27 @@ var spec = {
   'charging_time_icon': '200min',
 };
 
+bool _canVibrate = true;
+final pauses = [
+  const Duration(microseconds: 100),
+];
+
 class _ProductOverviewState extends State<ProductOverview> {
   @override
   void initState() {
     super.initState();
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
+    _init();
+  }
+
+  Future<void> _init() async {
+    bool canVibrate = await Vibrate.canVibrate;
+    setState(() {
+      _canVibrate = canVibrate;
+      _canVibrate
+          ? debugPrint('This device can vibrate')
+          : debugPrint('This device cannot vibrate');
+    });
   }
 
   @override
@@ -87,7 +106,7 @@ class _ProductOverviewState extends State<ProductOverview> {
       appBar: appbar(context),
       body: Consumer<UserDetailsProvider>(builder: (context, data, child) {
         var uD = data.getUser;
-        // log(uD['wishList'].length.toString());
+        log(widget.product.toString());
         return ListView(
           children: [
             SizedBox(
@@ -177,34 +196,42 @@ class _ProductOverviewState extends State<ProductOverview> {
                           InkWell(
                             onTap: () {
                               // log(widget.product['_id']);
-                              updateWishList(
-                                context,
-                                widget.product['_id'],
-                              );
+                              updateWishList(context, widget.product['_id'],
+                                  profileProvider);
+
+                              Vibrate.vibrate();
                             },
                             child: CircleAvatar(
                               backgroundColor: Colors.grey[200],
                               radius: width(context) * 0.05,
                               child: Icon(
                                 Icons.favorite,
-                                color: Colors.pink,
+                                color: profileProvider
+                                        ?.checkProductInCartorWishList(
+                                            widget.product['_id'], "wishList")
+                                    ? Colors.pink
+                                    : Colors.grey[500],
                                 size: width(context) * 0.05,
                               ),
                             ),
                           ),
                           InkWell(
                             onTap: () {
-                              updateCart(
-                                context,
-                                widget.product['_id'],
-                              );
+                              updateCart(context, widget.product['_id'],
+                                  profileProvider);
+                              Vibrate.vibrate();
                             },
                             child: CircleAvatar(
                               backgroundColor: Colors.grey[200],
                               radius: width(context) * 0.05,
                               child: Icon(
                                 Icons.shopping_cart,
-                                color: Colors.grey[500],
+                                color: !profileProvider
+                                        ?.checkProductInCartorWishList(
+                                            widget.product['_id'].toString(),
+                                            "cart")
+                                    ? Colors.grey[500]
+                                    : Colors.blue,
                                 size: width(context) * 0.05,
                               ),
                             ),
@@ -216,14 +243,45 @@ class _ProductOverviewState extends State<ProductOverview> {
             ),
             Container(
               alignment: Alignment.centerRight,
-              padding: EdgeInsets.only(right: width(context) * 0.08),
+              padding: EdgeInsets.only(
+                  right: width(context) * 0.08, left: width(context) * 0.08),
               height: height(context) * 0.07,
               width: width(context),
-              child: TextWidget(
-                text: "₹ " + widget.product['basicDetails']['price'].toString(),
-                color: Colors.grey[900],
-                size: width(context) * 0.07,
-                weight: FontWeight.w600,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: height(context) * 0.04,
+                    width: width(context) * 0.18,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      color: Colors.greenAccent[700],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextWidget(
+                          text: '4.9',
+                          color: Colors.white,
+                          weight: FontWeight.w700,
+                          size: width(context) * 0.04,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.white,
+                          size: width(context) * 0.04,
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextWidget(
+                    text: "₹ " +
+                        widget.product['basicDetails']['price'].toString(),
+                    color: Colors.grey[900],
+                    size: width(context) * 0.07,
+                    weight: FontWeight.w600,
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -271,7 +329,7 @@ class _ProductOverviewState extends State<ProductOverview> {
               height: height(context) * 0.02,
             ),
             SizedBox(
-                height: height(context) * 1.5,
+                height: height(context) * 0.8,
                 width: width(context),
                 child: pdfViewer()),
             SizedBox(
@@ -372,37 +430,13 @@ specItems(BuildContext context, String image, String text, String? spec) {
   );
 }
 
-appbar(
-  BuildContext context,
-) {
-  return AppBar(
-    backgroundColor: Colors.white,
-    elevation: 0,
-    centerTitle: true,
-    automaticallyImplyLeading: false,
-    leading: IconButton(
-      padding: EdgeInsets.all(width(context) * 0.045),
-      icon: Image.asset(
-        'assets/pngs/drawer_icon.png',
-      ),
-      onPressed: () {
-        // log(drawerController!.dummy.toString());
-        // drawerControl?.scaffoldkey?.currentState?.openDrawer();
-      },
-    ),
-    title: Image.asset(
-      'assets/pngs/vihaan_app_logo.png',
-      height: height(context) * 0.1,
-      width: width(context) * 0.4,
-    ),
-  );
-}
-
 updateWishList(
   BuildContext context,
   id,
+  UserDetailsProvider? profileProvider,
 ) async {
   // var length = uD.length + 1;
+  profileProvider?.addNewItemToCartorWishList(id.toString(), "wishList");
   Map<String, String> body = {
     "objectId": id.toString(),
   };
@@ -413,13 +447,10 @@ updateWishList(
   // dynamic resp = await Server()
   //     .putMethodParems(API.wishListRemove + API.uid.toString(), query, body);
   log(resp.body.toString());
-  if (resp.statusCode == 200) {
+  if (resp.statusCode == 200 || resp.statusCode == 204) {
     log('200');
-  } else if (resp.statusCode == 204) {
-    log('204');
-  } else if (resp.statusCode == 404) {
-    log('404');
   } else {
+    profileProvider?.removeItemsFromCartorWishList(id.toString(), "wishList");
     snackbar(context, "Something went wrong status code ${resp.statusCode}");
   }
 }
@@ -427,18 +458,19 @@ updateWishList(
 updateCart(
   BuildContext context,
   id,
+  UserDetailsProvider? profileProvider,
 ) async {
+  profileProvider?.addNewItemToCartorWishList(id.toString(), "cart");
   Map<String, String> body = {
     "objectId": id.toString(),
   };
   log(body.toString());
   dynamic resp = await Server().editMethod(API.cart + API.uid.toString(), body);
   log(resp.body.toString());
-  if (resp.statusCode == 200) {
+  if (resp.statusCode == 200 || resp.statusCode == 204) {
     log('200');
-  } else if (resp.statusCode == 404) {
-    log('404');
   } else {
+    profileProvider?.removeItemsFromCartorWishList(id.toString(), "cart");
     snackbar(context, "Something went wrong status code ${resp.statusCode}");
   }
 }

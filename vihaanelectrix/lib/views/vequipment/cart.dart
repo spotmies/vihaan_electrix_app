@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/widgets/product_card.dart';
@@ -13,6 +14,7 @@ class CartList extends StatefulWidget {
 }
 
 UserDetailsProvider? profileProvider;
+ProductDetailsProvider? productDetails;
 
 class _CartListState extends State<CartList> {
   @override
@@ -20,6 +22,8 @@ class _CartListState extends State<CartList> {
     super.initState();
 
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
+    productDetails =
+        Provider.of<ProductDetailsProvider>(context, listen: false);
   }
 
   @override
@@ -33,7 +37,15 @@ class _CartListState extends State<CartList> {
         return ListView.builder(
             itemCount: c.length,
             itemBuilder: (context, index) {
-              return productListCard(context, c[index]);
+              return Consumer<ProductDetailsProvider>(
+                  builder: (context, data, child) {
+                var product = data.getDetailsbyId(c[index].toString());
+                if (product != null) {
+                  return productListCard(context, product);
+                } else {
+                  return Container();
+                }
+              });
             });
       }),
     );
