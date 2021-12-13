@@ -19,7 +19,7 @@ pdfViewer() {
     //   _pageCountController.add('${currentPage + 1} - $pageCount');
     // },
   ).fromUrl(
-    'https://firebasestorage.googleapis.com/v0/b/vihaan-electrix.appspot.com/o/0A-ESP8266__Datasheet__EN_v4.3.pdf?alt=media&token=b98af751-d1a1-4fad-8c8b-c99df7fe64e4',
+    'https://pureevwebsite.s3.ap-south-1.amazonaws.com/v2/pdf/epluto7g.pdf',
     placeholder: (double progress) => Center(child: Text('$progress %')),
     errorWidget: (dynamic error) => Center(child: Text(error.toString())),
   );

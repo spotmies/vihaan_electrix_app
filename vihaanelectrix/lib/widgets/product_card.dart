@@ -47,7 +47,7 @@ productListCard(BuildContext context, product) {
                         child: Column(
                           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
+                            SizedBox(
                               // color: Colors.red,
                               width: width(context) * 0.60,
                               height: height(context) * 0.16,
@@ -70,7 +70,7 @@ productListCard(BuildContext context, product) {
                                     //                 .toString()),
                                     //           ),
                                   ),
-                                  Container(
+                                  SizedBox(
                                     // color: Colors.red,
                                     width: width(context) * 0.35,
                                     height: height(context) * 0.11,

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/widgets/product_card.dart';
@@ -13,6 +14,7 @@ class WishList extends StatefulWidget {
 }
 
 UserDetailsProvider? profileProvider;
+ProductDetailsProvider? productDetails;
 
 class _WishListState extends State<WishList> {
   @override
@@ -20,6 +22,8 @@ class _WishListState extends State<WishList> {
     super.initState();
 
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
+    productDetails =
+        Provider.of<ProductDetailsProvider>(context, listen: false);
   }
 
   @override
@@ -34,7 +38,13 @@ class _WishListState extends State<WishList> {
             itemCount: w.length,
             itemBuilder: (context, index) {
               // log(u[index]['productId'].toString());
-              return productListCard(context, w[index]);
+              dynamic product =
+                  productDetails?.getDetailsbyId(w[index].toString());
+
+              if (product != null) {
+                return productListCard(context, product);
+              }
+              return Container();
             });
       }),
     );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
 
@@ -17,6 +19,16 @@ class ProductDetailsProvider extends ChangeNotifier {
     loader = false;
     notifyListeners();
     saveProducts(products);
+  }
+
+  getDetailsbyId(String id) {
+
+    int index = product.indexWhere((single) => single['_id'].toString() == id);
+    if(index < 0){
+      return null;
+    }
+    return product[index];
+   
   }
 
   dynamic get getProduct => product;
