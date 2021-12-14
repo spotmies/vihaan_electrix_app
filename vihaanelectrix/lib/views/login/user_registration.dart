@@ -37,156 +37,162 @@ class _UserRegistrationState extends State<UserRegistration> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          loginHeader(context),
-          Stack(
-            children: [
-              loginBackgroundTemp(context),
-              Positioned(
-                  child: Column(children: [
-                Image.asset(
-                  'assets/pngs/reg_image.png',
-                  height: height(context) * 0.3,
-                  width: width(context),
-                ),
-                SizedBox(
-                  height: height(context) * 0.05,
-                ),
-                InkWell(
-                  onTap: () async {
-                    if (userRegistrationController.profilepic == null) {
-                      await userRegistrationController.profilePic();
-                      userRegistrationController.refresh();
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            loginHeader(context),
+            Stack(
+              children: [
+                loginBackgroundTemp(context),
+                Positioned(
+                    child: Column(children: [
+                  Image.asset(
+                    'assets/pngs/reg_image.png',
+                    height: height(context) * 0.3,
+                    width: width(context),
+                  ),
+                  SizedBox(
+                    height: height(context) * 0.05,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      if (userRegistrationController.profilepic == null) {
+                        await userRegistrationController.profilePic();
+                        userRegistrationController.refresh();
 
-                      log(userRegistrationController.profilepic.toString());
-                    }
-                  },
-                  child: Stack(
-                    children: [
-                      CircleAvatar(
-                        child: Center(
-                          child: userRegistrationController.profilepic == null
-                              ? Icon(
-                                  Icons.person,
-                                  color: Colors.blueGrey,
-                                  size: width(context) * 0.15,
-                                )
-                              : Container(
-                                  height: height(context) * 0.27,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
+                        log(userRegistrationController.profilepic.toString());
+                      }
+                    },
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          child: Center(
+                            child: userRegistrationController.profilepic == null
+                                ? Icon(
+                                    Icons.person,
+                                    color: Colors.blueGrey,
+                                    size: width(context) * 0.15,
+                                  )
+                                : Container(
+                                    height: height(context) * 0.27,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: CircleAvatar(
+                                      backgroundImage: FileImage(
+                                          userRegistrationController
+                                              .profilepic!),
+                                      radius: 100,
+                                    ),
                                   ),
-                                  child: CircleAvatar(
-                                    backgroundImage: FileImage(
-                                        userRegistrationController.profilepic!),
-                                    radius: 100,
-                                  ),
-                                ),
+                          ),
+                          radius: width(context) * 0.12,
+                          backgroundColor: Colors.white,
                         ),
-                        radius: width(context) * 0.12,
-                        backgroundColor: Colors.white,
-                      ),
-                      if (userRegistrationController.profilepic != null)
-                        Positioned(
-                            right: 1,
-                            top: 1,
-                            child: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: width(context) * 0.03,
-                                child: IconButton(
-                                    padding: EdgeInsets.all(0),
-                                    onPressed: () async {
-                                      await userRegistrationController
-                                          .profilePic();
-                                      userRegistrationController.refresh();
+                        if (userRegistrationController.profilepic != null)
+                          Positioned(
+                              right: 1,
+                              top: 1,
+                              child: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: width(context) * 0.03,
+                                  child: IconButton(
+                                      padding: EdgeInsets.all(0),
+                                      onPressed: () async {
+                                        await userRegistrationController
+                                            .profilePic();
+                                        userRegistrationController.refresh();
 
-                                      log(userRegistrationController.profilepic
-                                          .toString());
-                                    },
-                                    icon: Icon(Icons.camera_alt,
-                                        size: width(context) * 0.04,
-                                        color: Colors.grey[900]))))
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: height(context) * 0.05,
-                ),
-                Container(
-                  height: height(context) * 0.08,
-                  width: width(context) * 0.9,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30)),
-                  child: TextFormField(
-                    onSaved: (item) => userRegistrationController.name,
-                    keyboardType: TextInputType.name,
-                    controller: userRegistrationController.nameTf,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          borderSide:
-                              BorderSide(width: 1, color: Colors.white)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          borderSide:
-                              BorderSide(width: 1, color: Colors.white)),
-                      hintStyle: TextStyle(fontSize: 17, color: Colors.grey),
-                      // hintText: co?.getText("name_hint"),
-                      hintText: 'Enter your name',
-                      suffixIcon: Icon(Icons.person),
-                      //border: InputBorder.none,
-                      contentPadding: EdgeInsets.all(20),
+                                        log(userRegistrationController
+                                            .profilepic
+                                            .toString());
+                                      },
+                                      icon: Icon(Icons.camera_alt,
+                                          size: width(context) * 0.04,
+                                          color: Colors.grey[900]))))
+                      ],
                     ),
-                    // autofocus: true,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return co?.getText("empty_name_error");
-                      }
-                      if (value.length < 5) {
-                        return co?.getText("name_length_error");
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      userRegistrationController.name = value;
-                    },
                   ),
-                ),
-                SizedBox(
-                  height: height(context) * 0.07,
-                ),
-                Container(
-                  margin: EdgeInsets.all(10),
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButtonWidget(
-                    onClick: () async {
-                      userRegistrationController.position =
-                          await getGeoLocationPosition();
-                      userRegistrationController.refresh();
-                      await userRegistrationController.createUser(context);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return NavigationBar();
-                      }));
-                    },
-                    height: height(context) * 0.06,
-                    minWidth: width(context) * 0.33,
-                    // buttonName: co?.getText("button_label"),
-                    buttonName: 'Finish',
-                    bgColor: Colors.indigo[900],
-                    textSize: width(context) * 0.05,
-                    borderRadius: 20.0,
-                    allRadius: true,
-                    textColor: Colors.white,
+                  SizedBox(
+                    height: height(context) * 0.05,
                   ),
-                )
-              ]))
-            ],
-          ),
-          // userRegistration(context, userRegistrationController, co!),
-        ],
+                  Container(
+                    height: height(context) * 0.08,
+                    width: width(context) * 0.9,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: TextFormField(
+                      onSaved: (item) => userRegistrationController.name,
+                      keyboardType: TextInputType.name,
+                      controller: userRegistrationController.nameTf,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            borderSide:
+                                BorderSide(width: 1, color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            borderSide:
+                                BorderSide(width: 1, color: Colors.white)),
+                        hintStyle: TextStyle(fontSize: 17, color: Colors.grey),
+                        // hintText: co?.getText("name_hint"),
+                        hintText: 'Enter your name',
+                        suffixIcon: Icon(Icons.person),
+                        //border: InputBorder.none,
+                        contentPadding: EdgeInsets.all(20),
+                      ),
+                      // autofocus: true,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return co?.getText("empty_name_error");
+                        }
+                        if (value.length < 5) {
+                          return co?.getText("name_length_error");
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        userRegistrationController.name = value;
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: height(context) * 0.07,
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButtonWidget(
+                      onClick: () async {
+                        userRegistrationController.position =
+                            await getGeoLocationPosition();
+                        userRegistrationController.refresh();
+                        var resp = await userRegistrationController
+                            .createUser(context);
+                        if (resp.statusCode != 200) return;
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return NavigationBar();
+                        }));
+                      },
+                      height: height(context) * 0.06,
+                      minWidth: width(context) * 0.33,
+                      // buttonName: co?.getText("button_label"),
+                      buttonName: 'Finish',
+                      bgColor: Colors.indigo[900],
+                      textSize: width(context) * 0.05,
+                      borderRadius: 20.0,
+                      allRadius: true,
+                      textColor: Colors.white,
+                    ),
+                  )
+                ]))
+              ],
+            ),
+            // userRegistration(context, userRegistrationController, co!),
+          ],
+        ),
       ),
     );
   }

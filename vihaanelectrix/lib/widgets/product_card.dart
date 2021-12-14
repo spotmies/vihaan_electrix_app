@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/views/venroute/product_overview.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 
-productListCard(BuildContext context, product) {
+productListCard(BuildContext context, product,
+    {ProductDetailsProvider? provider}) {
   return InkWell(
     onTap: () {
       // log(product.toString());
@@ -72,39 +74,53 @@ productListCard(BuildContext context, product) {
                                   ),
                                   SizedBox(
                                     // color: Colors.red,
-                                    width: width(context) * 0.35,
+                                    width: width(context) * 0.3,
                                     height: height(context) * 0.11,
                                     child: Wrap(
-                                      alignment: WrapAlignment.spaceEvenly,
-                                      // crossAxisAlignment:
-                                      //     WrapCrossAlignment.end,
-                                      children: [
-                                        Image.asset(
-                                          'assets/pngs/bike.png',
-                                          height: height(context) * 0.04,
-                                          width: width(context) * 0.15,
+                                        alignment: WrapAlignment.spaceEvenly,
+                                        children: [
+                                          ...provider
+                                              ?.similarProductColorsByModelId(
+                                                  product['modelId'])
+                                              .map((item) => Image.network(
+                                                    item['mediaUrl'],
+                                                    height:
+                                                        height(context) * 0.04,
+                                                    width:
+                                                        width(context) * 0.15,
+                                                  ))
+                                              .toList()
+                                        ]
+                                        // children: [
+
+                                        // Image.asset(
+                                        //   'assets/pngs/bike.png',
+                                        //   height: height(context) * 0.04,
+                                        //   width: width(context) * 0.15,
+                                        // ),
+                                        //   Image.asset(
+                                        //     'assets/pngs/bike.png',
+                                        //     height: height(context) * 0.04,
+                                        //     width: width(context) * 0.1,
+                                        //   ),
+                                        //   Image.asset(
+                                        //     'assets/pngs/bike.png',
+                                        //     height: height(context) * 0.04,
+                                        //     width: width(context) * 0.1,
+                                        //   ),
+                                        //   Image.asset(
+                                        //     'assets/pngs/bike.png',
+                                        //     height: height(context) * 0.04,
+                                        //     width: width(context) * 0.1,
+                                        //   )
+                                        // ],
                                         ),
-                                        Image.asset(
-                                          'assets/pngs/bike.png',
-                                          height: height(context) * 0.04,
-                                          width: width(context) * 0.1,
-                                        ),
-                                        Image.asset(
-                                          'assets/pngs/bike.png',
-                                          height: height(context) * 0.04,
-                                          width: width(context) * 0.1,
-                                        ),
-                                        Image.asset(
-                                          'assets/pngs/bike.png',
-                                          height: height(context) * 0.04,
-                                          width: width(context) * 0.1,
-                                        )
-                                      ],
-                                    ),
                                   )
                                 ],
                               ),
                             ),
+                            // Text(provider?.similarProductColorsByModelId(
+                            //     product['modelId'])),
                             Container(
                               // color: Colors.pink,
                               width: width(context) * 0.60,
@@ -134,17 +150,16 @@ productListCard(BuildContext context, product) {
                 ))),
         Positioned(
             right: 1,
-            child: Image.asset(
-              'assets/pngs/bike.png',
-              height: height(context) * 0.26,
-              width: width(context) * 0.5,
-            )
-            // child: Image.network(
-            //   product['basicDetails']['media'][0]['mediaUrl'],
+            // child: Image.asset(
+            //   'assets/pngs/bike.png',
             //   height: height(context) * 0.26,
             //   width: width(context) * 0.5,
             // )
-            ),
+            child: Image.network(
+              product['basicDetails']['media'][0]['mediaUrl'],
+              height: height(context) * 0.26,
+              width: width(context) * 0.5,
+            )),
       ],
     ),
   );

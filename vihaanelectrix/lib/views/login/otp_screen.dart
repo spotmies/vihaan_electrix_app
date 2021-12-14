@@ -56,131 +56,133 @@ class _OTPScreenState extends State<OTPScreen> {
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       key: controller.otpscaffoldkey,
-      body: Column(
-        children: [
-          loginHeader(context),
-          Stack(
-            children: [
-              loginBackgroundTemp(context),
-              Positioned(
-                child: Column(
-                  children: [
-                    Image.asset(
-                      'assets/pngs/otp_image.png',
-                      height: height(context) * 0.3,
-                      width: width(context),
-                    ),
-                    SizedBox(
-                      height: height(context) * 0.06,
-                    ),
-                    TextWidget(
-                      text: 'Enter OTP',
-                      color: Colors.indigo[900],
-                      size: width(context) * 0.06,
-                      weight: FontWeight.bold,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: PinPut(
-                        fieldsCount: 6,
-                        textStyle: TextStyle(
-                            fontSize: width(context) * 0.04,
-                            color: Colors.grey[900]),
-                        eachFieldWidth: width(context) * 0.05,
-                        eachFieldHeight: height(context) * 0.07,
-                        focusNode: _pinPutFocusNode,
-                        controller: _pinPutController,
-                        submittedFieldDecoration: pinPutDecoration,
-                        selectedFieldDecoration: pinPutDecoration,
-                        followingFieldDecoration: pinPutDecoration,
-                        pinAnimationType: PinAnimationType.fade,
-                        onSubmit: (pin) async {
-                          sms_code = pin;
-                          try {
-                            await FirebaseAuth.instance
-                                .signInWithCredential(
-                                    PhoneAuthProvider.credential(
-                                        verificationId: _verificationCode!,
-                                        smsCode: pin))
-                                .then((value) async {
-                              log(value.toString());
-                              if (value.user != null) {
-                                controller.checkUser(context,
-                                    uId: value.user?.uid.toString(),
-                                    phone: widget.phone);
-                              }
-                            });
-                          } catch (e) {
-                            FocusScope.of(context).unfocus();
-                            snackbar(context, 'invalid OTP');
-                          }
-                        },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            loginHeader(context),
+            Stack(
+              children: [
+                loginBackgroundTemp(context),
+                Positioned(
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/pngs/otp_image.png',
+                        height: height(context) * 0.3,
+                        width: width(context),
                       ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: ElevatedButtonWidget(
-                          bgColor: Colors.transparent,
-                          buttonName: 'Resend',
-                          textSize: width(context) * 0.045,
-                          textStyle: FontWeight.w600,
-                          textColor: Colors.indigo[900],
-                          height: height(context) * 0.07,
-                          minWidth: width(context) * 0.4,
-                          borderSideColor: Colors.transparent,
-                          trailingIcon: Icon(Icons.sync,
-                              color: Colors.indigo[900],
-                              size: width(context) * 0.05),
-                          onClick: () {}),
-                    ),
-                    SizedBox(
-                      height: height(context) * 0.06,
-                    ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      padding: EdgeInsets.only(right: width(context) * 0.05),
-                      child: ElevatedButtonWidget(
-                        onClick: () async {
-                          log(sms_code.toString());
-                          try {
-                            await FirebaseAuth.instance
-                                .signInWithCredential(
-                                    PhoneAuthProvider.credential(
-                                        verificationId: _verificationCode!,
-                                        smsCode: sms_code))
-                                .then((value) async {
-                              log(value.toString());
-                              if (value.user != null) {
-                                controller.checkUser(context,
-                                    uId: value.user?.uid.toString(),
-                                    phone: widget.phone);
-                              }
-                            });
-                          } catch (e) {
-                            FocusScope.of(context).unfocus();
-                            snackbar(context, 'invalid OTP');
-                          }
-                        },
-                        height: height(context) * 0.057,
-                        minWidth: width(context) * 0.33,
-                        buttonName: 'Submit',
-                        trailingIcon: Icon(
-                          Icons.arrow_forward,
-                          size: width(context) * 0.05,
+                      SizedBox(
+                        height: height(context) * 0.06,
+                      ),
+                      TextWidget(
+                        text: 'Enter OTP',
+                        color: Colors.indigo[900],
+                        size: width(context) * 0.06,
+                        weight: FontWeight.bold,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: PinPut(
+                          fieldsCount: 6,
+                          textStyle: TextStyle(
+                              fontSize: width(context) * 0.04,
+                              color: Colors.grey[900]),
+                          eachFieldWidth: width(context) * 0.05,
+                          eachFieldHeight: height(context) * 0.07,
+                          focusNode: _pinPutFocusNode,
+                          controller: _pinPutController,
+                          submittedFieldDecoration: pinPutDecoration,
+                          selectedFieldDecoration: pinPutDecoration,
+                          followingFieldDecoration: pinPutDecoration,
+                          pinAnimationType: PinAnimationType.fade,
+                          onSubmit: (pin) async {
+                            sms_code = pin;
+                            try {
+                              await FirebaseAuth.instance
+                                  .signInWithCredential(
+                                      PhoneAuthProvider.credential(
+                                          verificationId: _verificationCode!,
+                                          smsCode: pin))
+                                  .then((value) async {
+                                log(value.toString());
+                                if (value.user != null) {
+                                  controller.checkUser(context,
+                                      uId: value.user?.uid.toString(),
+                                      phone: widget.phone);
+                                }
+                              });
+                            } catch (e) {
+                              FocusScope.of(context).unfocus();
+                              snackbar(context, 'invalid OTP');
+                            }
+                          },
                         ),
-                        bgColor: Colors.indigo[900],
-                        textSize: width(context) * 0.05,
-                        allRadius: true,
-                        borderRadius: 20.0,
-                        textColor: Colors.white,
                       ),
-                    )
-                  ],
+                      Container(
+                        alignment: Alignment.centerRight,
+                        child: ElevatedButtonWidget(
+                            bgColor: Colors.transparent,
+                            buttonName: 'Resend',
+                            textSize: width(context) * 0.045,
+                            textStyle: FontWeight.w600,
+                            textColor: Colors.indigo[900],
+                            height: height(context) * 0.07,
+                            minWidth: width(context) * 0.4,
+                            borderSideColor: Colors.transparent,
+                            trailingIcon: Icon(Icons.sync,
+                                color: Colors.indigo[900],
+                                size: width(context) * 0.05),
+                            onClick: () {}),
+                      ),
+                      SizedBox(
+                        height: height(context) * 0.06,
+                      ),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: width(context) * 0.05),
+                        child: ElevatedButtonWidget(
+                          onClick: () async {
+                            log(sms_code.toString());
+                            try {
+                              await FirebaseAuth.instance
+                                  .signInWithCredential(
+                                      PhoneAuthProvider.credential(
+                                          verificationId: _verificationCode!,
+                                          smsCode: sms_code))
+                                  .then((value) async {
+                                log(value.toString());
+                                if (value.user != null) {
+                                  controller.checkUser(context,
+                                      uId: value.user?.uid.toString(),
+                                      phone: widget.phone);
+                                }
+                              });
+                            } catch (e) {
+                              FocusScope.of(context).unfocus();
+                              snackbar(context, 'invalid OTP');
+                            }
+                          },
+                          height: height(context) * 0.057,
+                          minWidth: width(context) * 0.33,
+                          buttonName: 'Submit',
+                          trailingIcon: Icon(
+                            Icons.arrow_forward,
+                            size: width(context) * 0.05,
+                          ),
+                          bgColor: Colors.indigo[900],
+                          textSize: width(context) * 0.05,
+                          allRadius: true,
+                          borderRadius: 20.0,
+                          textColor: Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

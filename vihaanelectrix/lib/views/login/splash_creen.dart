@@ -34,7 +34,7 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
   }
 
   delayForSplash() async {
-    await splashCont.getSettings(context, alwaysHit: true);
+    await splashCont.getSettings(context, alwaysHit: false);
     splashCont.checkUser(context);
   }
 

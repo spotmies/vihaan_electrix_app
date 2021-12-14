@@ -42,7 +42,7 @@ class _WishListState extends State<WishList> {
                   productDetails?.getDetailsbyId(w[index].toString());
 
               if (product != null) {
-                return productListCard(context, product);
+                return productListCard(context, product,provider: productDetails);
               }
               return Container();
             });

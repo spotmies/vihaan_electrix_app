@@ -22,13 +22,26 @@ class ProductDetailsProvider extends ChangeNotifier {
   }
 
   getDetailsbyId(String id) {
-
     int index = product.indexWhere((single) => single['_id'].toString() == id);
-    if(index < 0){
+    if (index < 0) {
       return null;
     }
     return product[index];
-   
+  }
+
+  similarProductColorsByModelId(String modelId) {
+    List<dynamic> similarProductColors = [];
+    for (int i = 0; i < product.length; i++) {
+      if (product[i]['modelId'] == modelId) {
+        similarProductColors.add(product[i]['basicDetails']['media'][0]);
+      }
+    }
+    log(similarProductColors.toString());
+    if (similarProductColors.length > 4) {
+      return similarProductColors.sublist(0, 4);
+    }
+    return similarProductColors;
+    // return "col";
   }
 
   dynamic get getProduct => product;
