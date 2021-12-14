@@ -46,7 +46,7 @@ class _VEnrouteState extends State<VEnroute> {
                 itemCount: p.length,
                 itemBuilder: (context, index) {
                   log(p[index]['basicDetails'].toString());
-                  return productListCard(context, p[index]);
+                  return productListCard(context, p[index],provider: productDetailsProvider);
                 });
           });
         }));

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
+import 'package:vihaanelectrix/repo/api_calls.dart';
 import 'package:vihaanelectrix/views/home/profile_drawer.dart';
 import 'package:vihaanelectrix/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,12 @@ class _HomeState extends State<Home> {
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
   }
 
+  Future<void> fetchProductFromDB() async {
+    dynamic products = await getProductDetailsFromDB();
+    if (products == null) return;
+    productDetailsProvider!.setProduct(products);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,16 +47,24 @@ class _HomeState extends State<Home> {
           log(uD.toString());
           return Consumer<ProductDetailsProvider>(
               builder: (context, data, child) {
-            var p = data.getProduct;
-            log(p[0]['_id'].toString());
+            var p = data.getProduct?.reversed?.toList();
+            if (p == null) {
+              return Container();
+            }
+            // log(p[0]['_id'].toString());
 
             // return Text(u[0]['basicDetails'].toString());
-            return ListView.builder(
-                itemCount: p.length,
-                itemBuilder: (context, index) {
-                  // log(u[index]['productId'].toString());
-                  return productListCard(context, p[index]);
-                });
+            return RefreshIndicator(
+              onRefresh: fetchProductFromDB,
+              child: ListView.builder(
+
+                  // reverse: true,
+                  itemCount: p.length,
+                  itemBuilder: (context, index) {
+                    // log(u[index]['productId'].toString());
+                    return productListCard(context, p[index],provider:productDetailsProvider);
+                  }),
+            );
           });
         }));
   }

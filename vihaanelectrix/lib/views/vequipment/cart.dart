@@ -41,7 +41,7 @@ class _CartListState extends State<CartList> {
                   builder: (context, data, child) {
                 var product = data.getDetailsbyId(c[index].toString());
                 if (product != null) {
-                  return productListCard(context, product);
+                  return productListCard(context, product,provider: productDetails);
                 } else {
                   return Container();
                 }
