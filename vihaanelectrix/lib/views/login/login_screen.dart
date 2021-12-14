@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     textAlign: TextAlign.justify,
                                     decoration: InputDecoration(
                                       // contentPadding: EdgeInsets.only(top: 30.0),
-        
+
                                       border: OutlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.white),
@@ -166,12 +166,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Container(
                           alignment: Alignment.centerRight,
-                          padding: EdgeInsets.only(right: width(context) * 0.05),
+                          padding:
+                              EdgeInsets.only(right: width(context) * 0.05),
                           child: ElevatedButtonWidget(
                             onClick: () {
                               if (loginPageController.formkey.currentState!
                                   .validate()) {
-                                loginPageController.formkey.currentState!.save();
+                                loginPageController.formkey.currentState!
+                                    .save();
                                 log(loginPageController.controller.text);
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => OTPScreen(
@@ -179,13 +181,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             },
                             height: height(context) * 0.057,
+                            allRadius: true,
                             minWidth: width(context) * 0.3,
                             buttonName: co?.getText("button_label"),
                             trailingIcon: Icon(
                               Icons.arrow_forward,
                               size: width(context) * 0.05,
                             ),
-                            allRadius: true,
                             bgColor: Colors.indigo[900],
                             textSize: width(context) * 0.05,
                             borderRadius: 20.0,

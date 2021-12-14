@@ -7,6 +7,7 @@ import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/widgets/app_bar.dart';
 import 'package:vihaanelectrix/widgets/product_card.dart';
+import 'package:vihaanelectrix/widgets/progress.dart';
 
 class VEnroute extends StatefulWidget {
   const VEnroute({Key? key}) : super(key: key);
@@ -39,14 +40,16 @@ class _VEnrouteState extends State<VEnroute> {
           return Consumer<ProductDetailsProvider>(
               builder: (context, data, child) {
             var p = data.getProduct;
-            // log(p[0].toString());
-
+            if (p == null) {
+              return circleProgress(context);
+            }
             // return Text(u[0]['basicDetails'].toString());
             return ListView.builder(
                 itemCount: p.length,
                 itemBuilder: (context, index) {
                   log(p[index]['basicDetails'].toString());
-                  return productListCard(context, p[index],provider: productDetailsProvider);
+                  return productListCard(context, p[index],
+                      provider: productDetailsProvider);
                 });
           });
         }));
