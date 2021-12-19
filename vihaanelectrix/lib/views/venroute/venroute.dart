@@ -34,20 +34,27 @@ class _VEnrouteState extends State<VEnroute> {
         appBar: appbar(context),
         backgroundColor: Colors.blue[50],
         body: Consumer<UserDetailsProvider>(builder: (context, data, child) {
-          var uD = data.getUser;
+          dynamic uD = data.getUser;
           log(uD.toString());
           return Consumer<ProductDetailsProvider>(
               builder: (context, data, child) {
-            var p = data.getProduct;
+            dynamic p = data.getProduct;
             // log(p[0].toString());
+            if (p == null) {
+              return Container();
+            }
 
             // return Text(u[0]['basicDetails'].toString());
-            return ListView.builder(
-                itemCount: p.length,
-                itemBuilder: (context, index) {
-                  log(p[index]['basicDetails'].toString());
-                  return productListCard(context, p[index],provider: productDetailsProvider);
-                });
+            return RefreshIndicator(
+              onRefresh: data.fetchProductFromDB,
+              child: ListView.builder(
+                  itemCount: p.length,
+                  itemBuilder: (context, index) {
+                    log(p[index]['basicDetails'].toString());
+                    return productListCard(context, p[index],
+                        provider: productDetailsProvider);
+                  }),
+            );
           });
         }));
   }
