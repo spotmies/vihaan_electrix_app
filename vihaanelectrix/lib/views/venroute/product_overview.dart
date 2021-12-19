@@ -132,30 +132,41 @@ class _ProductOverviewState extends State<ProductOverview> {
                     color: Colors.white,
                     height: height(context) * 0.7,
                     width: width(context),
-                    child: CarouselSlider.builder(
-                      itemCount: widget.product['basicDetails']['media'].length,
-                      itemBuilder: (BuildContext context, int itemIndex,
-                              int pageViewIndex) =>
-                          SizedBox(
-                        child: Image.network(widget.product['basicDetails']
-                                ['media'][itemIndex]['mediaUrl']
-                            .toString()),
-                      ),
-                      options: CarouselOptions(
-                        height: height(context) * 0.4,
-                        aspectRatio: 16 / 9,
-                        viewportFraction: 0.8,
-                        initialPage: 0,
-                        enableInfiniteScroll: false,
+                    child: Hero(
+                      tag: widget.product['_id'],
+                      child: CarouselSlider.builder(
+                        itemCount:
+                            widget.product['basicDetails']['media'].length,
+                        itemBuilder: (BuildContext context, int itemIndex,
+                                int pageViewIndex) =>
+                            SizedBox(
+                          child: FadeInImage.assetNetwork(
+                              placeholder:
+                                  'assets/pngs/vehicle_placeholder.png',
+                              image: widget.product['basicDetails']['media']
+                                      [itemIndex]['mediaUrl']
+                                  //         ['media'][itemIndex]['mediaUrl'])
+                                  // child: Image.network(widget.product['basicDetails']
+                                  //         ['media'][itemIndex]['mediaUrl']
+                                  .toString()),
+                        ),
+                        options: CarouselOptions(
+                          height: height(context) * 0.4,
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 0.8,
+                          initialPage: 0,
+                          enableInfiniteScroll: false,
 
-                        reverse: false,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 3),
-                        autoPlayAnimationDuration: Duration(milliseconds: 800),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        enlargeCenterPage: true,
-                        // onPageChanged: callbackFunction,
-                        scrollDirection: Axis.horizontal,
+                          reverse: false,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          // onPageChanged: callbackFunction,
+                          scrollDirection: Axis.horizontal,
+                        ),
                       ),
                     )),
                 Positioned(

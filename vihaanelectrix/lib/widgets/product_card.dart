@@ -155,10 +155,20 @@ productListCard(BuildContext context, product,
             //   height: height(context) * 0.26,
             //   width: width(context) * 0.5,
             // )
-            child: Image.network(
-              product['basicDetails']['media'][0]['mediaUrl'],
+            child: SizedBox(
               height: height(context) * 0.26,
               width: width(context) * 0.5,
+              child: Hero(
+                tag: product['_id'],
+                child: FadeInImage.assetNetwork(
+                    placeholder: "assets/pngs/vehicle_placeholder.png",
+                    image: product['basicDetails']['media'][0]['mediaUrl']),
+                // child: Image.network(
+                //   product['basicDetails']['media'][0]['mediaUrl'],
+                //   height: height(context) * 0.26,
+                //   width: width(context) * 0.5,
+                // ),
+              ),
             )),
       ],
     ),

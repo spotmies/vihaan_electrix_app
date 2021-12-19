@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:vihaanelectrix/repo/api_calls.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
 
 class ProductDetailsProvider extends ChangeNotifier {
@@ -19,6 +20,12 @@ class ProductDetailsProvider extends ChangeNotifier {
     loader = false;
     notifyListeners();
     saveProducts(products);
+  }
+
+  Future<void> fetchProductFromDB() async {
+    dynamic products = await getProductDetailsFromDB();
+    if (products == null) return;
+    setProduct(products);
   }
 
   getDetailsbyId(String id) {

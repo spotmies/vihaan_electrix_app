@@ -29,11 +29,7 @@ class _HomeState extends State<Home> {
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
   }
 
-  Future<void> fetchProductFromDB() async {
-    dynamic products = await getProductDetailsFromDB();
-    if (products == null) return;
-    productDetailsProvider!.setProduct(products);
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +51,15 @@ class _HomeState extends State<Home> {
 
             // return Text(u[0]['basicDetails'].toString());
             return RefreshIndicator(
-              onRefresh: fetchProductFromDB,
+              onRefresh: data.fetchProductFromDB,
               child: ListView.builder(
 
                   // reverse: true,
                   itemCount: p.length,
                   itemBuilder: (context, index) {
                     // log(u[index]['productId'].toString());
-                    return productListCard(context, p[index],provider:productDetailsProvider);
+                    return productListCard(context, p[index],
+                        provider: productDetailsProvider);
                   }),
             );
           });
