@@ -10,7 +10,7 @@ class ProductDetailsProvider extends ChangeNotifier {
   dynamic product;
   bool loader = true;
   bool uploadLocader = true;
-  dynamic cartPrice = 0;
+
 
   bool get getLoader => loader;
   void setLoader(state) {
@@ -39,19 +39,7 @@ class ProductDetailsProvider extends ChangeNotifier {
     return product[index];
   }
 
-  setCartValue() {
-    var sum = 0;
-    var cart = userDetailsProvider!.user['cart'];
-    log(cart.toString());
-    for (var i = 0; i < cart.length; i++) {
-      var val = getDetailsbyId(cart[i]['_id']);
-      var price = val['basicDetails']['price'];
-      sum = cartPrice + price;
-    }
 
-    cartPrice = sum;
-    notifyListeners();
-  }
 
   similarProductColorsByModelId(String modelId) {
     List<dynamic> similarProductColors = [];
