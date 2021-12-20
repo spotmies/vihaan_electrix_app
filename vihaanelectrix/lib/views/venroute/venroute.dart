@@ -7,7 +7,6 @@ import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/widgets/app_bar.dart';
 import 'package:vihaanelectrix/widgets/product_card.dart';
-import 'package:vihaanelectrix/widgets/progress.dart';
 
 class VEnroute extends StatefulWidget {
   const VEnroute({Key? key}) : super(key: key);

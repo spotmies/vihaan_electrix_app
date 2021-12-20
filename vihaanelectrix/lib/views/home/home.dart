@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
-import 'package:vihaanelectrix/repo/api_calls.dart';
 import 'package:vihaanelectrix/views/home/profile_drawer.dart';
 import 'package:vihaanelectrix/widgets/app_bar.dart';
 import 'package:provider/provider.dart';
@@ -30,8 +29,6 @@ class _HomeState extends State<Home> {
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +46,8 @@ class _HomeState extends State<Home> {
               builder: (context, data, child) {
             var p = data.getProduct?.reversed?.toList();
             if (p == null) {
-              return circleProgress(context);
+              // return circleProgress(context);
+              return Container();
             }
             // log(p[0]['_id'].toString());
 
