@@ -2,9 +2,11 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/repo/api_methods.dart';
 import 'package:vihaanelectrix/repo/api_urls.dart';
+import 'package:vihaanelectrix/utilities/constants.dart';
 import 'package:vihaanelectrix/views/home/profile_drawer.dart';
 import 'package:vihaanelectrix/widgets/app_bar.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
@@ -30,6 +32,7 @@ class ProductOverview extends StatefulWidget {
 }
 
 UserDetailsProvider? profileProvider;
+ProductDetailsProvider? productProvider;
 // DrawerControl? drawerController;
 var spec = {
   'speed': '200km/hr',
@@ -48,6 +51,8 @@ class _ProductOverviewState extends State<ProductOverview> {
   void initState() {
     super.initState();
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
+    productProvider =
+        Provider.of<ProductDetailsProvider>(context, listen: false);
     _init();
   }
 
@@ -297,6 +302,39 @@ class _ProductOverviewState extends State<ProductOverview> {
             ),
             SizedBox(
               height: height(context) * 0.02,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ...productProvider
+                    ?.getSameColorProduct(widget.product['modelId'])
+                    .map((colorProduct) => InkWell(
+                          onTap: () {
+                            if (colorProduct['_id'] == widget.product['_id']) {
+                              return;
+                            }
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductOverview(
+                                        product: colorProduct)));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(3),
+                            width: colorProduct['_id'] == widget.product['_id']
+                                ? 20
+                                : 15,
+                            height: colorProduct['_id'] == widget.product['_id']
+                                ? 20
+                                : 15,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: HexColor(colorProduct['colorDetails']
+                                    ['primaryColor'])),
+                          ),
+                        ))
+              ],
             ),
             Padding(
               padding: EdgeInsets.all(width(context) * 0.03),
