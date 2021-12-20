@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:vihaanelectrix/repo/api_methods.dart';
+import 'package:vihaanelectrix/repo/api_urls.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
@@ -22,18 +24,38 @@ class UserDetailsProvider extends ChangeNotifier {
 
   dynamic get getUser => user;
 
-  void addNewItemToCartorWishList(String id, String field) {
+  Future<void> addNewItemToCartorWishList(String id, String field) async {
     if (user[field].contains(id)) {
       removeItemsFromCartorWishList(id, field);
     } else {
       user[field].add(id);
       notifyListeners();
+      Map<String, String> body = {
+        "objectId": id.toString(),
+      };
+      final String api = field == "wishList" ? API.wishListAdd : API.cart;
+      dynamic resp = await Server().editMethod(api + API.uid.toString(), body);
+
+      if (resp.statusCode != 200 && resp.statusCode != 204) {
+        log("40 something went woring status ${resp.statusCode}");
+        removeItemsFromCartorWishList(id, field);
+      }
     }
   }
 
-  void removeItemsFromCartorWishList(String id, String field) {
+  Future<void> removeItemsFromCartorWishList(String id, String field) async {
     user[field].remove(id);
     notifyListeners();
+    Map<String, String> query = {"remove": 'true'};
+    Map<String, String> body = {
+      "objectId": id.toString(),
+    };
+    final String api = field == "wishList" ? API.wishListAdd : API.cart;
+    dynamic resp =
+        await Server().putMethodParems(api + API.uid.toString(), query, body);
+    if (resp.statusCode != 200 && resp.statusCode != 204) {
+      log("56 something went woring status ${resp.statusCode}");
+    }
   }
 
   checkProductInCartorWishList(String id, String field) {

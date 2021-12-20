@@ -1,10 +1,10 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
-import 'package:vihaanelectrix/repo/api_methods.dart';
-import 'package:vihaanelectrix/repo/api_urls.dart';
+
+import 'package:vihaanelectrix/utilities/constants.dart';
 import 'package:vihaanelectrix/views/home/profile_drawer.dart';
 import 'package:vihaanelectrix/views/venroute/specification.dart';
 import 'package:vihaanelectrix/widgets/app_bar.dart';
@@ -12,10 +12,11 @@ import 'package:vihaanelectrix/widgets/app_config.dart';
 // import 'package:vihaanelectrix/widgets/vibration.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 import 'package:vihaanelectrix/widgets/pdf_viewer.dart';
-import 'package:vihaanelectrix/widgets/snackbar.dart';
+
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
+
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class ProductOverview extends StatefulWidget {
@@ -30,6 +31,7 @@ class ProductOverview extends StatefulWidget {
 }
 
 UserDetailsProvider? profileProvider;
+ProductDetailsProvider? productProvider;
 // DrawerControl? drawerController;
 var spec = {
   'speed': '200km/hr',
@@ -48,6 +50,8 @@ class _ProductOverviewState extends State<ProductOverview> {
   void initState() {
     super.initState();
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
+    productProvider =
+        Provider.of<ProductDetailsProvider>(context, listen: false);
     _init();
   }
 
@@ -63,7 +67,7 @@ class _ProductOverviewState extends State<ProductOverview> {
 
   @override
   Widget build(BuildContext context) {
-    log(widget.product.toString());
+    // log(widget.product.toString());
     // log(drawerControl!.dummy.toString());
     return Scaffold(
       backgroundColor: Colors.white,
@@ -106,7 +110,7 @@ class _ProductOverviewState extends State<ProductOverview> {
       appBar: appbar(context),
       body: Consumer<UserDetailsProvider>(builder: (context, data, child) {
         var uD = data.getUser;
-        log(widget.product.toString());
+        //log(widget.product.toString());
         return ListView(
           children: [
             SizedBox(
@@ -207,8 +211,10 @@ class _ProductOverviewState extends State<ProductOverview> {
                           InkWell(
                             onTap: () {
                               // log(widget.product['_id']);
-                              updateWishList(context, widget.product['_id'],
-                                  profileProvider);
+                              profileProvider?.addNewItemToCartorWishList(
+                                  widget.product['_id'], "wishList");
+                              // updateWishList(context, widget.product['_id'],
+                              //     profileProvider);
 
                               Vibrate.vibrate();
                             },
@@ -228,8 +234,10 @@ class _ProductOverviewState extends State<ProductOverview> {
                           ),
                           InkWell(
                             onTap: () {
-                              updateCart(context, widget.product['_id'],
-                                  profileProvider);
+                              profileProvider?.addNewItemToCartorWishList(
+                                  widget.product['_id'], "cart");
+                              // updateCart(context, widget.product['_id'],
+                              //     profileProvider);
                               Vibrate.vibrate();
                             },
                             child: CircleAvatar(
@@ -298,6 +306,39 @@ class _ProductOverviewState extends State<ProductOverview> {
             SizedBox(
               height: height(context) * 0.02,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ...productProvider
+                    ?.getSameColorProduct(widget.product['modelId'])
+                    .map((colorProduct) => InkWell(
+                          onTap: () {
+                            if (colorProduct['_id'] == widget.product['_id']) {
+                              return;
+                            }
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductOverview(
+                                        product: colorProduct)));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(3),
+                            width: colorProduct['_id'] == widget.product['_id']
+                                ? 20
+                                : 15,
+                            height: colorProduct['_id'] == widget.product['_id']
+                                ? 20
+                                : 15,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: HexColor(colorProduct['colorDetails']
+                                    ['primaryColor'])),
+                          ),
+                        ))
+              ],
+            ),
             Padding(
               padding: EdgeInsets.all(width(context) * 0.03),
               child: TextWidget(
@@ -350,51 +391,5 @@ class _ProductOverviewState extends State<ProductOverview> {
         );
       }),
     );
-  }
-}
-
-
-updateWishList(
-  BuildContext context,
-  id,
-  UserDetailsProvider? profileProvider,
-) async {
-  // var length = uD.length + 1;
-  profileProvider?.addNewItemToCartorWishList(id.toString(), "wishList");
-  Map<String, String> body = {
-    "objectId": id.toString(),
-  };
-  log(body.toString());
-  dynamic resp =
-      await Server().editMethod(API.wishListAdd + API.uid.toString(), body);
-  // var query = {"remove": 'true'};
-  // dynamic resp = await Server()
-  //     .putMethodParems(API.wishListRemove + API.uid.toString(), query, body);
-  log(resp.body.toString());
-  if (resp.statusCode == 200 || resp.statusCode == 204) {
-    log('200');
-  } else {
-    profileProvider?.removeItemsFromCartorWishList(id.toString(), "wishList");
-    snackbar(context, "Something went wrong status code ${resp.statusCode}");
-  }
-}
-
-updateCart(
-  BuildContext context,
-  id,
-  UserDetailsProvider? profileProvider,
-) async {
-  profileProvider?.addNewItemToCartorWishList(id.toString(), "cart");
-  Map<String, String> body = {
-    "objectId": id.toString(),
-  };
-  log(body.toString());
-  dynamic resp = await Server().editMethod(API.cart + API.uid.toString(), body);
-  log(resp.body.toString());
-  if (resp.statusCode == 200 || resp.statusCode == 204) {
-    log('200');
-  } else {
-    profileProvider?.removeItemsFromCartorWishList(id.toString(), "cart");
-    snackbar(context, "Something went wrong status code ${resp.statusCode}");
   }
 }
