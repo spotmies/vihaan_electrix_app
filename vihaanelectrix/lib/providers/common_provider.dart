@@ -7,6 +7,9 @@ class CommonProvider extends ChangeNotifier {
   String currentScreen = "home";
   dynamic currentConstants;
 
+  int resendOtpCount = 99;
+
+
   void setAllConstants(dynamic constants) {
     log("all constantsn 11 $constants");
     allConstants = constants;
@@ -31,5 +34,17 @@ class CommonProvider extends ChangeNotifier {
 
     if (index == -1) return "null";
     return currentConstants[index]['label'];
+  }
+
+    updateTime() {
+    if (resendOtpCount != 0) {
+      resendOtpCount--;
+    }
+    notifyListeners();
+  }
+
+  void resetTimer() {
+    resendOtpCount = 99;
+    notifyListeners();
   }
 }

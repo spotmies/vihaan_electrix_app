@@ -1,5 +1,7 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/repo/api_methods.dart';
 import 'package:vihaanelectrix/repo/api_urls.dart';
 import 'package:vihaanelectrix/utilities/shared_preference.dart';
@@ -60,5 +62,16 @@ class UserDetailsProvider extends ChangeNotifier {
 
   checkProductInCartorWishList(String id, String field) {
     return user[field].contains(id);
+  }
+
+  String getCartPrice(ProductDetailsProvider? productDetails) {
+    int cartPrice = 0;
+    for (int i = 0; i < user['cart'].length; i++) {
+      dynamic product = productDetails?.getDetailsbyId(user['cart'][i]);
+
+      int productMoney = product['basicDetails']['price'];
+      cartPrice = cartPrice + productMoney;
+    }
+    return cartPrice.toString();
   }
 }
