@@ -6,6 +6,7 @@ import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/repo/api_methods.dart';
 import 'package:vihaanelectrix/repo/api_urls.dart';
 import 'package:vihaanelectrix/views/home/profile_drawer.dart';
+import 'package:vihaanelectrix/views/venroute/specification.dart';
 import 'package:vihaanelectrix/widgets/app_bar.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 // import 'package:vihaanelectrix/widgets/vibration.dart';
@@ -353,93 +354,6 @@ class _ProductOverviewState extends State<ProductOverview> {
   }
 }
 
-animatedbutton(
-    BuildContext context, id, IconData icon, MaterialColor color, String type) {
-  return CircleAvatar(
-    backgroundColor: Colors.grey[200],
-    radius: width(context) * 0.05,
-    child: LikeButton(
-      // onTap: onLikeButtonTapped,
-      // // onTap: type == 'wish'
-      // //     ? updateWishList(context, id)
-      // //     : updateCart(context, id),
-      likeCountPadding: EdgeInsets.all(width(context) * 0.00),
-      size: width(context) * 0.05,
-      circleColor: CircleColor(start: Colors.red, end: Colors.red),
-      bubblesColor: BubblesColor(
-        dotPrimaryColor: Colors.green,
-        dotSecondaryColor: Colors.red,
-      ),
-      likeBuilder: (bool isLiked) {
-        return Icon(
-          isLiked ? Icons.done : icon,
-          color: isLiked ? Colors.green : color,
-          size: width(context) * 0.05,
-        );
-      },
-    ),
-  );
-}
-
-Future<bool> onLikeButtonTapped(
-  bool isLiked,
-) async {
-  // type == 'wish' ? updateWishList(context, id) : updateCart(context, id);
-
-  return !isLiked;
-}
-
-specItems(BuildContext context, String image, String text, String? spec) {
-  return Container(
-    height: height(context) * 0.11,
-    width: width(context) * 0.22,
-    decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey[200]!,
-            blurRadius: 1.0,
-            spreadRadius: 1.0,
-            offset: Offset(
-              0.0,
-              -2.0,
-            ),
-          ),
-          BoxShadow(
-            color: Colors.grey[100]!,
-            blurRadius: 10.0,
-            spreadRadius: 3.0,
-            offset: Offset(
-              3.0,
-              3.0,
-            ),
-          )
-        ]),
-    child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      SizedBox(
-          height: height(context) * 0.03,
-          width: width(context) * 0.15,
-          child: Image.asset('assets/pngs/$image.png')),
-      Column(
-        children: [
-          TextWidget(
-            text: text,
-            color: Colors.grey[900],
-            size: width(context) * 0.035,
-            weight: FontWeight.w600,
-          ),
-          TextWidget(
-            text: spec,
-            color: Colors.grey[900],
-            size: width(context) * 0.04,
-            weight: FontWeight.w500,
-          )
-        ],
-      )
-    ]),
-  );
-}
 
 updateWishList(
   BuildContext context,

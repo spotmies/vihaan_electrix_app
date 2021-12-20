@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:simple_animations/simple_animations.dart';
@@ -24,11 +23,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final _controller = PageController();
   bool showAnimatedContainer = false;
 
-
   List<String> titles = [];
   List<String> content = [];
   List<String> images = [];
-
 
   getAllconstants() {
     List<String> titleName = [
@@ -58,7 +55,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       "screen6_image",
       "screen7_image"
     ];
-   
+
     for (String item in titleName) {
       titles.add(co?.getText(item));
     }
@@ -90,60 +87,57 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Stack(
-                children: [
-                  showAnimatedContainer
-                      ? Center(
-                          child: MyAnimatedContainer(),
-                        )
-                      : SafeArea(
-                          child: Column(
-                            children: [
-                              // ThisButton(),
-                              Expanded(
-                                child: PageView.builder(
-                                    controller: _controller,
-                                    itemCount: _list.length,
-                                    itemBuilder: (context, index) =>
-                                        MainContent(
-                                          contents: content,
-                                          titles: titles,
-                                          images: images,
-                                          index: index,
-                                        )),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.blockSizeVertical! * 15,
-                              ),
-                              StepsContainer(
-                                nextLabel: co?.getText("next_button"),
-                                skipLabel: co?.getText("skip_button"),
-                                page: page,
-                                list: _list,
-                                controller: _controller,
-                                showAnimatedContainerCallBack: (value) {
-                                  setState(() {
-                                    showAnimatedContainer = value;
-                                    if (value) {
-                                      Future.delayed(Duration(seconds: 1), () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LoginScreen()));
-                                      });
-                                    }
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                height: SizeConfig.defaultSize! * 4,
-                              )
-                            ],
-                          ),
+          children: [
+            showAnimatedContainer
+                ? Center(
+                    child: MyAnimatedContainer(),
+                  )
+                : SafeArea(
+                    child: Column(
+                      children: [
+                        // ThisButton(),
+                        Expanded(
+                          child: PageView.builder(
+                              controller: _controller,
+                              itemCount: _list.length,
+                              itemBuilder: (context, index) => MainContent(
+                                    contents: content,
+                                    titles: titles,
+                                    images: images,
+                                    index: index,
+                                  )),
                         ),
-                ],
-              )
-            );
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical! * 15,
+                        ),
+                        StepsContainer(
+                          nextLabel: co?.getText("next_button"),
+                          skipLabel: co?.getText("skip_button"),
+                          page: page,
+                          list: _list,
+                          controller: _controller,
+                          showAnimatedContainerCallBack: (value) {
+                            setState(() {
+                              showAnimatedContainer = value;
+                              if (value) {
+                                Future.delayed(Duration(seconds: 1), () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginScreen()));
+                                });
+                              }
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: SizeConfig.defaultSize! * 4,
+                        )
+                      ],
+                    ),
+                  ),
+          ],
+        ));
   }
 }
 
@@ -197,6 +191,7 @@ class ThisButton extends StatelessWidget {
             textSize: width(context) * 0.05,
             textStyle: FontWeight.w600,
             buttonName: label,
+            allRadius: true,
             elevation: 7.0,
             borderRadius: 15.0,
             onClick: () {

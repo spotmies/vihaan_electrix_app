@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:vihaanelectrix/widgets/app_config.dart';
+import 'package:vihaanelectrix/widgets/text_wid.dart';
 
-circleProgress() {
+circleProgress(BuildContext context) {
   return Scaffold(
-    body: Center(
-      child: CircularProgressIndicator(
-        backgroundColor: Colors.indigo[100],
-        color: Colors.indigo[900],
+    body: SizedBox(
+      width: width(context),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            backgroundColor: Colors.indigo[100],
+            color: Colors.indigo[900],
+          ),
+          SizedBox(
+            height: height(context) * 0.04,
+          ),
+          TextWidget(
+            text: 'Please wait',
+          )
+        ],
       ),
     ),
   );
@@ -26,8 +41,8 @@ refreshIndicator() {
   return Scaffold(
     body: Center(
         child: RefreshProgressIndicator(
-            backgroundColor: Colors.grey[100],
-            // valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo[900])
-            )),
+      backgroundColor: Colors.grey[100],
+      // valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo[900])
+    )),
   );
 }

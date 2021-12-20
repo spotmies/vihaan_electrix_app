@@ -29,7 +29,7 @@ class API {
   static var wishListRemove = '/api/user/wishList/'; //remove from wishlist
   static var cart = '/api/user/cart/'; //add to cart
   static var cartRemove = '/api/user/cart/'; //remove from cart
-  static var removeCartorWishlist = '?remove=true'; //remove from cart
+  // static var removeCartorWishlist = '?remove=true'; //remove from cart
 
   /* ------------------------------- TEST RIDES ------------------------------- */
 
