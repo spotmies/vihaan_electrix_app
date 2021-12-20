@@ -51,5 +51,16 @@ class ProductDetailsProvider extends ChangeNotifier {
     // return "col";
   }
 
+  getSameColorProduct(String modelId) {
+    List<dynamic> similarProductColors = [];
+    for (int i = 0; i < product.length; i++) {
+      if (product[i]['modelId'] == modelId) {
+        similarProductColors.add(product[i]);
+      }
+    }
+    return similarProductColors;
+ 
+  }
+
   dynamic get getProduct => product;
 }
