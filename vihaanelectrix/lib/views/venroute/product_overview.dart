@@ -16,7 +16,6 @@ import 'package:vihaanelectrix/widgets/snackbar.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
-import 'package:like_button/like_button.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 class ProductOverview extends StatefulWidget {
