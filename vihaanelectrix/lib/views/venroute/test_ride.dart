@@ -7,6 +7,7 @@ import 'package:vihaanelectrix/views/maps/maps.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/date_time_picker.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
+import 'package:vihaanelectrix/widgets/snackbar.dart';
 import 'package:vihaanelectrix/widgets/text_wid.dart';
 import 'package:vihaanelectrix/widgets/textfield_widget.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,9 @@ import 'package:provider/provider.dart';
 class TestRideBooking extends StatefulWidget {
   final String? productId;
   final String? userDetails;
-  const TestRideBooking({Key? key, this.productId, this.userDetails})
+
+  const TestRideBooking(
+      {Key? key, @required this.productId, @required this.userDetails})
       : super(key: key);
 
   @override
@@ -25,10 +28,53 @@ TestRideController testRideControl = TestRideController();
 
 class _TestRideBookingState extends State<TestRideBooking> {
   LocationProvider? locationProvider;
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  dynamic position;
   @override
   void initState() {
     super.initState();
     locationProvider = Provider.of<LocationProvider>(context, listen: false);
+    resetForm();
+    getCurrentLocation();
+  }
+
+  resetForm() {
+    formkey.currentState?.reset();
+    testRideControl.aadharController.clear();
+    testRideControl.idProofFile = null;
+    testRideControl.selectedTime = null;
+  }
+
+  getCurrentLocation() {
+    position = locationProvider?.getLocation;
+    log("location $position");
+    testRideControl.getAddressFromLatLong(position);
+    testRideControl.refresh();
+  }
+
+  onSubmit() async {
+    log(widget.userDetails.toString() + widget.productId.toString());
+    if (testRideControl.fullAddress == null) {
+      testRideControl.getAddressFromLatLong(position);
+      testRideControl.refresh();
+      return;
+    }
+    if (testRideControl.pickedDate == null) {
+      testRideControl.pickedDate = await pickDate(context);
+      setState(() {});
+      return;
+    }
+    if (testRideControl.idProofFile == null) {
+      snackbar(context, "Please upload id proof");
+      return;
+    }
+    if (testRideControl.selectedTime == null) {
+      snackbar(context, "Please select avaiable Timeslot");
+      return;
+    }
+    if (formkey.currentState!.validate()) {
+      testRideControl.submit(widget.userDetails, widget.productId, context);
+    }
   }
 
   @override
@@ -36,18 +82,20 @@ class _TestRideBookingState extends State<TestRideBooking> {
     return Scaffold(
         body: Consumer<LocationProvider>(builder: (context, data, child) {
       log('testing location:' + data.getLocation.toString());
-      var position = data.getLocation;
-      testRideControl.getAddressFromLatLong(position);
-      testRideControl.refresh();
-      return SizedBox(
-          height: height(context),
-          width: width(context),
-          child: Column(
+
+      return SafeArea(
+        child: Form(
+          key: formkey,
+          child: SingleChildScrollView(
+              // height: height(context),
+              // width: width(context),
+              child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               InkWell(
                 onTap: () async {
+                  log(testRideControl.pickedDate.toString());
                   testRideControl.pickedDate = await pickDate(context);
                   setState(() {});
                 },
@@ -184,15 +232,20 @@ class _TestRideBookingState extends State<TestRideBooking> {
                     color: Colors.white,
                   ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      SizedBox(
-                        width: width(context) * 0.72,
-                        child: TextWidget(
-                          text: testRideControl.address.toString(),
-                          flow: TextOverflow.visible,
-                          size: width(context) * 0.05,
-                        ),
-                      ),
+                      testRideControl.displayAddress != null
+                          ? SizedBox(
+                              width: width(context) * 0.72,
+                              child: TextWidget(
+                                text: testRideControl.displayAddress.toString(),
+                                flow: TextOverflow.visible,
+                                size: width(context) * 0.05,
+                              ),
+                            )
+                          : TextButton(
+                              onPressed: getCurrentLocation,
+                              child: TextWidget(text: "Current location")),
                       TextButton(
                           onPressed: () {
                             log('Clicked change button');
@@ -202,6 +255,22 @@ class _TestRideBookingState extends State<TestRideBooking> {
                                 MaterialPageRoute(
                                     builder: (context) => Maps(
                                           isNavigate: false,
+                                          actionLabel: "Change address",
+                                          popBackTwice: true,
+                                          onSave: (Map<String, double>
+                                                  generatedCords,
+                                              generatedAddress) {
+                                            testRideControl.logitude =
+                                                generatedCords['lat']
+                                                    .toString();
+                                            testRideControl.logitude =
+                                                generatedCords['log']
+                                                    .toString();
+                                            testRideControl.fullAddress =
+                                                generatedAddress;
+                                            testRideControl.setDisplayAddress();
+                                            setState(() {});
+                                          },
                                         )));
                           },
                           child: TextWidget(
@@ -217,16 +286,12 @@ class _TestRideBookingState extends State<TestRideBooking> {
                 buttonName: 'Book Ride',
                 height: height(context) * 0.06,
                 minWidth: width(context) * 0.92,
-                onClick: () async {
-                  log(widget.userDetails.toString() +
-                      widget.productId.toString());
-
-                  testRideControl.submit(
-                      widget.userDetails, widget.productId, context);
-                },
+                onClick: onSubmit,
               )
             ],
-          ));
+          )),
+        ),
+      );
     }));
   }
 }
