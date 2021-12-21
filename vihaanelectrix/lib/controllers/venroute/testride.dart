@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:vihaanelectrix/repo/api_methods.dart';
 import 'package:vihaanelectrix/repo/api_urls.dart';
+import 'package:vihaanelectrix/utilities/addressExtractor.dart';
 import 'package:vihaanelectrix/widgets/geo_position.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,16 +22,31 @@ class TestRideController extends ControllerMVC {
   DateTime? pickedDate;
   int? selectedTime;
   Position? position;
-  String? address;
+  String? displayAddress;
+  dynamic fullAddress;
+  String? latitude;
+  String? logitude;
 
   Future getAddressFromLatLong(geoLoc) async {
+    log("calling getAddressFromlatLogn");
     position = await geoLoc != null ? geoLoc : getGeoLocationPosition();
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position!.latitude, position!.longitude);
+    latitude = position!.latitude.toString();
+    logitude = position!.longitude.toString();
     // log(placemarks.toString());
     Placemark place = placemarks[0];
-    address =
-        '${place.street},  ${place.subLocality}, ${place.locality},${place.administrativeArea}, ${place.postalCode}, ${place.country}';
+    fullAddress = addressExtractor2(place);
+    // displayAddress =
+    //     '${place.street},  ${place.subLocality}, ${place.locality},${place.administrativeArea}, ${place.postalCode}, ${place.country}';
+    setDisplayAddress();
+    setState(() {});
+  }
+
+  setDisplayAddress() {
+    displayAddress =
+        "${fullAddress['addressLine']}, ${fullAddress['subLocality']}, ${fullAddress['locality']}, ${fullAddress['postalCode']},";
+    setState(() {});
   }
 
   Future<void> aadharFile() async {
@@ -64,19 +80,29 @@ class TestRideController extends ControllerMVC {
       String? userDetils, String? vehicleDetails, BuildContext context) async {
     await uploadimage();
     log(idProof.toString());
-    var body = {
+    Map<String, String> body = {
       "adharNumber": aadharController.text.toString(),
       "identityProof.0": idProof!.toString(),
       "userDetails": userDetils.toString(),
       "vehicleDetails": vehicleDetails.toString(),
       "schedule": pickedDate!.millisecondsSinceEpoch.toString(),
       "timeSolt": selectedTime.toString(),
-      "bookingLocation.0": position!.latitude.toString(),
-      "bookingLocation.1": position!.longitude.toString(),
+      "bookingLocation.0": latitude.toString(),
+      "bookingLocation.1": logitude.toString(),
+      "bookingPlace.subLocality": fullAddress['subLocality'],
+      "bookingPlace.locality": fullAddress['locality'],
+      "bookingPlace.city": fullAddress['city'],
+      "bookingPlace.state": fullAddress['state'],
+      "bookingPlace.country": fullAddress['country'],
+      "bookingPlace.postalCode": fullAddress['postalCode'],
+      "bookingPlace.addressLine": fullAddress['addressLine'],
+      "bookingPlace.subAdminArea": fullAddress['subAdminArea'],
+      "bookingPlace.subThoroughfare": fullAddress['subThoroughfare'],
+      "bookingPlace.thoroughfare": fullAddress['thoroughfare'],
     };
 
     log(body.toString());
-
+    snackbar(context, "Please wait a moment");
     var resp = await Server().postMethod(API.newTestRide, body).catchError((e) {
       log(e.toString());
     });
@@ -84,8 +110,7 @@ class TestRideController extends ControllerMVC {
     log("response ${resp.body}");
     if (resp.statusCode == 200) {
       snackbar(context, "test ride booking successfull");
-      // await Navigator.pushAndRemoveUntil(context,
-      //     MaterialPageRoute(builder: (_) => GoogleNavBar()), (route) => false);
+      Navigator.pop(context);
     } else {
       snackbar(context, "something went wrong");
     }

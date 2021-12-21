@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vihaanelectrix/providers/location_provider.dart';
+import 'package:vihaanelectrix/utilities/addressExtractor.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 import 'package:vihaanelectrix/widgets/snackbar.dart';
@@ -51,6 +52,7 @@ class _MapsState extends State<Maps> {
   double? lat;
   double? long;
   String? addressline;
+  dynamic generatedAddress;
   Map<MarkerId, Marker>? markers = <MarkerId, Marker>{};
   void getmarker(double lat, double long) {
     MarkerId markerId = MarkerId(lat.toString() + long.toString());
@@ -63,7 +65,8 @@ class _MapsState extends State<Maps> {
               : LatLng(coordinates!['latitude'], coordinates!['logitude']);
           var address = await placemarkFromCoordinates(
               coordinated.latitude, coordinated.longitude);
-          log(address.toString());
+          log(address.first.toString());
+
           var firstAddress = address.first;
 
           setState(() {
@@ -129,8 +132,9 @@ class _MapsState extends State<Maps> {
               final coordinated = LatLng(tapped.latitude, tapped.longitude);
               var address = await placemarkFromCoordinates(
                   coordinated.latitude, coordinated.longitude);
-              // log(address.toString());
-              var firstAddress = address.first.street;
+              log(address.first.toString());
+              generatedAddress = addressExtractor2(address.first);
+              String firstAddress = address.first.street.toString();
               if (markers!.isNotEmpty) markers!.clear();
               if (markers!.isEmpty) {
                 getmarker(tapped.latitude, tapped.longitude);
@@ -330,6 +334,14 @@ class _MapsState extends State<Maps> {
                               };
                               // Position? position = coordinates;
                               log(coordinates.toString());
+                              if (widget.onSave != null) {
+                                widget.onSave!(
+                                    generatedCoordinates, generatedAddress);
+                                Navigator.pop(context);
+                                if (widget.popBackTwice!) {
+                                  Navigator.pop(context);
+                                }
+                              }
 
                               // locationProvider!.setLocation(position);
                               // log(locationProvider!.getLocation.toString());
