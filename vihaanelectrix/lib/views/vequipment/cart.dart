@@ -6,6 +6,7 @@ import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/widgets/app_bar.dart';
+
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 import 'package:vihaanelectrix/widgets/product_card.dart';
@@ -29,8 +30,6 @@ class _CartListState extends State<CartList> {
     profileProvider = Provider.of<UserDetailsProvider>(context, listen: false);
     productDetails =
         Provider.of<ProductDetailsProvider>(context, listen: false);
-
-    productDetails!.setCartValue;
   }
 
   @override
@@ -39,8 +38,7 @@ class _CartListState extends State<CartList> {
       backgroundColor: Colors.blue[50],
       appBar:appBarWithTitle(context, title: 'My Cart'),
       bottomSheet:
-          Consumer<ProductDetailsProvider>(builder: (context, data, child) {
-        productDetails!.setCartValue;
+          Consumer<UserDetailsProvider>(builder: (context, data, child) {
         return Container(
           height: height(context) * 0.1,
           width: width(context),
@@ -57,7 +55,7 @@ class _CartListState extends State<CartList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextWidget(
-                    text: data.cartPrice.toString(),
+                    text: data.getCartPrice(productDetails),
                     size: width(context) * 0.065,
                     weight: FontWeight.w600,
                     flow: TextOverflow.visible,
@@ -89,15 +87,14 @@ class _CartListState extends State<CartList> {
         );
       }),
       body: Consumer<UserDetailsProvider>(builder: (context, data, child) {
-        var u = data.getUser;
-        var c = u['cart'];
+        dynamic c = data.getUser['cart'];
 
         return ListView.builder(
             itemCount: c.length,
             itemBuilder: (context, index) {
               return Consumer<ProductDetailsProvider>(
                   builder: (context, data, child) {
-                var product = data.getDetailsbyId(c[index].toString());
+                dynamic product = data.getDetailsbyId(c[index].toString());
 
                 if (product != null) {
                   return productListCard(context, product,
@@ -111,12 +108,3 @@ class _CartListState extends State<CartList> {
     );
   }
 }
-
-// cartTotal(List<dynamic> args) {
-//   num sum = 0;
-//   for (var e in args) {
-//     sum += e;
-//   }
-//   log('sum:$sum');
-//   productDetailsProvider!.setCartValue(sum);
-// }

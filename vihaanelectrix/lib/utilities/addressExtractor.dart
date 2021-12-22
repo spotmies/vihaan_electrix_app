@@ -19,3 +19,19 @@ addressExtractor(address) {
   log(val.toString());
   return val;
 }
+
+addressExtractor2(address) {
+  Map<String, String> val = {
+    "subLocality": address.subLocality.toString(),
+    "locality": address.locality.toString(),
+    "city": address.locality.toString(),
+    "state": address.administrativeArea.toString(),
+    "country": address.country.toString(),
+    "postalCode": address.postalCode.toString(),
+    "addressLine": address.street.toString(),
+    "subAdminArea": address.subAdministrativeArea.toString(),
+    "subThoroughfare": address.subThoroughfare.toString(),
+    "thoroughfare": address.thoroughfare.toString(),
+  };
+  return val;
+}

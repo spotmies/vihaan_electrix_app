@@ -117,6 +117,10 @@ class TextFieldWidget extends StatelessWidget {
             return 'Please Enter Valid Mobile Number';
           }
           return null;
+        } else if (label == "Aadhar Number") {
+          if (value!.length != 12) {
+            return 'Please enter valid Number';
+          }
         } else {
           if (value!.isEmpty) {
             return validateMsg ?? '';

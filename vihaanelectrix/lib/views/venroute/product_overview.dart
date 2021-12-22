@@ -7,6 +7,7 @@ import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/utilities/constants.dart';
 import 'package:vihaanelectrix/views/home/profile_drawer.dart';
 import 'package:vihaanelectrix/views/venroute/specification.dart';
+import 'package:vihaanelectrix/views/venroute/test_ride.dart';
 import 'package:vihaanelectrix/widgets/app_bar.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
@@ -76,7 +77,16 @@ class _ProductOverviewState extends State<ProductOverview> {
         children: [
           SizedBox(
             child: ElevatedButtonWidget(
-              onClick: () {},
+              onClick: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TestRideBooking(
+                              productId: widget.product['_id'].toString(),
+                              userDetails:
+                                  profileProvider?.user['_id'].toString(),
+                            )));
+              },
               height: height(context) * 0.08,
               minWidth: width(context),
               buttonName: 'Test Ride',
