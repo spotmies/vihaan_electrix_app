@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:vihaanelectrix/views/home/home.dart';
+import 'package:vihaanelectrix/widgets/app_bar.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 import 'package:vihaanelectrix/widgets/product_card.dart';
@@ -38,24 +37,7 @@ class _CartListState extends State<CartList> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[50],
-      appBar: AppBar(
-        backgroundColor: Colors.blue[50],
-        elevation: 0,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.grey[900],
-            )),
-        title: TextWidget(
-          text: 'My Cart',
-          size: width(context) * 0.06,
-          color: Colors.grey[900],
-          weight: FontWeight.w600,
-        ),
-      ),
+      appBar:appBarWithTitle(context, title: 'My Cart'),
       bottomSheet:
           Consumer<ProductDetailsProvider>(builder: (context, data, child) {
         productDetails!.setCartValue;

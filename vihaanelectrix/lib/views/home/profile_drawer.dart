@@ -6,6 +6,7 @@ import 'package:flutter/painting.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/repo/api_calls.dart';
+import 'package:vihaanelectrix/views/home/edit_profile.dart';
 import 'package:vihaanelectrix/views/home/user_profile.dart';
 import 'package:provider/provider.dart';
 import 'package:vihaanelectrix/views/vequipment/cart.dart';
@@ -215,7 +216,8 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
         log('Help');
         break;
       case 5:
-        log('Edit Profile');
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => EditProfile()));
         break;
       case 6:
         signout(context);

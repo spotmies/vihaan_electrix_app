@@ -15,6 +15,7 @@ import 'package:geolocator/geolocator.dart';
 
 class UserRegistrationController extends ControllerMVC {
   TextEditingController nameTf = TextEditingController();
+  TextEditingController editNameController = TextEditingController();
   String? name;
   File? profilepic;
   String? imageLink = "";
@@ -59,8 +60,6 @@ class UserRegistrationController extends ControllerMVC {
     log(imageLink.toString());
   }
 
-  
-
   // Future<void> getAddressFromLatLong(Position position) async {
   //   List<Placemark> placemarks =
   //       await placemarkFromCoordinates(position.latitude, position.longitude);
@@ -102,5 +101,29 @@ class UserRegistrationController extends ControllerMVC {
     return resp;
   }
 
- 
+  editUser(
+    BuildContext context,
+  ) async {
+    await uploadimage();
+
+    var body = {
+      "name": editNameController.text.toString(),
+      "pic": imageLink.toString(),
+    };
+    log(body.toString());
+    var resp = await Server()
+        .editMethod(API.updateUser + API.uid, body)
+        .catchError((e) {
+      log(e.toString());
+    });
+
+    if (resp.statusCode == 200) {
+      snackbar(context, "Registration successfull");
+      return resp;
+      // await Navigator.pushAndRemoveUntil(context,
+      //     MaterialPageRoute(builder: (_) => GoogleNavBar()), (route) => false);
+    } else {
+      snackbar(context, "something went wrong");
+    }
+  }
 }

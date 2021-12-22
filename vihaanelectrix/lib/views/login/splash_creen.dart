@@ -54,8 +54,8 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                  height: _hight * 0.43,
-                  child: Lottie.asset('assets/jsons/splash_animation.json')),
+                  height: _hight * 0.35,
+                  child: Image.asset('assets/pngs/vihaan.png')),
               SizedBox(
                 height: _hight * 0.1,
               ),

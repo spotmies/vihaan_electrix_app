@@ -14,8 +14,8 @@ import 'package:vihaanelectrix/views/veasy/veasy.dart';
 import 'package:vihaanelectrix/views/home/home.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
 import 'package:provider/provider.dart';
-import 'package:vihaanelectrix/widgets/geo_position.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:vihaanelectrix/widgets/geo_position.dart';
+// import 'package:geolocator/geolocator.dart';
 
 class NavigationBar extends StatefulWidget {
   const NavigationBar({Key? key}) : super(key: key);
@@ -64,7 +64,7 @@ class _NavigationBarState extends State<NavigationBar> {
   hitAPIS() async {
     dynamic user = await getUserDetailsFromDB();
     dynamic products = await getProductDetailsFromDB();
-    Position? position = await getGeoLocationPosition();
+    // Position? position = await getGeoLocationPosition();
     // log(position.toString());
 
     if (user != null && products != null) {
@@ -79,7 +79,7 @@ class _NavigationBarState extends State<NavigationBar> {
     } else {
       log("failed to fetch data from DB");
     }
-    locationProvider!.setLocation(position);
+    // locationProvider!.setLocation(position);
   }
 
   @override
