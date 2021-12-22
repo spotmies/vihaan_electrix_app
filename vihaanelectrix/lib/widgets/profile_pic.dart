@@ -159,7 +159,7 @@ class ProfilePic extends StatelessWidget {
     return Positioned(
         left: width * 0.065,
         bottom: width * 0.04,
-        child: Container(
+        child: SizedBox(
           child: TextWidget(
             text: onClickLabel ?? "change",
             color: Colors.grey[400],

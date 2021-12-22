@@ -38,7 +38,7 @@ class _EditProfileState extends State<EditProfile> {
         title: 'Edit Profile',
       ),
       body: Consumer<UserDetailsProvider>(builder: (context, data, child) {
-        var u = data.user;
+        // var u = data.user;
         if (data.loaderScreen == true) {
           return circleProgress(context);
         }

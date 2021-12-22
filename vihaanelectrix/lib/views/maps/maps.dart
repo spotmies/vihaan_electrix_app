@@ -143,6 +143,7 @@ class _MapsState extends State<Maps> {
               setState(() {
                 lat = tapped.latitude;
                 long = tapped.longitude;
+                // ignore: unnecessary_cast
                 addressline = firstAddress as String;
               });
               bottomAddressSheet(

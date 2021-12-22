@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:vihaanelectrix/controllers/login.dart/splash_controller.dart';
 import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';

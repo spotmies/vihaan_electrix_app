@@ -30,7 +30,7 @@ class _OTPScreenState extends State<OTPScreen> {
 
   // final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   String? _verificationCode;
-  Timer? _timer;
+  Timer? timer;
   // ignore: non_constant_identifier_names, prefer_typing_uninitialized_variables
   var sms_code;
   final TextEditingController _pinPutController = TextEditingController();
@@ -46,7 +46,7 @@ class _OTPScreenState extends State<OTPScreen> {
       ]);
 
   startResendOTPTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
       co?.updateTime();
       if (co?.resendOtpCount == 0) timer.cancel();
     });

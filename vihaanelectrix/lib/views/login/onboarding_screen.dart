@@ -4,10 +4,8 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:vihaanelectrix/models/login/on_board.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:vihaanelectrix/views/login/login_screen.dart';
 import 'package:vihaanelectrix/views/login/terms.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 
 class OnBoardingScreen extends StatefulWidget {
