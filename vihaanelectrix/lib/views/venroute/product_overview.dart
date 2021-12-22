@@ -390,10 +390,13 @@ class _ProductOverviewState extends State<ProductOverview> {
             SizedBox(
               height: height(context) * 0.02,
             ),
-            SizedBox(
-                height: height(context) * 0.8,
-                width: width(context),
-                child: pdfViewer()),
+            (widget.product['datasheet'] != null &&
+                    widget.product['datasheet']['mediaUrl'] != null)
+                ? SizedBox(
+                    height: height(context) * 0.8,
+                    width: width(context),
+                    child: pdfViewer(widget.product['datasheet']['mediaUrl']))
+                : Container(),
             SizedBox(
               height: height(context) * 0.2,
             ),
