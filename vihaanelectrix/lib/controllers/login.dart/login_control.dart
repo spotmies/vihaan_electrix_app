@@ -34,7 +34,7 @@ class LoginPageController extends ControllerMVC {
     if (resp.statusCode == 200) {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => NavigationBar()),
+          MaterialPageRoute(builder: (context) => NavigationBarWidget()),
           (route) => false);
     } else if (resp.statusCode == 404) {
       Navigator.pushAndRemoveUntil(

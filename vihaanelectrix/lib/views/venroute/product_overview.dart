@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/providers/product_details_provider.dart';

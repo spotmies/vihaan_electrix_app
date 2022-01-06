@@ -33,14 +33,11 @@ step1(BuildContext context) {
 }
 
 List terms = [
-  "Vihaan Electrix not supposed to Save customer details,as well as not supposed to give contact information to customer",
-  "Spotmies partners are not supposed to share customer details to others,it will be considered as an illegal activity",
+  "Vihaan Electrix not supposed to reveal or explore or share customer data to others",
   "we do not Entertain any illegal activities.if perform severe actions will be taken",
-  "partners are responsible for the damages done during the services and they bare whole forfeit",
-  "we do not provide  any kind of training,equipment/material and  labor to perform any Service",
-  "We do not provide any shipping charges,travelling fares",
-  "partner should take good care of their appearance ,language ,behaviour while they perform service",
-  "partner should fellow all the covid regulations",
+  "customers are responsible for the damages done during the testride and they bare whole forfeit",
+  "we do not provide  any kind of training to perform any rides",
+  "while taking test rides we will follow all the covid regulations",
 ];
 
 class _TermsState extends State<Terms> {
@@ -68,13 +65,13 @@ class _TermsState extends State<Terms> {
                     size: width(context) * 0.06,
                     flow: TextOverflow.visible,
                   ),
-                  if (index != 7)
+                  if (index != 4)
                     Divider(
                       color: Colors.grey[400],
                       indent: width(context) * 0.1,
                       endIndent: width(context) * 0.1,
                     ),
-                  if (index == 7)
+                  if (index == 4)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -96,7 +93,11 @@ class _TermsState extends State<Terms> {
                         ),
                       ],
                     ),
-                  if (index == 7)
+                  if (index == 4)
+                    SizedBox(
+                      height: height(context) * 0.2,
+                    ),
+                  if (index == 4)
                     Container(
                       margin: EdgeInsets.all(10),
                       alignment: Alignment.centerRight,

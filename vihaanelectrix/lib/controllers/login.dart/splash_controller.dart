@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/repo/api_calls.dart';
@@ -48,7 +47,7 @@ class SplashController extends ControllerMVC {
       if (resp == "true") {
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (_) => NavigationBar()),
+            MaterialPageRoute(builder: (_) => NavigationBarWidget()),
             (route) => false);
       } else if (resp == "false") {
         Navigator.pushAndRemoveUntil(

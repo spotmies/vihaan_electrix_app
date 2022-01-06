@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:vihaanelectrix/models/login/on_board.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';

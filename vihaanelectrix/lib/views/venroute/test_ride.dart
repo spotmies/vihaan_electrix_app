@@ -1,9 +1,6 @@
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vihaanelectrix/controllers/venroute/testride.dart';
 // import 'package:vihaanelectrix/providers/location_provider.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';

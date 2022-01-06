@@ -1,8 +1,6 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:vihaanelectrix/repo/api_calls.dart';

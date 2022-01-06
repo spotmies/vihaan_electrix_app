@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:vihaanelectrix/controllers/login.dart/login_control.dart';

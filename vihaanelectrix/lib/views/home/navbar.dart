@@ -17,14 +17,14 @@ import 'package:provider/provider.dart';
 // import 'package:vihaanelectrix/widgets/geo_position.dart';
 // import 'package:geolocator/geolocator.dart';
 
-class NavigationBar extends StatefulWidget {
-  const NavigationBar({Key? key}) : super(key: key);
+class NavigationBarWidget extends StatefulWidget {
+  const NavigationBarWidget({Key? key}) : super(key: key);
 
   @override
-  _NavigationBarState createState() => _NavigationBarState();
+  _NavigationBarWidgetState createState() => _NavigationBarWidgetState();
 }
 
-class _NavigationBarState extends State<NavigationBar> {
+class _NavigationBarWidgetState extends State<NavigationBarWidget> {
   var bottomNavIndex = 2;
   static List<Widget> widgetOptions = <Widget>[
     Center(
@@ -91,7 +91,6 @@ class _NavigationBarState extends State<NavigationBar> {
     productDetailsProvider =
         Provider.of<ProductDetailsProvider>(context, listen: false);
     locationProvider = Provider.of<LocationProvider>(context, listen: false);
-
 
     super.initState();
   }
