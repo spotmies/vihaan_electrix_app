@@ -10,6 +10,7 @@ class UserDetailsProvider extends ChangeNotifier {
   dynamic user;
   bool loader = true;
   bool uploadLocader = true;
+  bool loaderScreen = false;
 
   bool get getLoader => loader;
   void setLoader(state) {
@@ -22,6 +23,12 @@ class UserDetailsProvider extends ChangeNotifier {
     loader = false;
     notifyListeners();
     saveUserDetails(uDetails);
+  }
+
+  void updateUserDetails(name,pic) {
+    user['name'] = name;
+    user['pic'] = pic;
+    notifyListeners();
   }
 
   dynamic get getUser => user;

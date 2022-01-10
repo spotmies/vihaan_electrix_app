@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:vihaanelectrix/models/login/on_board.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:vihaanelectrix/views/login/login_screen.dart';
+import 'package:vihaanelectrix/views/login/terms.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -101,11 +99,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               controller: _controller,
                               itemCount: _list.length,
                               itemBuilder: (context, index) => MainContent(
-                                    contents: content,
-                                    titles: titles,
-                                    images: images,
-                                    index: index,
-                                  )),
+                                  contents: content,
+                                  titles: titles,
+                                  images: images,
+                                  index: index,
+                                  list: _list)),
                         ),
                         SizedBox(
                           height: SizeConfig.blockSizeVertical! * 15,
@@ -124,7 +122,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => LoginScreen()));
+                                          builder: (context) => Terms()));
                                 });
                               }
                             });
@@ -195,8 +193,8 @@ class ThisButton extends StatelessWidget {
             elevation: 7.0,
             borderRadius: 15.0,
             onClick: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => Terms()));
             },
           ),
         ],
@@ -331,13 +329,15 @@ class MainContent extends StatelessWidget {
       required this.images,
       required this.index,
       required this.titles,
-      required this.contents})
+      required this.contents,
+      this.list})
       : super(key: key);
 
   final List<String> images;
   final int index;
   final List<String> contents;
   final List<String> titles;
+  final List<OnboardingModel>? list;
 
   @override
   Widget build(BuildContext context) {
@@ -349,10 +349,10 @@ class MainContent extends StatelessWidget {
             flex: 3,
             child: FadeAnimation(
               0.5,
-              SvgPicture.asset(
-                images[index],
-                height: SizeConfig.defaultSize! * 20,
-                width: SizeConfig.defaultSize! * 20,
+              Image.asset(
+                list![index].image!,
+                height: SizeConfig.defaultSize! * 25,
+                width: SizeConfig.defaultSize! * 25,
               ),
             ),
           ),

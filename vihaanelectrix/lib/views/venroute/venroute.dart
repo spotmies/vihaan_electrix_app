@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:vihaanelectrix/views/home/profile_drawer.dart';
 import 'package:vihaanelectrix/widgets/app_bar.dart';
 import 'package:vihaanelectrix/widgets/product_card.dart';
 
@@ -32,6 +32,7 @@ class _VEnrouteState extends State<VEnroute> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: appbar(context),
+        drawer: NavigationDrawerWidget(),
         backgroundColor: Colors.blue[50],
         body: Consumer<UserDetailsProvider>(builder: (context, data, child) {
           dynamic uD = data.getUser;

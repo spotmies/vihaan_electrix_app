@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/providers/product_details_provider.dart';
@@ -10,7 +9,6 @@ import 'package:vihaanelectrix/views/venroute/specification.dart';
 import 'package:vihaanelectrix/views/venroute/test_ride.dart';
 import 'package:vihaanelectrix/widgets/app_bar.dart';
 import 'package:vihaanelectrix/widgets/app_config.dart';
-// import 'package:vihaanelectrix/widgets/vibration.dart';
 import 'package:vihaanelectrix/widgets/elevated_widget.dart';
 import 'package:vihaanelectrix/widgets/pdf_viewer.dart';
 
@@ -89,37 +87,38 @@ class _ProductOverviewState extends State<ProductOverview> {
                             )));
               },
               height: height(context) * 0.08,
-              minWidth: width(context) * 0.5,
+              minWidth: width(context),
               buttonName: 'Test Ride',
               elevation: 10,
-              bgColor: Colors.white,
-              textSize: width(context) * 0.05,
-              leftRadius: 20.0,
-              allRadius: false,
-              textColor: Colors.grey[900],
-              borderSideColor: Colors.white,
-            ),
-          ),
-          SizedBox(
-            child: ElevatedButtonWidget(
-              onClick: () {},
-              height: height(context) * 0.08,
-              minWidth: width(context) * 0.5,
-              buttonName: 'Book Now',
-              elevation: 10,
-              rightRadius: 20.0,
-              allRadius: false,
               bgColor: Colors.grey[900],
               textSize: width(context) * 0.05,
+              // leftRadius: 20.0,
+              // rightRadius: 20.0,
+              allRadius: false,
               textColor: Colors.white,
               borderSideColor: Colors.grey[900],
             ),
           ),
+          // SizedBox(
+          //   child: ElevatedButtonWidget(
+          //     onClick: () {},
+          //     height: height(context) * 0.08,
+          //     minWidth: width(context) * 0.5,
+          //     buttonName: 'Book Now',
+          //     elevation: 10,
+          //     rightRadius: 20.0,
+          //     allRadius: false,
+          //     bgColor: Colors.grey[900],
+          //     textSize: width(context) * 0.05,
+          //     textColor: Colors.white,
+          //     borderSideColor: Colors.grey[900],
+          //   ),
+          // ),
         ],
       ),
       appBar: appbar(context),
       body: Consumer<UserDetailsProvider>(builder: (context, data, child) {
-        var uD = data.getUser;
+        // var uD = data.getUser;
         //log(widget.product.toString());
         return ListView(
           children: [
@@ -390,10 +389,13 @@ class _ProductOverviewState extends State<ProductOverview> {
             SizedBox(
               height: height(context) * 0.02,
             ),
-            SizedBox(
-                height: height(context) * 0.8,
-                width: width(context),
-                child: pdfViewer()),
+            (widget.product['datasheet'] != null &&
+                    widget.product['datasheet']['mediaUrl'] != null)
+                ? SizedBox(
+                    height: height(context) * 0.8,
+                    width: width(context),
+                    child: pdfViewer(widget.product['datasheet']['mediaUrl']))
+                : Container(),
             SizedBox(
               height: height(context) * 0.2,
             ),

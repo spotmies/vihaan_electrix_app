@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:vihaanelectrix/controllers/login.dart/splash_controller.dart';
 import 'package:vihaanelectrix/controllers/login.dart/user_registration_controller.dart';
 import 'package:vihaanelectrix/providers/common_provider.dart';
@@ -54,8 +53,8 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                  height: _hight * 0.43,
-                  child: Lottie.asset('assets/jsons/splash_animation.json')),
+                  height: _hight * 0.35,
+                  child: Image.asset('assets/pngs/vihaan.png')),
               SizedBox(
                 height: _hight * 0.1,
               ),

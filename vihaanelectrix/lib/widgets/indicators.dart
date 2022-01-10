@@ -1,5 +1,7 @@
 //import 'dart:math';
 
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -227,7 +229,7 @@ class _CircularPercentIndicatorState extends State<CircularPercentIndicator>
       items.add(widget.header!);
     }
     items.add(
-      Container(
+      SizedBox(
         height: widget.radius,
         width: widget.radius,
         child: Stack(
@@ -290,7 +292,7 @@ class _CircularPercentIndicatorState extends State<CircularPercentIndicator>
 
     return Material(
       color: widget.fillColor,
-      child: Container(
+      child: SizedBox(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,

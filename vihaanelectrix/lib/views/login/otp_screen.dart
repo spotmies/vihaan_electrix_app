@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:vihaanelectrix/controllers/login.dart/login_control.dart';
@@ -30,7 +28,7 @@ class _OTPScreenState extends State<OTPScreen> {
 
   // final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   String? _verificationCode;
-  Timer? _timer;
+  Timer? timer;
   // ignore: non_constant_identifier_names, prefer_typing_uninitialized_variables
   var sms_code;
   final TextEditingController _pinPutController = TextEditingController();
@@ -46,7 +44,7 @@ class _OTPScreenState extends State<OTPScreen> {
       ]);
 
   startResendOTPTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
       co?.updateTime();
       if (co?.resendOtpCount == 0) timer.cancel();
     });

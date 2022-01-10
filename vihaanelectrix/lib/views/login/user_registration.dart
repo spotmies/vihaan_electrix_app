@@ -173,7 +173,7 @@ class _UserRegistrationState extends State<UserRegistration> {
                         if (resp.statusCode != 200) return;
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return NavigationBar();
+                          return NavigationBarWidget();
                         }));
                       },
                       height: height(context) * 0.06,
