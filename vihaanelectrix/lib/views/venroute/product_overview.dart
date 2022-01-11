@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:vihaanelectrix/providers/product_details_provider.dart';
 import 'package:vihaanelectrix/providers/user_details_provider.dart';
@@ -129,11 +128,17 @@ class _ProductOverviewState extends State<ProductOverview> {
               height: height(context) * 0.07,
               width: width(context) * 0.3,
               padding: EdgeInsets.all(width(context) * 0.04),
-              child: Image.asset(
-                'assets/pngs/corbett_icon.png',
-                height: height(context) * 0.05,
-                width: width(context) * 0.3,
-              ),
+              child: widget.product['companyLogo'].length > 0
+                  ? Image.network(
+                      widget.product['companyLogo'][0]['mediaUrl'],
+                      height: height(context) * 0.05,
+                      width: width(context) * 0.3,
+                    )
+                  : Image.asset(
+                      'assets/pngs/corbett_icon.png',
+                      height: height(context) * 0.05,
+                      width: width(context) * 0.3,
+                    ),
               // child:Image.network(widget.product['basicDetails']
               //                     ['logo']
               //                 .toString()),
@@ -351,8 +356,7 @@ class _ProductOverviewState extends State<ProductOverview> {
             Padding(
               padding: EdgeInsets.all(width(context) * 0.03),
               child: TextWidget(
-                text:
-                    'The most enduring bike comes with an assert of peak specifications Boom Corbett 14 EX - An exo-skeletal double-cradle chassis made of high-tensile steel',
+                text: widget.product['basicDetails']['description'],
                 color: Colors.grey[900],
                 size: width(context) * 0.045,
                 flow: TextOverflow.visible,
@@ -377,13 +381,14 @@ class _ProductOverviewState extends State<ProductOverview> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                specItems(context, 'speed', 'Speed', spec['speed']),
-                specItems(
-                    context, 'riding_range', 'Range', spec['riding_range']),
+                specItems(context, 'speed', 'Speed',
+                    widget.product['techDetails']['highSpeed'] ?? "70"),
+                specItems(context, 'riding_range', 'Range',
+                    widget.product['techDetails']['ridingRange']?[0] ?? "90"),
                 specItems(context, 'Battery_capacity', 'battery',
-                    spec['Battery_capacity']),
+                    widget.product['techDetails']['batteryCapacityPower']),
                 specItems(context, 'charging_time_icon', 'Charing Time',
-                    spec['charging_time_icon']),
+                    widget.product['techDetails']['chargingTime'][0]),
               ],
             ),
             SizedBox(

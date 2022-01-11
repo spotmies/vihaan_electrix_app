@@ -62,11 +62,18 @@ productListCard(BuildContext context, product,
                                     width: width(context) * 0.3,
                                     padding: EdgeInsets.only(
                                         left: width(context) * 0.04),
-                                    child: Image.asset(
-                                      'assets/pngs/corbett_icon.png',
-                                      height: height(context) * 0.05,
-                                      width: width(context) * 0.3,
-                                    ),
+                                    child: product['companyLogo'].length > 0
+                                        ? Image.network(
+                                            product['companyLogo'][0]
+                                                ['mediaUrl'],
+                                            height: height(context) * 0.05,
+                                            width: width(context) * 0.3,
+                                          )
+                                        : Image.asset(
+                                            'assets/pngs/corbett_icon.png',
+                                            height: height(context) * 0.05,
+                                            width: width(context) * 0.3,
+                                          ),
                                     // child:Image.network(widget.product['basicDetails']
                                     //                     ['logo']
                                     //                 .toString()),
@@ -132,13 +139,16 @@ productListCard(BuildContext context, product,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   TextWidget(
-                                    text: 'Top Speed - 120km/h',
+                                    text: 'Top Speed - ' +
+                                        product['techDetails']['highSpeed'] +
+                                        'km/h',
                                     weight: FontWeight.w600,
                                   ),
                                   TextWidget(
-                                    text: 'Loading Capacity - 200kg',
+                                    text: 'Loading Capacity - ' +
+                                        product['techDetails']['maxWeight'],
                                     weight: FontWeight.w600,
                                   ),
                                 ],
@@ -161,7 +171,7 @@ productListCard(BuildContext context, product,
               child: Hero(
                 tag: product['_id'],
                 child: FadeInImage.assetNetwork(
-                    placeholder: "assets/pngs/vehicle_placeholder.png",
+                    placeholder: "assets/pngs/vehicle_placeholder.gif",
                     image: product['basicDetails']['media'][0]['mediaUrl']),
                 // child: Image.network(
                 //   product['basicDetails']['media'][0]['mediaUrl'],
