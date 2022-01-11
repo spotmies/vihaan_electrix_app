@@ -102,17 +102,17 @@ class TestRideController extends ControllerMVC {
     };
 
     log(body.toString());
-    snackbar(context, "Please wait a moment");
+    snackbar(context, "Please wait...");
     var resp = await Server().postMethod(API.newTestRide, body).catchError((e) {
       log(e.toString());
     });
     log("respss ${resp.statusCode}");
     log("response ${resp.body}");
     if (resp.statusCode == 200) {
-      snackbar(context, "test ride booking successfull");
+      snackbar(context, "Test ride slot booked successfully");
       Navigator.pop(context);
     } else {
-      snackbar(context, "something went wrong");
+      snackbar(context, "Something went wrong");
     }
     return resp;
   }
