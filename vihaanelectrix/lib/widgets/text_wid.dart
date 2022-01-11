@@ -26,17 +26,14 @@ class TextWidget extends StatelessWidget {
     return Text(text!,
         overflow: flow ?? TextOverflow.ellipsis,
         textAlign: align ?? TextAlign.start,
-        style: GoogleFonts.josefinSans(
+        style: GoogleFonts.nunitoSans(
           letterSpacing: lSpace ?? 0,
           fontSize: size ?? 14,
           color: color ?? Colors.grey[900],
-          fontWeight: weight ?? FontWeight.w500,
+          fontWeight: weight ?? FontWeight.normal,
         ));
   }
 }
-
-
-
 
 fonts(size, bold, color) {
   return GoogleFonts.josefinSans(

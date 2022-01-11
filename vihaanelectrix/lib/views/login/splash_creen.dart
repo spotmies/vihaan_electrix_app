@@ -25,7 +25,7 @@ class _SplashScreenState extends StateMVC<SplashScreen> {
   void initState() {
     super.initState();
     splashCont.co = Provider.of<CommonProvider>(context, listen: false);
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(milliseconds: 200), () {
       // print("18 ${FirebaseAuth.instance.currentUser}");
       // checkUser();
       delayForSplash();

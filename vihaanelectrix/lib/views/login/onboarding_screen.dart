@@ -17,7 +17,7 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final List<OnboardingModel> _list = OnboardingModel.list;
   CommonProvider? co;
-  int page = 0;
+  int page = 1;
   final _controller = PageController();
   bool showAnimatedContainer = false;
 
@@ -111,6 +111,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         StepsContainer(
                           nextLabel: co?.getText("next_button"),
                           skipLabel: co?.getText("skip_button"),
+                          onNext: () {
+                            setState(() {
+                              page = page + 1;
+                            });
+                          },
                           page: page,
                           list: _list,
                           controller: _controller,
@@ -118,12 +123,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             setState(() {
                               showAnimatedContainer = value;
                               if (value) {
-                                Future.delayed(Duration(seconds: 1), () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Terms()));
-                                });
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Terms()));
                               }
                             });
                           },
@@ -159,8 +162,8 @@ class MyAnimatedContainer extends StatelessWidget {
           height: value,
           decoration: BoxDecoration(
               color: Colors.white,
-              image: DecorationImage(
-                  image: AssetImage("images/welcome_image.png"))),
+              image:
+                  DecorationImage(image: AssetImage("assets/pngs/vihaan.png"))),
         );
       },
     );
@@ -171,7 +174,9 @@ class MyAnimatedContainer extends StatelessWidget {
 class ThisButton extends StatelessWidget {
   final double? size;
   final String? label;
-  const ThisButton({Key? key, required this.label, required this.size})
+  final Function? onPress;
+  const ThisButton(
+      {Key? key, required this.label, required this.size, this.onPress})
       : super(key: key);
 
   @override
@@ -193,6 +198,10 @@ class ThisButton extends StatelessWidget {
             elevation: 7.0,
             borderRadius: 15.0,
             onClick: () {
+              if (onPress != null) {
+                onPress!();
+                return;
+              }
               Navigator.pushReplacement(
                   context, MaterialPageRoute(builder: (context) => Terms()));
             },
@@ -213,7 +222,8 @@ class StepsContainer extends StatelessWidget {
       required this.skipLabel,
       required this.nextLabel,
       required PageController controller,
-      required this.showAnimatedContainerCallBack})
+      required this.showAnimatedContainerCallBack,
+      this.onNext})
       : lists = list,
         controllers = controller,
         super(key: key);
@@ -224,6 +234,7 @@ class StepsContainer extends StatelessWidget {
   final Function showAnimatedContainerCallBack;
   final String skipLabel;
   final String nextLabel;
+  final Function? onNext;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -239,6 +250,16 @@ class StepsContainer extends StatelessWidget {
           ThisButton(
             size: 0.6,
             label: nextLabel,
+            onPress: () {
+              if (page < lists.length && page != lists.length - 1) {
+                controllers.animateToPage(page + 1,
+                    duration: Duration(microseconds: 500),
+                    curve: Curves.easeInCirc);
+                showAnimatedContainerCallBack(false);
+              } else {
+                showAnimatedContainerCallBack(true);
+              }
+            },
           )
         ],
       ),
