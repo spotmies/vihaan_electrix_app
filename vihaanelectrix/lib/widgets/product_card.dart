@@ -142,8 +142,7 @@ productListCard(BuildContext context, product,
                                 children: [
                                   TextWidget(
                                     text: 'Top Speed - ' +
-                                        product['techDetails']['highSpeed'] +
-                                        'km/h',
+                                        product['techDetails']['highSpeed'],
                                     weight: FontWeight.w600,
                                   ),
                                   TextWidget(
@@ -171,7 +170,7 @@ productListCard(BuildContext context, product,
               child: Hero(
                 tag: product['_id'],
                 child: FadeInImage.assetNetwork(
-                    placeholder: "assets/pngs/vehicle_placeholder.gif",
+                    placeholder: "assets/pngs/vehicle_placeholder.png",
                     image: product['basicDetails']['media'][0]['mediaUrl']),
                 // child: Image.network(
                 //   product['basicDetails']['media'][0]['mediaUrl'],

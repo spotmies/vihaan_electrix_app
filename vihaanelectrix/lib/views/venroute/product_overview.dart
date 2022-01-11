@@ -197,31 +197,6 @@ class _ProductOverviewState extends State<ProductOverview> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          // InkWell(
-                          //   onTap: () {
-                          //     updateWishList(context, widget.product['_id']);
-                          //   },
-                          //   child: animatedbutton(
-                          //       context,
-                          //       widget.product['_id'],
-                          //       Icons.favorite,
-                          //       Colors.red,
-                          //       'wish'),
-                          // ),
-                          // InkWell(
-                          //   onTap: () {
-                          //     updateCart(context, widget.product['_id']);
-                          //   },
-                          //   child: animatedbutton(
-                          //       context,
-                          //       widget.product['_id'],
-                          //       Icons.shopping_bag,
-                          //       Colors.grey,
-                          //       'Cart'),
-                          // ),
-
-                          // animatedbutton(context, widget.product['_id'],
-                          //     Icons.shopping_bag, Colors.grey, 'Cart'),
                           InkWell(
                             onTap: () {
                               // log(widget.product['_id']);
@@ -274,6 +249,39 @@ class _ProductOverviewState extends State<ProductOverview> {
                     ))
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ...productProvider
+                    ?.getSameColorProduct(widget.product['modelId'])
+                    .map((colorProduct) => InkWell(
+                          onTap: () {
+                            if (colorProduct['_id'] == widget.product['_id']) {
+                              return;
+                            }
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductOverview(
+                                        product: colorProduct)));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(3),
+                            width: colorProduct['_id'] == widget.product['_id']
+                                ? 20
+                                : 15,
+                            height: colorProduct['_id'] == widget.product['_id']
+                                ? 20
+                                : 15,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: HexColor(colorProduct['colorDetails']
+                                    ['primaryColor'])),
+                          ),
+                        ))
+              ],
+            ),
             Container(
               alignment: Alignment.centerRight,
               padding: EdgeInsets.only(
@@ -319,39 +327,6 @@ class _ProductOverviewState extends State<ProductOverview> {
             ),
             SizedBox(
               height: height(context) * 0.02,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ...productProvider
-                    ?.getSameColorProduct(widget.product['modelId'])
-                    .map((colorProduct) => InkWell(
-                          onTap: () {
-                            if (colorProduct['_id'] == widget.product['_id']) {
-                              return;
-                            }
-
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProductOverview(
-                                        product: colorProduct)));
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(3),
-                            width: colorProduct['_id'] == widget.product['_id']
-                                ? 20
-                                : 15,
-                            height: colorProduct['_id'] == widget.product['_id']
-                                ? 20
-                                : 15,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: HexColor(colorProduct['colorDetails']
-                                    ['primaryColor'])),
-                          ),
-                        ))
-              ],
             ),
             Padding(
               padding: EdgeInsets.all(width(context) * 0.03),
